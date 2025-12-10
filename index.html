@@ -6,9 +6,9 @@
     <meta name="author" content="Dr. Eldrin L. Deas">
     <title>Dr. Eldrin L. Deas — Intellectual & Professional Home</title>
     
-    <meta name="description" content="The intellectual and professional home of Dr. Eldrin L. Deas — educator, lifelong learner, and curious mind.">
+    <meta name="description" content="The intellectual and professional home of Dr. Eldrin L. Deas — lifelong learner and curious mind.">
     <meta property="og:title" content="Dr. Eldrin L. Deas">
-    <meta property="og:description" content="The intellectual and professional home of Dr. Eldrin L. Deas — educator, lifelong learner, and curious mind.">
+    <meta property="og:description" content="The intellectual and professional home of Dr. Eldrin L. Deas — lifelong learner and curious mind.">
     <meta property="og:url" content="https://drdeas.com">
     <meta property="og:type" content="website">
     
@@ -59,8 +59,25 @@
             min-height: 100vh;
         }
 
-        /* Subtle background texture */
+        /* Background image - book collage */
         body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://raw.githubusercontent.com/DrDeas/drdeas.github.io/refs/heads/main/images/collage_books_1-360.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        /* Subtle color overlay */
+        body::after {
             content: '';
             position: fixed;
             top: 0;
@@ -85,6 +102,8 @@
         header {
             padding: 24px 0;
             position: relative;
+            background: rgba(253, 246, 233, 0.85);
+            backdrop-filter: blur(8px);
         }
 
         .header-content {
@@ -144,6 +163,8 @@
         .hero {
             padding: 80px 0 100px;
             text-align: center;
+            background: rgba(253, 246, 233, 0.7);
+            backdrop-filter: blur(4px);
         }
 
         .hero-avatar {
@@ -237,16 +258,15 @@
             transform: translateY(-2px);
         }
 
-        /* About Section */
-        .about {
-            padding: 80px 0;
+        /* Projects Section */
+        .projects {
+            padding: 40px 0 100px;
+            background: rgba(253, 246, 233, 0.5);
         }
 
-        .about-card {
-            background: white;
-            border-radius: 28px;
-            padding: 48px;
-            box-shadow: var(--shadow-soft);
+        .projects-header {
+            text-align: center;
+            margin-bottom: 48px;
         }
 
         .section-label {
@@ -260,34 +280,6 @@
             padding: 8px 16px;
             background: rgba(107, 142, 107, 0.1);
             border-radius: 100px;
-        }
-
-        .about h2 {
-            font-family: 'Quicksand', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--charcoal);
-            margin-bottom: 20px;
-        }
-
-        .about p {
-            font-size: 1.05rem;
-            color: var(--charcoal-light);
-            margin-bottom: 16px;
-        }
-
-        .about p:last-of-type {
-            margin-bottom: 0;
-        }
-
-        /* Projects Section */
-        .projects {
-            padding: 40px 0 100px;
-        }
-
-        .projects-header {
-            text-align: center;
-            margin-bottom: 48px;
         }
 
         .projects h2 {
@@ -304,10 +296,11 @@
         }
 
         .project-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
             border-radius: 24px;
             padding: 32px;
-            box-shadow: var(--shadow-soft);
+            box-shadow: var(--shadow-medium);
             transition: var(--transition-smooth);
             text-decoration: none;
             color: inherit;
@@ -395,10 +388,12 @@
         /* Contact Section */
         .contact {
             padding: 60px 0 100px;
+            background: rgba(253, 246, 233, 0.5);
         }
 
         .contact-card {
             background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%);
+            backdrop-filter: blur(8px);
             border-radius: 28px;
             padding: 56px;
             text-align: center;
@@ -453,6 +448,8 @@
             padding: 32px 0;
             text-align: center;
             border-top: 1px solid var(--cream-dark);
+            background: rgba(253, 246, 233, 0.85);
+            backdrop-filter: blur(8px);
         }
 
         footer p {
@@ -517,11 +514,6 @@
                 font-size: 1.1rem;
             }
 
-            .about-card {
-                padding: 32px 24px;
-            }
-
-            .about h2,
             .projects h2,
             .contact h2 {
                 font-size: 1.6rem;
@@ -544,8 +536,8 @@
                 <a href="/" class="logo">Dr. Deas</a>
                 <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">☰</button>
                 <nav id="mainNav">
-                    <a href="#about">About</a>
                     <a href="#projects">Projects</a>
+                    <a href="https://drdeas.github.io/DrDeasBookLog/" target="_blank" rel="noopener noreferrer">Book Log</a>
                     <a href="#connect">Connect</a>
                 </nav>
             </div>
@@ -560,7 +552,7 @@
                     <img src="https://raw.githubusercontent.com/DrDeas/DrDeasBookLog/refs/heads/main/images/DrDeas_curious.jpeg" alt="Dr. Eldrin L. Deas">
                 </div>
                 <h1>Dr. Eldrin L. Deas</h1>
-                <p class="hero-tagline">Educator, lifelong learner, and curious mind exploring the intersections of technology, education, and humanity.</p>
+                <p class="hero-tagline">Lifelong learner and curious mind exploring the intersections of technology, education, and humanity.</p>
                 <div class="hero-links">
                     <a href="#projects" class="btn btn-primary">
                         <span>📚</span>
@@ -569,18 +561,6 @@
                     <a href="#connect" class="btn btn-secondary">
                         <span>Let's Connect</span>
                     </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section class="about" id="about">
-            <div class="container">
-                <div class="about-card">
-                    <span class="section-label">About Me</span>
-                    <h2>Welcome to My Digital Home</h2>
-                    <p>I'm Dr. Eldrin L. Deas, and this space serves as my intellectual and professional home on the web. Here, you'll find my ongoing projects, explorations, and reflections on topics that matter to me—from literature and learning to technology and beyond.</p>
-                    <p>I believe in the power of continuous learning, thoughtful inquiry, and the joy of discovery. Whether through reading, writing, or engaging with new ideas, I'm always seeking to grow and contribute meaningfully to the conversations that shape our world.</p>
                 </div>
             </div>
         </section>
@@ -618,7 +598,7 @@
                     <a href="#" class="project-card">
                         <div class="project-icon research">🔬</div>
                         <h3>Research & Interests</h3>
-                        <p>Exploring the intersections of artificial intelligence, education policy, and the future of learning.</p>
+                        <p>Exploring the intersections of social connection, knowledge systems, and the future of learning.</p>
                         <span class="project-link">
                             Coming Soon
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -648,7 +628,7 @@
                             </svg>
                         </a>
 
-                        <a href="mailto:contact@drdeas.com" class="social-link" title="Email">
+                        <a href="mailto:eldrin@drdeas.com" class="social-link" title="Email">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
                                 <polyline points="22,6 12,13 2,6"/>
