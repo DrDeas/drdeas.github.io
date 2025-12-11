@@ -14,6 +14,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://raw.githubusercontent.com/DrDeas/drdeas.github.io/refs/heads/main/images/collage_books_1-360.jpg" as="image">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -74,6 +75,16 @@
             opacity: 0.08;
             pointer-events: none;
             z-index: -2;
+            animation: fadeInBackground 1s ease-out;
+        }
+
+        @keyframes fadeInBackground {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 0.08;
+            }
         }
 
         /* Subtle color overlay */
@@ -495,13 +506,16 @@
                 top: 100%;
                 left: 0;
                 right: 0;
-                background: white;
+                background: #ffffff;
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
                 flex-direction: column;
                 padding: 24px;
                 gap: 20px;
                 border-radius: 20px;
                 box-shadow: var(--shadow-medium);
                 margin: 0 24px;
+                z-index: 100;
             }
 
             nav.open {
