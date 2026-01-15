@@ -1,0 +1,1955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open-Source AI Equity Auditing Framework | Southern Education Foundation Research Fellowship</title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Open-Source AI Equity Auditing Framework for Southern Educational Systems">
+    <meta name="description" content="Community-centered research creating accessible tools to identify and address algorithmic bias in AI-powered educational systems across the American South.">
+    <meta name="keywords" content="AI equity, educational technology, algorithmic accountability, Southern education, community-based research, SEF Research Fellowship">
+    <meta name="author" content="Eldrin L. Deas, Ph.D.">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%236B8E6B'/%3E%3Cpath d='M30 50 L45 65 L70 35' stroke='white' stroke-width='8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* Adapted Color Palette - Research Focus */
+            --primary-green: #6B8E6B;
+            --deep-green: #5A7A5A;
+            --accent-coral: #E85D4A;
+            --warm-orange: #F4A259;
+            --golden: #F8C56D;
+            --soft-blue: #6aa8c8;
+            --sage: #A8B5A0;
+            --charcoal: #4A4A4A;
+            --cream: #FDF6E9;
+            --cream-dark: #F5EDD8;
+            --linen: #EDE5D4;
+            --warm-gray: #9A9590;
+            --light-gray: #F8F8F8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background: white;
+            color: var(--charcoal);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Quicksand', sans-serif;
+            line-height: 1.3;
+            font-weight: 700;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .container-wide {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .shadow-soft {
+            box-shadow: 0 2px 8px rgba(74, 74, 74, 0.04), 0 8px 24px rgba(74, 74, 74, 0.06);
+        }
+
+        .shadow-medium {
+            box-shadow: 0 4px 12px rgba(74, 74, 74, 0.05), 0 16px 40px rgba(74, 74, 74, 0.08);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--linen);
+        }
+
+        nav .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            text-decoration: none;
+        }
+
+        .nav-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--deep-green) 100%);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(107, 142, 107, 0.3);
+        }
+
+        .nav-brand-text h1 {
+            font-size: 18px;
+            color: var(--charcoal);
+            font-weight: 700;
+        }
+
+        .nav-brand-text .tagline {
+            font-size: 11px;
+            color: var(--warm-gray);
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            color: var(--charcoal);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-green);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 140px 0 100px;
+            background: linear-gradient(180deg, var(--light-gray) 0%, white 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -300px;
+            right: -200px;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(107, 142, 107, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(107, 142, 107, 0.12);
+            color: var(--primary-green);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 28px;
+            letter-spacing: 0.02em;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 700;
+            color: var(--charcoal);
+            margin-bottom: 28px;
+            max-width: 900px;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+
+        .hero h1 .highlight {
+            color: var(--primary-green);
+            position: relative;
+        }
+
+        .hero-subtitle {
+            font-size: 22px;
+            color: var(--warm-gray);
+            margin-bottom: 40px;
+            max-width: 720px;
+            line-height: 1.6;
+        }
+
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            flex-wrap: wrap;
+            margin-bottom: 48px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .meta-icon {
+            width: 48px;
+            height: 48px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-green);
+            font-size: 20px;
+            box-shadow: 0 2px 8px rgba(74, 74, 74, 0.06);
+        }
+
+        .meta-text .label {
+            font-size: 12px;
+            color: var(--warm-gray);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .meta-text .value {
+            font-size: 16px;
+            color: var(--charcoal);
+            font-weight: 700;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-green);
+            color: white;
+            padding: 18px 36px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 16px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(107, 142, 107, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--deep-green);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(107, 142, 107, 0.4);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            color: var(--charcoal);
+            padding: 18px 36px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 16px;
+            text-decoration: none;
+            border: 2px solid var(--linen);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-green);
+            color: var(--primary-green);
+            transform: translateY(-2px);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(107, 142, 107, 0.1);
+            color: var(--primary-green);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--charcoal);
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 20px;
+            color: var(--warm-gray);
+            max-width: 720px;
+            line-height: 1.6;
+        }
+
+        /* Problem Section */
+        .problem-section {
+            background: white;
+        }
+
+        .problem-section .container {
+            text-align: center;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 60px;
+            text-align: left;
+        }
+
+        .problem-card {
+            background: var(--light-gray);
+            border-radius: 24px;
+            padding: 36px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-coral);
+            box-shadow: 0 12px 32px rgba(74, 74, 74, 0.1);
+        }
+
+        .problem-icon {
+            width: 64px;
+            height: 64px;
+            background: white;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(74, 74, 74, 0.06);
+        }
+
+        .problem-card h3 {
+            font-size: 22px;
+            color: var(--charcoal);
+            margin-bottom: 12px;
+        }
+
+        .problem-card p {
+            font-size: 16px;
+            color: var(--warm-gray);
+            line-height: 1.6;
+        }
+
+        .stat-highlight {
+            background: rgba(232, 93, 74, 0.1);
+            color: var(--accent-coral);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        /* Research Questions */
+        .research-questions {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--deep-green) 100%);
+            color: white;
+        }
+
+        .research-questions .section-label {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .research-questions .section-title,
+        .research-questions .section-subtitle {
+            color: white;
+        }
+
+        .research-questions .section-subtitle {
+            opacity: 0.9;
+        }
+
+        .questions-container {
+            margin-top: 60px;
+        }
+
+        .primary-question {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 48px;
+            margin-bottom: 32px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .primary-question .question-label {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--golden);
+            margin-bottom: 16px;
+        }
+
+        .primary-question h3 {
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .secondary-questions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .question-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .question-card:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .question-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            font-size: 15px;
+        }
+
+        .question-card p {
+            font-size: 16px;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        /* Methodology Section */
+        .methodology-section {
+            background: white;
+        }
+
+        .methodology-section .container {
+            text-align: center;
+        }
+
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            margin-top: 60px;
+            text-align: left;
+        }
+
+        .methodology-card {
+            background: var(--light-gray);
+            border-radius: 24px;
+            padding: 0;
+            overflow: hidden;
+            border: 2px solid var(--linen);
+            transition: all 0.3s ease;
+        }
+
+        .methodology-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(74, 74, 74, 0.12);
+            border-color: var(--primary-green);
+        }
+
+        .methodology-header {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--deep-green) 100%);
+            padding: 32px;
+            color: white;
+        }
+
+        .component-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+
+        .methodology-header h3 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .methodology-header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+
+        .methodology-body {
+            padding: 32px;
+        }
+
+        .methodology-list {
+            list-style: none;
+        }
+
+        .methodology-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 15px;
+            color: var(--charcoal);
+            line-height: 1.5;
+        }
+
+        .methodology-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .methodology-list li i {
+            color: var(--primary-green);
+            margin-top: 4px;
+            font-size: 14px;
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            background: var(--cream);
+        }
+
+        .timeline-section .container {
+            text-align: center;
+        }
+
+        .timeline-wrapper {
+            margin-top: 80px;
+            position: relative;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--primary-green) 0%, var(--sage) 100%);
+            border-radius: 2px;
+            transform: translateX(-50%);
+        }
+
+        .timeline-year {
+            position: relative;
+            margin-bottom: 80px;
+        }
+
+        .timeline-year:last-child {
+            margin-bottom: 0;
+        }
+
+        .year-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border: 4px solid var(--primary-green);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-green);
+            box-shadow: 0 8px 24px rgba(107, 142, 107, 0.2);
+            position: relative;
+            z-index: 2;
+            margin-bottom: 40px;
+        }
+
+        .timeline-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            text-align: left;
+        }
+
+        .timeline-phase {
+            background: white;
+            border-radius: 24px;
+            padding: 36px;
+            box-shadow: 0 8px 24px rgba(74, 74, 74, 0.08);
+            border: 2px solid var(--linen);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-phase:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(74, 74, 74, 0.12);
+            border-color: var(--primary-green);
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .phase-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--deep-green) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .phase-header h4 {
+            font-size: 18px;
+            color: var(--charcoal);
+        }
+
+        .phase-period {
+            font-size: 13px;
+            color: var(--warm-gray);
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .phase-list {
+            list-style: none;
+        }
+
+        .phase-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: var(--warm-gray);
+            line-height: 1.5;
+        }
+
+        .phase-list li i {
+            color: var(--primary-green);
+            margin-top: 4px;
+            font-size: 12px;
+        }
+
+        /* SEF Alignment Section */
+        .sef-alignment {
+            background: white;
+        }
+
+        .alignment-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            margin-top: 60px;
+        }
+
+        .alignment-card {
+            background: var(--light-gray);
+            border-radius: 24px;
+            padding: 40px;
+            border: 2px solid var(--linen);
+            transition: all 0.3s ease;
+        }
+
+        .alignment-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(74, 74, 74, 0.1);
+            border-color: var(--primary-green);
+        }
+
+        .alignment-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--deep-green) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 20px rgba(107, 142, 107, 0.25);
+        }
+
+        .alignment-card h3 {
+            font-size: 24px;
+            color: var(--charcoal);
+            margin-bottom: 16px;
+        }
+
+        .alignment-card p {
+            font-size: 16px;
+            color: var(--warm-gray);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .alignment-list {
+            list-style: none;
+        }
+
+        .alignment-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: var(--charcoal);
+            font-weight: 600;
+        }
+
+        .alignment-list li i {
+            color: var(--primary-green);
+            margin-top: 4px;
+        }
+
+        /* Impact Section */
+        .impact-section {
+            background: linear-gradient(135deg, #f5f5f5 0%, white 100%);
+        }
+
+        .impact-section .container {
+            text-align: center;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 60px;
+        }
+
+        .impact-card {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+            border: 2px solid var(--linen);
+            transition: all 0.3s ease;
+        }
+
+        .impact-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(74, 74, 74, 0.1);
+            border-color: var(--primary-green);
+        }
+
+        .impact-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 8px;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .impact-label {
+            font-size: 15px;
+            color: var(--warm-gray);
+            font-weight: 600;
+        }
+
+        /* Research Foundation Section */
+        .research-foundation {
+            background: white;
+        }
+
+        .research-foundation .container {
+            text-align: center;
+        }
+
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px;
+            margin-top: 60px;
+            text-align: left;
+        }
+
+        .research-card {
+            background: var(--light-gray);
+            border-radius: 20px;
+            padding: 32px;
+            border: 2px solid var(--linen);
+            transition: all 0.3s ease;
+        }
+
+        .research-card:hover {
+            border-color: var(--soft-blue);
+            box-shadow: 0 8px 24px rgba(74, 74, 74, 0.08);
+        }
+
+        .research-card h4 {
+            font-size: 18px;
+            color: var(--charcoal);
+            margin-bottom: 12px;
+        }
+
+        .research-card p {
+            font-size: 15px;
+            color: var(--warm-gray);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .research-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--soft-blue);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .research-link:hover {
+            gap: 12px;
+            color: var(--primary-green);
+        }
+
+        /* Team Section */
+        .team-section {
+            background: var(--cream);
+        }
+
+        .team-card {
+            background: white;
+            border-radius: 24px;
+            padding: 48px;
+            max-width: 900px;
+            margin: 60px auto 0;
+            box-shadow: 0 12px 40px rgba(74, 74, 74, 0.1);
+            border: 2px solid var(--linen);
+        }
+
+        .team-header {
+            display: flex;
+            gap: 32px;
+            align-items: flex-start;
+            margin-bottom: 32px;
+            padding-bottom: 32px;
+            border-bottom: 2px solid var(--linen);
+        }
+
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--deep-green) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+            font-weight: 700;
+            box-shadow: 0 8px 24px rgba(107, 142, 107, 0.3);
+            flex-shrink: 0;
+        }
+
+        .team-info h3 {
+            font-size: 28px;
+            color: var(--charcoal);
+            margin-bottom: 8px;
+        }
+
+        .team-title {
+            font-size: 16px;
+            color: var(--warm-gray);
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .team-bio {
+            font-size: 16px;
+            color: var(--charcoal);
+            line-height: 1.7;
+        }
+
+        .team-highlights {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 32px;
+        }
+
+        .highlight-item {
+            background: var(--light-gray);
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .highlight-item .icon {
+            font-size: 24px;
+            color: var(--primary-green);
+            margin-bottom: 8px;
+        }
+
+        .highlight-item .text {
+            font-size: 13px;
+            color: var(--charcoal);
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--deep-green) 100%);
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        .cta-section .section-title {
+            color: white;
+            font-size: 48px;
+        }
+
+        .cta-section .section-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-light {
+            background: white;
+            color: var(--primary-green);
+        }
+
+        .btn-light:hover {
+            background: var(--cream);
+            color: var(--deep-green);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--charcoal);
+            color: white;
+            padding: 60px 0 32px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+
+        .footer-brand h3 {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.6;
+        }
+
+        .footer-links h4 {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            display: block;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 12px;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--golden);
+        }
+
+        .footer-bottom {
+            padding-top: 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 48px;
+            }
+
+            .section-title {
+                font-size: 36px;
+            }
+
+            .problem-grid,
+            .methodology-grid,
+            .impact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .secondary-questions,
+            .alignment-grid,
+            .research-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .timeline-line {
+                display: none;
+            }
+
+            .team-header {
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+            }
+
+            .team-highlights {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 120px 0 60px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero-subtitle {
+                font-size: 18px;
+            }
+
+            .hero-meta {
+                gap: 20px;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                padding: 14px 24px;
+                font-size: 14px;
+            }
+        }
+
+        /* Smooth Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Scroll Progress Indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 73px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-green) 0%, var(--warm-orange) 100%);
+            transform-origin: left;
+            transform: scaleX(0);
+            z-index: 99;
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="#" class="nav-brand">
+                <div class="nav-icon">
+                    <i class="fas fa-scale-balanced"></i>
+                </div>
+                <div class="nav-brand-text">
+                    <h1>AI Equity Auditing Framework</h1>
+                    <div class="tagline">SEF Research Fellowship</div>
+                </div>
+            </a>
+            <div class="nav-links">
+                <a href="#problem">The Problem</a>
+                <a href="#research">Research</a>
+                <a href="#methodology">Methodology</a>
+                <a href="#timeline">Timeline</a>
+                <a href="#impact">Impact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">
+                <i class="fas fa-seedling"></i>
+                <span>Southern Education Foundation Research Fellowship 2026</span>
+            </div>
+            <h1>
+                Making AI <span class="highlight">Accountable</span> to the Communities It Affects
+            </h1>
+            <p class="hero-subtitle">
+                An open-source framework empowering Southern educators, students, and families to identify and address algorithmic bias in AI-powered educational systems through community-centered research and accessible auditing tools.
+            </p>
+            <div class="hero-meta">
+                <div class="meta-item">
+                    <div class="meta-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="meta-text">
+                        <div class="label">Principal Investigator</div>
+                        <div class="value">Eldrin L. Deas, Ph.D.</div>
+                    </div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="meta-text">
+                        <div class="label">Duration</div>
+                        <div class="value">2 Years (Renewable)</div>
+                    </div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <div class="meta-text">
+                        <div class="label">Geographic Focus</div>
+                        <div class="value">5 Southern States</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-cta">
+                <a href="#research" class="btn-primary">
+                    <i class="fas fa-book-open" style="margin-right: 10px;"></i>
+                    Explore the Research
+                </a>
+                <a href="#impact" class="btn-secondary">
+                    <i class="fas fa-chart-line" style="margin-right: 10px;"></i>
+                    See Potential Impact
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem-section" id="problem">
+        <div class="container">
+            <div class="section-label">
+                <i class="fas fa-exclamation-triangle"></i>
+                The Critical Gap
+            </div>
+            <h2 class="section-title">AI is transforming education—but without equity safeguards.</h2>
+            <p class="section-subtitle">
+                Southern states are rapidly adopting AI-powered systems for student assessment, behavioral monitoring, college readiness prediction, and personalized learning. But who's checking for bias?
+            </p>
+            
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-icon" style="color: var(--accent-coral);">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Rapid, Unchecked Adoption</h3>
+                    <p>
+                        The <span class="stat-highlight">Southern Regional Education Board's AI Commission</span> reports accelerating AI adoption across 16 member states—but <strong>no systematic equity auditing frameworks exist</strong> for K-12 educational tools.
+                    </p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon" style="color: var(--warm-orange);">
+                        <i class="fas fa-users-slash"></i>
+                    </div>
+                    <h3>Missing Community Voice</h3>
+                    <p>
+                        Current AI evaluation approaches require technical programming skills, <strong>excluding the very communities most affected</strong>: students, families, and educators in under-resourced schools.
+                    </p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon" style="color: var(--primary-green);">
+                        <i class="fas fa-balance-scale-left"></i>
+                    </div>
+                    <h3>Documented Disparate Impact</h3>
+                    <p>
+                        Research confirms AI tools exhibit bias against <strong>Black, Latino, Indigenous, and neurodivergent students</strong>. <span class="stat-highlight">25% of Southern children</span> lack broadband access, compounding algorithmic discrimination with digital divide.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Research Questions Section -->
+    <section class="research-questions" id="research">
+        <div class="container">
+            <div class="section-label">
+                <i class="fas fa-question-circle"></i>
+                Guiding Questions
+            </div>
+            <h2 class="section-title">What We're Investigating</h2>
+            <p class="section-subtitle">
+                This research is driven by questions that center community experience and institutional capacity.
+            </p>
+            
+            <div class="questions-container">
+                <div class="primary-question">
+                    <div class="question-label">Primary Research Question</div>
+                    <h3>
+                        How can Southern educational communities develop accessible, open-source methodologies to identify, document, and address algorithmic bias in AI-powered educational systems?
+                    </h3>
+                </div>
+
+                <div class="secondary-questions">
+                    <div class="question-card">
+                        <div class="question-number">1</div>
+                        <p>What are the patterns of algorithmic harm experienced by Black, Latino, Indigenous, and other marginalized students across different AI educational tools in Southern schools?</p>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-number">2</div>
+                        <p>How do community members (students, families, educators) conceptualize and describe AI-driven decision-making systems affecting educational outcomes?</p>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-number">3</div>
+                        <p>What institutional barriers prevent effective equity evaluation of AI tools during procurement and implementation processes in Southern state education agencies and districts?</p>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-number">4</div>
+                        <p>What forms of documentation and evidence are most effective for influencing policy change and vendor accountability?</p>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-number">5</div>
+                        <p>How can student-led auditing initiatives create sustainable mechanisms for ongoing AI accountability?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Methodology Section -->
+    <section class="methodology-section" id="methodology">
+        <div class="container">
+            <div class="section-label">
+                <i class="fas fa-flask"></i>
+                Research Design
+            </div>
+            <h2 class="section-title">Community-Based Participatory Action Research</h2>
+            <p class="section-subtitle">
+                Three integrated methodological components designed for accessibility, rigor, and real-world impact.
+            </p>
+            
+            <div class="methodology-grid">
+                <div class="methodology-card">
+                    <div class="methodology-header">
+                        <div class="component-number">1</div>
+                        <h3>AI Accountability Stories</h3>
+                        <div class="subtitle">Qualitative Documentation</div>
+                    </div>
+                    <div class="methodology-body">
+                        <ul class="methodology-list">
+                            <li><i class="fas fa-check-circle"></i> 50-75 in-depth interviews across 5 Southern states</li>
+                            <li><i class="fas fa-check-circle"></i> 15-20 focus groups with students, families, educators</li>
+                            <li><i class="fas fa-check-circle"></i> Digital storytelling & photovoice workshops</li>
+                            <li><i class="fas fa-check-circle"></i> Systematic qualitative coding (MAXQDA, ATLAS.ti)</li>
+                            <li><i class="fas fa-check-circle"></i> Community Advisory Board oversight</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="methodology-card">
+                    <div class="methodology-header" style="background: linear-gradient(135deg, var(--soft-blue) 0%, #5A8AA8 100%);">
+                        <div class="component-number">2</div>
+                        <h3>Institutional Capacity Assessment</h3>
+                        <div class="subtitle">Mixed-Methods Analysis</div>
+                    </div>
+                    <div class="methodology-body">
+                        <ul class="methodology-list">
+                            <li><i class="fas fa-check-circle"></i> Document analysis of AI procurement policies (10 states)</li>
+                            <li><i class="fas fa-check-circle"></i> Key informant interviews (25-30) with state officials</li>
+                            <li><i class="fas fa-check-circle"></i> Educator survey (n=200-300) on AI awareness</li>
+                            <li><i class="fas fa-check-circle"></i> Case studies of 3-5 districts</li>
+                            <li><i class="fas fa-check-circle"></i> Identification of practical implementation barriers</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="methodology-card">
+                    <div class="methodology-header" style="background: linear-gradient(135deg, var(--warm-orange) 0%, #D88A40 100%);">
+                        <div class="component-number">3</div>
+                        <h3>Open-Source Framework Development</h3>
+                        <div class="subtitle">Tool Creation & Piloting</div>
+                    </div>
+                    <div class="methodology-body">
+                        <ul class="methodology-list">
+                            <li><i class="fas fa-check-circle"></i> AI Equity Audit Toolkit (interview protocols, guides)</li>
+                            <li><i class="fas fa-check-circle"></i> Community Auditing Playbook (step-by-step)</li>
+                            <li><i class="fas fa-check-circle"></i> Student AI Auditor Curriculum (youth-led research)</li>
+                            <li><i class="fas fa-check-circle"></i> Digital repository (Creative Commons license)</li>
+                            <li><i class="fas fa-check-circle"></i> Pilot testing in 8-10 schools/districts</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section - CONTINUED IN NEXT MESSAGE DUE TO LENGTH -->
+
+<div style="background: var(--cream); padding: 100px 0;" id="timeline">
+<div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+<div style="text-align: center;">
+<div class="section-label">
+<i class="fas fa-calendar-check"></i>
+Project Timeline
+</div>
+<h2 class="section-title">A Strategic Two-Year Roadmap (with Year 3 Continuation)</h2>
+<p class="section-subtitle">
+Phased approach ensuring rigorous research, community collaboration, and sustainable impact.
+</p>
+</div>
+
+<div style="margin-top: 80px; position: relative;">
+<div style="position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--primary-green) 0%, var(--sage) 100%); border-radius: 2px; transform: translateX(-50%);"></div>
+
+<!-- YEAR 1 -->
+<div style="position: relative; margin-bottom: 80px;">
+<div style="display: inline-flex; align-items: center; justify-content: center; background: white; border: 4px solid var(--primary-green); width: 100px; height: 100px; border-radius: 50%; font-size: 20px; font-weight: 700; color: var(--primary-green); box-shadow: 0 8px 24px rgba(107, 142, 107, 0.2); position: relative; z-index: 2; margin-bottom: 40px;">YEAR 1</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px;">
+<div class="timeline-phase">
+<div class="phase-header">
+<div class="phase-icon"><i class="fas fa-rocket"></i></div>
+<h4>Phase 1: Foundation</h4>
+</div>
+<div class="phase-period">Months 1-3 (April - June 2026)</div>
+<ul class="phase-list">
+<li><i class="fas fa-circle"></i> Establish Community Advisory Board (10-12 members)</li>
+<li><i class="fas fa-circle"></i> Finalize research protocols & obtain IRB approval</li>
+<li><i class="fas fa-circle"></i> Secure partnerships with SREB, CCSSO, 5 state agencies</li>
+<li><i class="fas fa-circle"></i> Develop initial auditing tools from platform experience</li>
+<li><i class="fas fa-circle"></i> Recruit & train 5-7 community researchers</li>
+</ul>
+</div>
+
+<div class="timeline-phase">
+<div class="phase-header">
+<div class="phase-icon"><i class="fas fa-users"></i></div>
+<h4>Phase 2: Data Collection</h4>
+</div>
+<div class="phase-period">Months 4-9 (July 2026 - December 2026)</div>
+<ul class="phase-list">
+<li><i class="fas fa-circle"></i> Conduct interviews & focus groups (5 states)</li>
+<li><i class="fas fa-circle"></i> Facilitate digital storytelling & photovoice workshops</li>
+<li><i class="fas fa-circle"></i> Complete document analysis & key informant interviews</li>
+<li><i class="fas fa-circle"></i> Administer educator survey</li>
+<li><i class="fas fa-circle"></i> Begin qualitative data analysis</li>
+</ul>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 20px;">
+<div class="timeline-phase">
+<div class="phase-header">
+<div class="phase-icon"><i class="fas fa-tools"></i></div>
+<h4>Phase 3: Framework Development</h4>
+</div>
+<div class="phase-period">Months 10-12 (January - March 2027)</div>
+<ul class="phase-list">
+<li><i class="fas fa-circle"></i> Complete thematic analysis of community narratives</li>
+<li><i class="fas fa-circle"></i> Draft AI Equity Audit Toolkit & Playbook</li>
+<li><i class="fas fa-circle"></i> Present preliminary findings to CCSSO AI Resource Hub</li>
+<li><i class="fas fa-circle"></i> Develop Student AI Auditor Curriculum</li>
+<li><i class="fas fa-circle"></i> Identify pilot sites for Year 2 testing</li>
+</ul>
+</div>
+
+<div style="background: var(--cream); border: 2px solid var(--warm-orange); border-radius: 24px; padding: 36px; box-shadow: 0 8px 24px rgba(74, 74, 74, 0.08);">
+<div class="phase-header">
+<div style="width: 48px; height: 48px; background: var(--warm-orange); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"><i class="fas fa-trophy"></i></div>
+<h4>Year 1 Deliverables</h4>
+</div>
+<ul class="phase-list">
+<li><i class="fas fa-check"></i> Community narratives documented & analyzed</li>
+<li><i class="fas fa-check"></i> Institutional capacity assessment complete</li>
+<li><i class="fas fa-check"></i> Draft auditing toolkit & curriculum</li>
+<li><i class="fas fa-check"></i> Initial policy briefs for state agencies</li>
+<li><i class="fas fa-check"></i> Conference presentations (CCSSO, SREB)</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- YEAR 2 -->
+<div style="position: relative; margin-bottom: 80px;">
+<div style="display: inline-flex; align-items: center; justify-content: center; background: white; border: 4px solid var(--primary-green); width: 100px; height: 100px; border-radius: 50%; font-size: 20px; font-weight: 700; color: var(--primary-green); box-shadow: 0 8px 24px rgba(107, 142, 107, 0.2); position: relative; z-index: 2; margin-bottom: 40px;">YEAR 2</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px;">
+<div class="timeline-phase">
+<div class="phase-header">
+<div style="width: 48px; height: 48px; background: linear-gradient(135deg, var(--soft-blue) 0%, #5A8AA8 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"><i class="fas fa-vial"></i></div>
+<h4>Phase 4: Framework Piloting</h4>
+</div>
+<div class="phase-period">Months 13-18 (April - September 2027)</div>
+<ul class="phase-list">
+<li><i class="fas fa-circle"></i> Implement toolkit in 8-10 pilot schools/districts</li>
+<li><i class="fas fa-circle"></i> Train educators and student auditors</li>
+<li><i class="fas fa-circle"></i> Provide technical assistance & collect implementation data</li>
+<li><i class="fas fa-circle"></i> Conduct ongoing analysis & framework refinement</li>
+<li><i class="fas fa-circle"></i> Document case studies of successful auditing</li>
+</ul>
+</div>
+
+<div class="timeline-phase">
+<div class="phase-header">
+<div style="width: 48px; height: 48px; background: linear-gradient(135deg, var(--accent-coral) 0%, #C84A3D 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"><i class="fas fa-bullhorn"></i></div>
+<h4>Phase 5: Dissemination & Sustainability</h4>
+</div>
+<div class="phase-period">Months 19-24 (October 2027 - March 2028)</div>
+<ul class="phase-list">
+<li><i class="fas fa-circle"></i> Finalize all framework materials & launch repository</li>
+<li><i class="fas fa-circle"></i> Produce policy briefs for state education agencies</li>
+<li><i class="fas fa-circle"></i> Create short documentary highlighting community voices</li>
+<li><i class="fas fa-circle"></i> Present at CCSSO, SREB, AERA convenings</li>
+<li><i class="fas fa-circle"></i> Publish peer-reviewed articles</li>
+<li><i class="fas fa-circle"></i> Develop training-of-trainers model</li>
+<li><i class="fas fa-circle"></i> Submit grant proposals for Year 3 continuation</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- YEAR 3+ -->
+<div style="position: relative;">
+<div style="display: inline-flex; align-items: center; justify-content: center; background: white; border: 4px solid var(--golden); width: 100px; height: 100px; border-radius: 50%; font-size: 20px; font-weight: 700; color: var(--golden); box-shadow: 0 8px 24px rgba(248, 197, 109, 0.2); position: relative; z-index: 2; margin-bottom: 40px;">YEAR 3+</div>
+
+<div style="background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 100%); border: 2px solid var(--golden); border-radius: 24px; padding: 36px; box-shadow: 0 8px 24px rgba(74, 74, 74, 0.08); max-width: 600px; margin: 0 auto;">
+<div class="phase-header">
+<div style="width: 48px; height: 48px; background: linear-gradient(135deg, var(--golden) 0%, var(--warm-orange) 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;"><i class="fas fa-expand-arrows-alt"></i></div>
+<h4>Continuation & Scaling</h4>
+</div>
+<div class="phase-period">If Fellowship Renewed</div>
+<ul class="phase-list">
+<li><i class="fas fa-circle"></i> Scale framework to additional Southern states</li>
+<li><i class="fas fa-circle"></i> Develop advanced training modules for SEA staff</li>
+<li><i class="fas fa-circle"></i> Create vendor accountability mechanisms</li>
+<li><i class="fas fa-circle"></i> Establish regional networks of trained auditors</li>
+<li><i class="fas fa-circle"></i> Conduct longitudinal evaluation of framework impact</li>
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- SEF Alignment Section -->
+<section class="sef-alignment">
+<div class="container">
+<div class="section-label">
+<i class="fas fa-handshake"></i>
+Strategic Alignment
+</div>
+<h2 class="section-title">How This Advances SEF's Mission</h2>
+<p class="section-subtitle">
+This research directly supports the Southern Education Foundation's core commitment to education justice through multiple strategic pathways.
+</p>
+
+<div class="alignment-grid">
+<div class="alignment-card">
+<div class="alignment-icon">
+<i class="fas fa-users"></i>
+</div>
+<h3>Centering Marginalized Communities</h3>
+<p>
+SEF's 160-year legacy focuses on advancing equity for historically underserved students in the South. This research <strong>centers the voices of Black, Latino, Indigenous, and neurodivergent students</strong> whose educational opportunities are increasingly shaped by AI systems—without their input or consent.
+</p>
+<ul class="alignment-list">
+<li><i class="fas fa-check-circle"></i> Community-based participatory action research</li>
+<li><i class="fas fa-check-circle"></i> Student-led auditing initiatives</li>
+<li><i class="fas fa-check-circle"></i> Youth empowerment through research training</li>
+</ul>
+</div>
+
+<div class="alignment-card">
+<div class="alignment-icon">
+<i class="fas fa-map-marked-alt"></i>
+</div>
+<h3>Authentic Southern Focus</h3>
+<p>
+Most AI accountability work centers coastal, urban districts. This research addresses the <strong>unique challenges of Southern education systems</strong>: rural digital divides, historical segregation patterns, concentrated poverty, and state education agencies with limited technical capacity.
+</p>
+<ul class="alignment-list">
+<li><i class="fas fa-check-circle"></i> 5-state research scope (AL, GA, MS, NC, SC)</li>
+<li><i class="fas fa-check-circle"></i> Partnership with Southern Regional Education Board</li>
+<li><i class="fas fa-check-circle"></i> Former SEF fellow (2012) returning with expertise</li>
+</ul>
+</div>
+
+<div class="alignment-card">
+<div class="alignment-icon">
+<i class="fas fa-tools"></i>
+</div>
+<h3>Practical, Actionable Tools</h3>
+<p>
+SEF emphasizes <strong>research that drives policy change and institutional improvement</strong>. This project creates open-source tools that state education agencies, districts, and advocates can immediately use to evaluate AI systems—filling a critical gap identified by CCSSO members.
+</p>
+<ul class="alignment-list">
+<li><i class="fas fa-check-circle"></i> Accessible methodology (no programming required)</li>
+<li><i class="fas fa-check-circle"></i> Designed for under-resourced settings</li>
+<li><i class="fas fa-check-circle"></i> Built-in dissemination through CCSSO, SREB networks</li>
+</ul>
+</div>
+
+<div class="alignment-card">
+<div class="alignment-icon">
+<i class="fas fa-lightbulb"></i>
+</div>
+<h3>Timely, Emerging Issue</h3>
+<p>
+SEF seeks research addressing <strong>urgent equity challenges in Southern education</strong>. AI adoption is accelerating—SREB's AI Commission released recommendations in 2024, states are developing policies now—but equity safeguards lag behind. This research intervenes at a critical moment.
+</p>
+<ul class="alignment-list">
+<li><i class="fas fa-check-circle"></i> Aligns with SREB AI Commission priorities</li>
+<li><i class="fas fa-check-circle"></i> Addresses gap in CCSSO AI Resource Hub</li>
+<li><i class="fas fa-check-circle"></i> Creates evidence base for policy development</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Impact Section -->
+<section class="impact-section" id="impact">
+<div class="container">
+<div class="section-label">
+<i class="fas fa-chart-line"></i>
+Anticipated Impact
+</div>
+<h2 class="section-title">Transforming AI Accountability in Education</h2>
+<p class="section-subtitle">
+This research will create lasting change across multiple scales: from individual schools to state policy to national frameworks.
+</p>
+
+<div class="impact-grid">
+<div class="impact-card">
+<div class="impact-number">50-75</div>
+<div class="impact-label">Community Stories Documented</div>
+</div>
+<div class="impact-card">
+<div class="impact-number">8-10</div>
+<div class="impact-label">Pilot Schools/Districts</div>
+</div>
+<div class="impact-card">
+<div class="impact-number">5</div>
+<div class="impact-label">Southern States</div>
+</div>
+<div class="impact-card">
+<div class="impact-number">Open</div>
+<div class="impact-label">Source Framework</div>
+</div>
+</div>
+
+<div class="alignment-grid" style="margin-top: 60px;">
+<div class="alignment-card">
+<h3 style="font-size: 20px; margin-bottom: 16px;">
+<i class="fas fa-school" style="color: var(--primary-green); margin-right: 8px;"></i>
+School & District Level
+</h3>
+<p style="font-size: 15px; color: var(--warm-gray); margin-bottom: 12px;">
+Educators gain accessible tools to evaluate AI systems before procurement and during implementation.
+</p>
+<ul class="alignment-list">
+<li><i class="fas fa-arrow-right"></i> Reduce algorithmic harm to students</li>
+<li><i class="fas fa-arrow-right"></i> Informed technology purchasing decisions</li>
+<li><i class="fas fa-arrow-right"></i> Student auditor programs in pilot schools</li>
+</ul>
+</div>
+
+<div class="alignment-card">
+<h3 style="font-size: 20px; margin-bottom: 16px;">
+<i class="fas fa-landmark" style="color: var(--soft-blue); margin-right: 8px;"></i>
+State Policy Level
+</h3>
+<p style="font-size: 15px; color: var(--warm-gray); margin-bottom: 12px;">
+State education agencies strengthen AI procurement policies with equity evaluation requirements.
+</p>
+<ul class="alignment-list">
+<li><i class="fas fa-arrow-right"></i> Framework integrated into CCSSO AI Resource Hub</li>
+<li><i class="fas fa-arrow-right"></i> Policy briefs inform state guidance documents</li>
+<li><i class="fas fa-arrow-right"></i> Training modules for SEA staff</li>
+</ul>
+</div>
+
+<div class="alignment-card">
+<h3 style="font-size: 20px; margin-bottom: 16px;">
+<i class="fas fa-hands-helping" style="color: var(--warm-orange); margin-right: 8px;"></i>
+Community Organizing
+</h3>
+<p style="font-size: 15px; color: var(--warm-gray); margin-bottom: 12px;">
+Parents, students, and advocates gain tools to demand transparency and accountability.
+</p>
+<ul class="alignment-list">
+<li><i class="fas fa-arrow-right"></i> Community Auditing Playbook widely distributed</li>
+<li><i class="fas fa-arrow-right"></i> Networks of trained community auditors</li>
+<li><i class="fas fa-arrow-right"></i> Documentary amplifies affected voices</li>
+</ul>
+</div>
+
+<div class="alignment-card">
+<h3 style="font-size: 20px; margin-bottom: 16px;">
+<i class="fas fa-globe" style="color: var(--accent-coral); margin-right: 8px;"></i>
+National & Beyond
+</h3>
+<p style="font-size: 15px; color: var(--warm-gray); margin-bottom: 12px;">
+Open-source framework creates model for community-centered AI accountability anywhere.
+</p>
+<ul class="alignment-list">
+<li><i class="fas fa-arrow-right"></i> Replicable methodology for other regions/countries</li>
+<li><i class="fas fa-arrow-right"></i> Peer-reviewed publications advance field</li>
+<li><i class="fas fa-arrow-right"></i> Potential Mozilla Fellowship scaling partnership</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Research Foundation Section -->
+<section class="research-foundation">
+<div class="container">
+<div class="section-label">
+<i class="fas fa-book"></i>
+Research Foundations
+</div>
+<h2 class="section-title">Standing on the Shoulders of Critical Scholarship</h2>
+<p class="section-subtitle">
+This work builds on established research documenting algorithmic bias, educational inequity, and the need for community-centered technology evaluation.
+</p>
+
+<div class="research-grid">
+<div class="research-card">
+<h4>Algorithmic Bias in Education</h4>
+<p>
+Birhane et al. (2021) documented hateful content in datasets used by large AI models. Holmes et al. (2022) called for community-wide ethics frameworks for AI in education. Koenecke et al. (2020) demonstrated racial disparities in automated speech recognition.
+</p>
+<a href="https://arxiv.org/abs/2110.01963" class="research-link" target="_blank">
+Read Birhane et al. (2021) <i class="fas fa-external-link-alt"></i>
+</a>
+</div>
+
+<div class="research-card">
+<h4>Race After Technology & Automating Inequality</h4>
+<p>
+Benjamin (2019) and Eubanks (2018) provide critical frameworks for understanding how technological systems encode and amplify existing social inequalities, particularly affecting marginalized communities.
+</p>
+<a href="https://www.ruhabenjamin.com/race-after-technology" class="research-link" target="_blank">
+Explore Benjamin's Framework <i class="fas fa-external-link-alt"></i>
+</a>
+</div>
+
+<div class="research-card">
+<h4>Southern Digital Divide</h4>
+<p>
+SREB (2024) reports 25% of school-aged children in the South lack broadband access, disproportionately affecting Black, Latino, and rural students—compounding algorithmic discrimination with infrastructure inequality.
+</p>
+<a href="https://www.sreb.org/ai-commission-recommendations" class="research-link" target="_blank">
+SREB AI Commission Report <i class="fas fa-external-link-alt"></i>
+</a>
+</div>
+
+<div class="research-card">
+<h4>CCSSO AI Framework</h4>
+<p>
+ILO Group (2024) Framework for Implementing AI in State Education Agencies identifies equity, transparency, and community engagement as priorities—but provides limited guidance on operationalization. This research fills that gap.
+</p>
+<a href="https://www.ilogroup.com" class="research-link" target="_blank">
+View ILO Framework <i class="fas fa-external-link-alt"></i>
+</a>
+</div>
+
+<div class="research-card">
+<h4>Personalized Learning Critique</h4>
+<p>
+Watters (2021) and Tseng et al. (2023) critically examine personalized learning claims, documenting how AI-powered systems often reinforce inequities while promising individualization.
+</p>
+<a href="https://mitpress.mit.edu/9780262045698/teaching-machines/" class="research-link" target="_blank">
+Teaching Machines (MIT Press) <i class="fas fa-external-link-alt"></i>
+</a>
+</div>
+
+<div class="research-card">
+<h4>Mozilla Trustworthy AI Theory of Change</h4>
+<p>
+Mozilla Foundation (2019) articulates vision for AI that serves communities through transparency, accountability, and open-source approaches—directly aligning with this research's methodology and values.
+</p>
+<a href="https://foundation.mozilla.org/en/what-we-fund/" class="research-link" target="_blank">
+Mozilla AI Investments <i class="fas fa-external-link-alt"></i>
+</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Team Section -->
+<section class="team-section">
+<div class="container">
+<div class="section-label">
+<i class="fas fa-user-tie"></i>
+Principal Investigator
+</div>
+<h2 class="section-title">Eldrin L. Deas, Ph.D.</h2>
+<p class="section-subtitle">
+Uniquely positioned at the intersection of platform accountability, Southern education policy, and community-centered research.
+</p>
+
+<div class="team-card">
+<div class="team-header">
+<div class="team-avatar">
+ED
+</div>
+<div class="team-info">
+<h3>Eldrin L. Deas, Ph.D.</h3>
+<div class="team-title">
+Independent Consultant | Vice Chair, FUSE Corps Board | Founder, EveryMango
+</div>
+<div class="team-bio">
+Eldrin brings a rare combination of <strong>platform accountability experience</strong> (Twitter Curation Standards Analysis Lead, LinkedIn Engagement Editor), <strong>state education agency expertise</strong> (GA, PA, TX, CT departments of education), and <strong>Southern authenticity</strong> as a former SEF fellow (2012) and Georgia native whose dissertation examined education in Princeville, NC—America's oldest Black town.
+</div>
+</div>
+</div>
+
+<div class="team-highlights">
+<div class="highlight-item">
+<div class="icon"><i class="fas fa-chart-network"></i></div>
+<div class="text">Developed algorithmic accountability frameworks at Twitter & LinkedIn</div>
+</div>
+<div class="highlight-item">
+<div class="icon"><i class="fas fa-school"></i></div>
+<div class="text">Former Title I math teacher & state math assessment developer (AIR)</div>
+</div>
+<div class="highlight-item">
+<div class="icon"><i class="fas fa-handshake"></i></div>
+<div class="text">Existing relationships with CCSSO (2020 workshop facilitator)</div>
+</div>
+<div class="highlight-item">
+<div class="icon"><i class="fas fa-graduation-cap"></i></div>
+<div class="text">Ph.D. in Education (UNC-Chapel Hill), M.S. in Social Foundations (Georgia State)</div>
+</div>
+<div class="highlight-item">
+<div class="icon"><i class="fas fa-users"></i></div>
+<div class="text">Founder of EveryMango (neurodiversity-affirming productivity platform)</div>
+</div>
+<div class="highlight-item">
+<div class="icon"><i class="fas fa-award"></i></div>
+<div class="text">Former SEF fellow (2012 Southern Education Leadership Initiative)</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+<div class="container">
+<h2 class="section-title">Ready to Make AI Accountable?</h2>
+<p class="section-subtitle">
+This research represents a critical intervention at the intersection of AI, education equity, and Southern communities. Join us in building a more just future for educational technology.
+</p>
+<div class="cta-buttons">
+<a href="mailto:edeas1@gmail.com" class="btn-primary btn-light">
+<i class="fas fa-envelope" style="margin-right: 10px;"></i>
+Get in Touch
+</a>
+<a href="#" class="btn-secondary" style="border-color: rgba(255,255,255,0.3); color: white;">
+<i class="fas fa-file-download" style="margin-right: 10px;"></i>
+Download Full Proposal
+</a>
+</div>
+</div>
+</section>
+
+<!-- Footer -->
+<footer>
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand">
+<h3>Open-Source AI Equity Auditing Framework</h3>
+<p>
+Community-centered research creating accessible tools to identify and address algorithmic bias in AI-powered educational systems across the American South.
+</p>
+</div>
+<div class="footer-links">
+<h4>Research</h4>
+<a href="#problem">The Problem</a>
+<a href="#research">Research Questions</a>
+<a href="#methodology">Methodology</a>
+<a href="#timeline">Timeline</a>
+</div>
+<div class="footer-links">
+<h4>Partnerships</h4>
+<a href="https://southerneducation.org/" target="_blank">Southern Education Foundation</a>
+<a href="https://www.sreb.org/" target="_blank">SREB</a>
+<a href="https://ccsso.org/" target="_blank">CCSSO</a>
+<a href="https://foundation.mozilla.org/" target="_blank">Mozilla Foundation</a>
+</div>
+<div class="footer-links">
+<h4>Connect</h4>
+<a href="mailto:edeas1@gmail.com">Email Dr. Deas</a>
+<a href="https://www.linkedin.com/in/eldrindeas/" target="_blank">LinkedIn</a>
+<a href="https://everymango.com/" target="_blank">EveryMango</a>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2026 Eldrin L. Deas, Ph.D. | Southern Education Foundation Research Fellowship Proposal</p>
+</div>
+</div>
+</footer>
+
+<!-- Scroll Progress Script -->
+<script>
+// Scroll Progress Bar
+window.addEventListener('scroll', () => {
+const scrollProgress = document.getElementById('scrollProgress');
+const windowHeight = window.innerHeight;
+const documentHeight = document.documentElement.scrollHeight - windowHeight;
+const scrolled = window.scrollY;
+const progress = (scrolled / documentHeight);
+
+scrollProgress.style.transform = `scaleX(${progress})`;
+});
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+anchor.addEventListener('click', function (e) {
+e.preventDefault();
+const target = document.querySelector(this.getAttribute('href'));
+if (target) {
+target.scrollIntoView({
+behavior: 'smooth',
+block: 'start'
+});
+}
+});
+});
+</script>
+</body>
+</html>
