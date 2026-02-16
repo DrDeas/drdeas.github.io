@@ -17,6 +17,25 @@
   --red: #8b1a1a;
   --red-glow: #ff3333;
   --cream: #f5e6c8;
+  --smoke: rgba(200,200,200,0.03);<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Deas Magic Beard Formula — Struggle Beard Begone!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=UnifrakturMaguntia&family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #c9a84c;
+  --gold-light: #e8d48b;
+  --gold-dark: #8a6d1b;
+  --black: #0a0a0a;
+  --dark: #111111;
+  --dark-card: #1a1a1a;
+  --red: #8b1a1a;
+  --red-glow: #ff3333;
+  --cream: #f5e6c8;
   --smoke: rgba(200,200,200,0.03);
 }
 
@@ -32,6 +51,16 @@ body {
   cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='none' stroke='%23c9a84c' stroke-width='2'/%3E%3Ccircle cx='12' cy='12' r='3' fill='%23c9a84c'/%3E%3C/svg%3E"), auto;
 }
 
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url('https://raw.githubusercontent.com/DrDeas/drdeas.github.io/main/images/dr_deas_barbershop.png') center center / cover no-repeat;
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 0;
+}
+
 /* ===== MARQUEE BANNER ===== */
 .marquee-banner {
   background: linear-gradient(90deg, var(--red), #6b0f0f, var(--red));
@@ -42,7 +71,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 1001;
 }
 .marquee-track {
   display: flex;
@@ -265,12 +294,15 @@ body {
   color: var(--gold-dark);
   letter-spacing: 12px;
   opacity: 0.6;
+  position: relative;
+  z-index: 1;
 }
 
 /* ===== SECTION STYLES ===== */
 section {
   padding: 5rem 2rem;
   position: relative;
+  z-index: 1;
 }
 
 .section-header {
@@ -831,6 +863,8 @@ footer {
   border-top: 1px solid rgba(201,168,76,0.15);
   padding: 3rem 2rem;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 .footer-logo {
