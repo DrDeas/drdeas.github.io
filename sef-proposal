@@ -1,0 +1,875 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unequal by Design — SEF Research Fellows Program</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1714;
+  --ink-soft: #3d3830;
+  --warm-white: #f8f5f0;
+  --warm-mid: #ede8e0;
+  --warm-line: #d4ccc0;
+  --gold: #b8860b;
+  --gold-light: #d4a017;
+  --gold-pale: #f5edd4;
+  --rust: #8b3a2a;
+  --rust-light: #c75c40;
+  --rust-pale: #f5e8e4;
+  --teal: #1a5a5a;
+  --teal-light: #2a8080;
+  --teal-pale: #e4f0f0;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'DM Sans', sans-serif;
+  --mono: 'DM Mono', monospace;
+  --nav-h: 64px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--warm-white); color: var(--ink); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--warm-mid); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--nav-h); background: rgba(26,23,20,0.97); backdrop-filter: blur(12px); display: flex; align-items: center; padding: 0 40px; border-bottom: 1px solid rgba(184,134,11,0.3); }
+.nav-inner { max-width: 1200px; width: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+.nav-brand { font-family: var(--serif); font-size: 0.85rem; color: var(--gold-light); letter-spacing: 0.05em; text-decoration: none; line-height: 1.3; }
+.nav-brand span { display: block; color: rgba(255,255,255,0.4); font-size: 0.68rem; font-family: var(--mono); letter-spacing: 0.12em; text-transform: uppercase; }
+.nav-links { display: flex; gap: 4px; list-style: none; }
+.nav-links a { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); text-decoration: none; padding: 6px 11px; border-radius: 3px; transition: all 0.2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--gold-light); background: rgba(184,134,11,0.15); }
+
+/* HERO */
+.hero { min-height: 100vh; background: var(--ink); display: flex; flex-direction: column; justify-content: flex-end; padding: 0 40px 80px; position: relative; overflow: hidden; }
+.hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 70% 40%, rgba(184,134,11,0.12) 0%, transparent 60%), radial-gradient(ellipse 60% 80% at 20% 80%, rgba(26,90,90,0.15) 0%, transparent 50%), radial-gradient(ellipse 40% 40% at 85% 85%, rgba(139,58,42,0.1) 0%, transparent 50%); }
+.hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(184,134,11,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(184,134,11,0.04) 1px, transparent 1px); background-size: 80px 80px; }
+.hero-content { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; width: 100%; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 32px; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
+.hero-eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: var(--gold); }
+.hero-title { font-family: var(--serif); font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 800; line-height: 1.05; color: var(--warm-white); margin-bottom: 8px; opacity: 0; animation: fadeUp 0.8s 0.4s forwards; }
+.hero-title em { font-style: italic; color: var(--gold-light); }
+.hero-subtitle { font-family: var(--serif); font-size: clamp(1.4rem, 2.2vw, 2rem); font-weight: 400; font-style: italic; color: rgba(255,255,255,0.42); margin-bottom: 48px; opacity: 0; animation: fadeUp 0.8s 0.5s forwards; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 32px; opacity: 0; animation: fadeUp 0.8s 0.7s forwards; }
+.hero-meta-item { display: flex; flex-direction: column; gap: 4px; }
+.hero-meta-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+.hero-meta-value { font-size: 0.88rem; color: rgba(255,255,255,0.72); font-weight: 300; }
+.hero-scroll { position: absolute; bottom: 32px; right: 40px; display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0; animation: fadeIn 0.8s 1.2s forwards; }
+.hero-scroll span { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.22); writing-mode: vertical-rl; }
+.hero-scroll-line { width: 1px; height: 48px; background: linear-gradient(to bottom, rgba(184,134,11,0.6), transparent); animation: scrollPulse 2s ease-in-out infinite; }
+
+/* SECTIONS */
+section { padding: 100px 40px; }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.section-label { display: inline-flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 0.63rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.section-label::before { content: ''; display: block; width: 18px; height: 1px; background: var(--gold); }
+.section-title { font-family: var(--serif); font-size: clamp(1.9rem, 3.2vw, 2.8rem); font-weight: 700; line-height: 1.15; color: var(--ink); margin-bottom: 48px; }
+
+/* OVERVIEW */
+#overview { background: var(--warm-white); }
+.overview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.overview-text p { font-size: 1.02rem; color: var(--ink-soft); margin-bottom: 20px; line-height: 1.82; }
+.overview-text p:first-child { font-size: 1.12rem; color: var(--ink); }
+.overview-text strong { color: var(--ink); font-weight: 500; }
+.stat-cards { display: flex; flex-direction: column; gap: 14px; }
+.stat-card { background: white; border: 1px solid var(--warm-line); border-radius: 4px; padding: 22px 26px; display: flex; align-items: center; gap: 18px; transition: transform 0.2s, box-shadow 0.2s; }
+.stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(26,23,20,0.08); }
+.stat-icon { width: 42px; height: 42px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+.stat-icon.gold { background: var(--gold-pale); }
+.stat-icon.teal { background: var(--teal-pale); }
+.stat-icon.rust { background: var(--rust-pale); }
+.stat-text { flex: 1; }
+.stat-num { font-family: var(--serif); font-size: 1.5rem; font-weight: 700; color: var(--ink); line-height: 1; margin-bottom: 3px; }
+.stat-desc { font-size: 0.78rem; color: var(--ink-soft); line-height: 1.4; }
+
+/* QUESTIONS */
+#questions { background: var(--ink); color: var(--warm-white); }
+#questions .section-title { color: var(--warm-white); }
+.rq-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+.rq-card { background: rgba(255,255,255,0.03); padding: 40px; transition: background 0.2s; }
+.rq-card:hover { background: rgba(184,134,11,0.08); }
+.rq-num { font-family: var(--mono); font-size: 0.63rem; letter-spacing: 0.2em; color: var(--gold); margin-bottom: 16px; }
+.rq-text { font-family: var(--serif); font-size: 1.02rem; font-style: italic; line-height: 1.65; color: rgba(255,255,255,0.78); }
+
+/* FRAMEWORK */
+#framework { background: var(--warm-mid); }
+.framework-cols { display: grid; grid-template-columns: 1fr 2fr; gap: 64px; align-items: start; }
+.framework-intro p { font-size: 0.93rem; color: var(--ink-soft); line-height: 1.82; margin-bottom: 16px; }
+.theory-stack { display: flex; flex-direction: column; gap: 12px; }
+.theory-tag { display: block; padding: 18px 20px; background: white; border: 1px solid var(--warm-line); border-radius: 3px; font-size: 0.82rem; color: var(--ink-soft); line-height: 1.65; }
+.theory-tag strong { display: block; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; font-weight: 500; }
+
+/* DISTRICTS */
+#districts { background: white; }
+.district-table-wrap { overflow-x: auto; border-radius: 4px; border: 1px solid var(--warm-line); }
+.district-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 800px; }
+.district-table th { background: var(--ink); color: rgba(255,255,255,0.65); font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 400; padding: 13px 18px; text-align: left; white-space: nowrap; }
+.district-table td { padding: 15px 18px; border-bottom: 1px solid var(--warm-line); vertical-align: top; color: var(--ink-soft); line-height: 1.5; }
+.district-table tr:last-child td { border-bottom: none; }
+.district-table tr:hover td { background: var(--warm-white); }
+.district-name { font-weight: 500; color: var(--ink); font-size: 0.88rem; }
+.tier-badge { display: inline-block; padding: 3px 8px; border-radius: 2px; font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 500; white-space: nowrap; }
+.tier-primary { background: var(--rust-pale); color: var(--rust); }
+.tier-secondary { background: var(--teal-pale); color: var(--teal); }
+.tier-institutional { background: var(--gold-pale); color: var(--gold); }
+.adoption-bar-wrap { display: flex; align-items: center; gap: 8px; }
+.adoption-bar { height: 5px; border-radius: 3px; background: var(--warm-mid); flex: 1; min-width: 70px; overflow: hidden; }
+.adoption-fill { height: 100%; border-radius: 3px; background: var(--gold); }
+.adoption-label { font-family: var(--mono); font-size: 0.6rem; color: var(--ink-soft); white-space: nowrap; }
+
+/* METHODS */
+#methods { background: var(--warm-white); }
+.methods-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--warm-line); border-radius: 4px; overflow: hidden; margin-bottom: 56px; }
+.method-card { background: white; padding: 34px 30px; }
+.method-num { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; color: var(--gold); margin-bottom: 10px; }
+.method-title { font-family: var(--serif); font-size: 1.05rem; font-weight: 600; color: var(--ink); margin-bottom: 12px; line-height: 1.3; }
+.method-body { font-size: 0.83rem; color: var(--ink-soft); line-height: 1.72; }
+.method-body ul { list-style: none; margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+.method-body li { padding-left: 16px; position: relative; }
+.method-body li::before { content: '—'; position: absolute; left: 0; color: var(--warm-line); }
+.timeline-label { font-family: var(--mono); font-size: 0.63rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+.timeline-label::before { content: ''; display: block; width: 14px; height: 1px; background: var(--gold); }
+.timeline { display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; background: var(--warm-line); border-radius: 4px; overflow: hidden; }
+.tl-month { background: white; padding: 14px 8px; text-align: center; }
+.tl-month-num { font-family: var(--mono); font-size: 0.58rem; color: var(--gold); letter-spacing: 0.08em; margin-bottom: 4px; display: block; }
+.tl-month-name { font-size: 0.68rem; color: var(--ink-soft); margin-bottom: 8px; display: block; white-space: nowrap; }
+.tl-dot { width: 7px; height: 7px; border-radius: 50%; margin: 0 auto 2px; }
+.tl-dot.irb { background: var(--rust); }
+.tl-dot.data { background: var(--gold); }
+.tl-dot.analysis { background: var(--teal); }
+.tl-dot.framework { background: var(--rust-light); }
+.tl-dot.disseminate { background: var(--teal-light); }
+.tl-dot.none { background: var(--warm-mid); }
+.tl-phase-label { font-size: 0.55rem; color: var(--ink-soft); opacity: 0.65; line-height: 1.3; display: block; margin-top: 2px; }
+
+/* BUDGET */
+#budget { background: var(--ink); color: var(--warm-white); }
+#budget .section-title { color: var(--warm-white); }
+.budget-top { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-bottom: 56px; }
+.budget-total-card { background: rgba(184,134,11,0.11); border: 1px solid rgba(184,134,11,0.28); border-radius: 4px; padding: 34px 38px; }
+.budget-total-label { font-family: var(--mono); font-size: 0.63rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+.budget-total-num { font-family: var(--serif); font-size: 3.2rem; font-weight: 700; color: var(--warm-white); line-height: 1; margin-bottom: 8px; }
+.budget-total-sub { font-size: 0.82rem; color: rgba(255,255,255,0.38); margin-bottom: 20px; }
+.budget-total-note { font-size: 0.78rem; color: rgba(255,255,255,0.38); line-height: 1.7; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); }
+.budget-scenarios { display: flex; flex-direction: column; gap: 10px; }
+.scenario { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 18px 22px; }
+.scenario.primary { border-color: rgba(184,134,11,0.38); background: rgba(184,134,11,0.07); }
+.scenario-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 5px; }
+.scenario-title { font-size: 0.87rem; color: rgba(255,255,255,0.8); font-weight: 400; line-height: 1.55; }
+.budget-breakdown { display: flex; flex-direction: column; gap: 1px; background: rgba(255,255,255,0.04); border-radius: 4px; overflow: hidden; margin-bottom: 56px; }
+.budget-row { display: grid; grid-template-columns: 180px 1fr 110px; background: rgba(255,255,255,0.022); align-items: center; transition: background 0.15s; }
+.budget-row:hover { background: rgba(184,134,11,0.07); }
+.budget-row.hdr { background: rgba(0,0,0,0.4); }
+.budget-row.hdr:hover { background: rgba(0,0,0,0.4); }
+.budget-row.subhdr { background: rgba(255,255,255,0.05); border-top: 1px solid rgba(255,255,255,0.06); }
+.budget-row.total-row { background: rgba(184,134,11,0.09); border-top: 1px solid rgba(184,134,11,0.18); }
+.budget-row.grand-row { background: rgba(184,134,11,0.18); border-top: 2px solid rgba(184,134,11,0.38); }
+.budget-cell { padding: 11px 18px; font-size: 0.8rem; }
+.budget-cell.cat { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.07em; color: rgba(255,255,255,0.3); }
+.budget-cell.item { color: rgba(255,255,255,0.72); }
+.budget-cell.amount { text-align: right; font-family: var(--mono); font-size: 0.8rem; color: rgba(255,255,255,0.6); white-space: nowrap; }
+.budget-row.hdr .budget-cell { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.32); padding: 9px 18px; }
+.budget-row.subhdr .budget-cell { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold-light); padding: 9px 18px; }
+.budget-row.total-row .budget-cell.amount { font-weight: 500; color: var(--gold-light); font-size: 0.85rem; }
+.budget-row.total-row .budget-cell.item { text-align: right; color: rgba(255,255,255,0.45); font-size: 0.73rem; }
+.budget-row.grand-row .budget-cell { font-weight: 600; color: var(--gold-light); font-family: var(--serif); font-size: 0.95rem; }
+.budget-row.grand-row .budget-cell.amount { font-family: var(--mono); font-size: 1.05rem; color: white; }
+.viz-title { font-family: var(--mono); font-size: 0.63rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; display: flex; align-items: center; gap: 8px; }
+.viz-title::before { content: ''; display: block; width: 14px; height: 1px; background: var(--gold); }
+.donut-wrap { display: grid; grid-template-columns: 210px 1fr; gap: 48px; align-items: center; }
+.donut-svg-wrap { position: relative; }
+.donut-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.donut-center-num { font-family: var(--serif); font-size: 1.3rem; font-weight: 700; color: white; }
+.donut-center-label { font-family: var(--mono); font-size: 0.53rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.38); }
+.donut-legend { display: flex; flex-direction: column; gap: 10px; }
+.legend-item { display: flex; align-items: center; gap: 10px; }
+.legend-swatch { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
+.legend-name { font-size: 0.8rem; color: rgba(255,255,255,0.62); flex: 1; }
+.legend-pct { font-family: var(--mono); font-size: 0.72rem; color: var(--gold); min-width: 36px; }
+.legend-amt { font-family: var(--mono); font-size: 0.7rem; color: rgba(255,255,255,0.32); text-align: right; min-width: 64px; }
+
+/* FUNDING */
+#funding { background: var(--warm-white); }
+.funding-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 56px; }
+.funding-card { background: white; border: 1px solid var(--warm-line); border-radius: 4px; padding: 28px; transition: box-shadow 0.2s; }
+.funding-card:hover { box-shadow: 0 8px 28px rgba(26,23,20,0.07); }
+.funding-status { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 4px 9px; border-radius: 2px; margin-bottom: 14px; }
+.status-pending { background: #fef9e7; color: #b8860b; border: 1px solid #f0d060; }
+.status-planned { background: var(--teal-pale); color: var(--teal); border: 1px solid rgba(42,128,128,0.28); }
+.status-exploratory { background: var(--warm-mid); color: var(--ink-soft); border: 1px solid var(--warm-line); }
+.status-dot { width: 5px; height: 5px; border-radius: 50%; }
+.status-pending .status-dot { background: var(--gold); }
+.status-planned .status-dot { background: var(--teal); }
+.status-exploratory .status-dot { background: var(--ink-soft); }
+.funding-source { font-family: var(--serif); font-size: 1.08rem; font-weight: 600; color: var(--ink); margin-bottom: 4px; line-height: 1.3; }
+.funding-amount { font-family: var(--mono); font-size: 0.82rem; color: var(--gold); margin-bottom: 12px; }
+.funding-desc { font-size: 0.8rem; color: var(--ink-soft); line-height: 1.68; }
+.roadmap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--warm-line); border-radius: 4px; overflow: hidden; }
+.roadmap-phase { background: white; padding: 30px; }
+.roadmap-phase-label { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+.roadmap-phase-title { font-family: var(--serif); font-size: 0.98rem; font-weight: 600; color: var(--ink); margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--warm-line); }
+.roadmap-phase ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.roadmap-phase li { font-size: 0.8rem; color: var(--ink-soft); line-height: 1.55; display: flex; gap: 8px; }
+.roadmap-phase li::before { content: '→'; color: var(--gold); flex-shrink: 0; margin-top: 1px; font-size: 0.78rem; }
+
+/* RESEARCHER */
+#researcher { background: var(--warm-mid); }
+.researcher-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 56px; align-items: start; }
+.researcher-card { background: var(--ink); border-radius: 4px; padding: 36px 32px; color: white; position: sticky; top: calc(var(--nav-h) + 20px); }
+.researcher-name { font-family: var(--serif); font-size: 1.45rem; font-weight: 700; line-height: 1.2; margin-bottom: 3px; }
+.researcher-title { font-family: var(--mono); font-size: 0.63rem; letter-spacing: 0.15em; color: var(--gold); margin-bottom: 20px; }
+.researcher-contact { font-size: 0.78rem; color: rgba(255,255,255,0.48); margin-bottom: 3px; }
+.researcher-contact a { color: var(--gold-light); text-decoration: none; }
+.researcher-contact a:hover { text-decoration: underline; }
+.r-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 20px 0; }
+.researcher-badge-list { display: flex; flex-direction: column; gap: 7px; }
+.researcher-badge { font-size: 0.76rem; color: rgba(255,255,255,0.52); display: flex; gap: 7px; align-items: flex-start; line-height: 1.45; }
+.researcher-badge::before { content: '▸'; color: var(--gold); font-size: 0.62rem; margin-top: 3px; flex-shrink: 0; }
+.bio-section { display: flex; flex-direction: column; gap: 32px; }
+.bio-block-title { font-family: var(--serif); font-size: 1.08rem; font-weight: 600; color: var(--ink); margin-bottom: 10px; padding-bottom: 9px; border-bottom: 1px solid var(--warm-line); }
+.bio-block p { font-size: 0.87rem; color: var(--ink-soft); line-height: 1.82; margin-bottom: 10px; }
+.bio-block p:last-child { margin-bottom: 0; }
+
+/* FOOTER */
+footer { background: var(--ink); padding: 44px 40px; border-top: 1px solid rgba(184,134,11,0.18); }
+.footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+.footer-brand { font-family: var(--serif); font-size: 0.88rem; color: rgba(255,255,255,0.45); line-height: 1.6; }
+.footer-brand strong { color: rgba(255,255,255,0.75); }
+.footer-meta { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.28); }
+
+/* ANIMATIONS */
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes scrollPulse { 0%,100% { opacity:0.3; } 50% { opacity:1; } }
+.reveal { opacity:0; transform:translateY(22px); transition:opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity:1; transform:none; }
+.reveal-delay-1 { transition-delay:0.1s; }
+.reveal-delay-2 { transition-delay:0.2s; }
+.reveal-delay-3 { transition-delay:0.3s; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  section { padding: 70px 24px; }
+  nav { padding: 0 20px; }
+  .hero { padding: 0 24px 70px; }
+  .nav-links { display: none; }
+  .overview-grid, .framework-cols, .budget-top, .funding-grid, .researcher-grid { grid-template-columns: 1fr; gap: 36px; }
+  .rq-grid, .methods-grid, .roadmap { grid-template-columns: 1fr; }
+  .timeline { grid-template-columns: repeat(6, 1fr); }
+  .donut-wrap { grid-template-columns: 1fr; }
+  .donut-svg-wrap { max-width: 200px; margin: 0 auto; }
+  .researcher-card { position: static; }
+  .budget-row { grid-template-columns: 1fr 90px; }
+  .budget-cell.cat { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#hero" class="nav-brand">
+      <span>SEF Research Fellows Program · 2026</span>
+      Unequal by Design
+    </a>
+    <ul class="nav-links">
+      <li><a href="#overview" class="nav-link">Overview</a></li>
+      <li><a href="#questions" class="nav-link">Questions</a></li>
+      <li><a href="#districts" class="nav-link">Study Sites</a></li>
+      <li><a href="#methods" class="nav-link">Methods</a></li>
+      <li><a href="#budget" class="nav-link">Budget</a></li>
+      <li><a href="#funding" class="nav-link">Funding</a></li>
+      <li><a href="#researcher" class="nav-link">Researcher</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">SEF Research Fellows Program Application &nbsp;·&nbsp; March 2026</div>
+    <h1 class="hero-title">Unequal by <em>Design</em></h1>
+    <p class="hero-subtitle">A Community-Centered Study of AI's Impact<br>on Educational Equity in Metro Atlanta</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Principal Investigator</span>
+        <span class="hero-meta-value">Eldrin L. Deas, Ph.D.</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Fellowship Year</span>
+        <span class="hero-meta-value">April 2026 – March 2027</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Research Sites</span>
+        <span class="hero-meta-value">Five Metro Atlanta Districts</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Total Budget</span>
+        <span class="hero-meta-value">$147,700</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Methodology</span>
+        <span class="hero-meta-value">Community-Based Participatory Action Research</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="section-inner">
+    <div class="section-label">Project Overview</div>
+    <h2 class="section-title">The Challenge We're Addressing</h2>
+    <div class="overview-grid">
+      <div class="overview-text reveal">
+        <p>Artificial intelligence is entering Southern classrooms faster than the research or policy frameworks needed to govern it equitably. In metro Atlanta alone, five public school systems serving hundreds of thousands of students have adopted radically different AI strategies — ranging from a district-wide AI high school to a complete block on AI tools — with little systematic examination of how these choices affect historically underserved students and their communities.</p>
+        <p>This study examines that uneven landscape through the lens of the communities most affected. Using Community-Based Participatory Action Research, we position students, families, and educators as co-researchers rather than subjects — capturing the <strong>AI Accountability Stories</strong> that reveal how algorithmic systems affect daily educational life in ways that aggregate data alone cannot see.</p>
+        <p>The primary deliverable is a validated, open-access <strong>AI Equity Auditing Framework</strong> — a practical toolkit that non-technical educators and community advocates can use independently to evaluate AI systems in their own schools, without programming expertise or institutional research infrastructure.</p>
+        <p>Metro Atlanta offers a rare natural experiment: five demographically diverse districts at radically different stages of AI adoption within a single geographic and policy context. The variation maps almost directly onto race and poverty — mirroring national trends documented by RAND showing that high-poverty districts are half as likely to provide AI teacher training as low-poverty ones.</p>
+      </div>
+      <div class="stat-cards reveal reveal-delay-2">
+        <div class="stat-card">
+          <div class="stat-icon gold">🏫</div>
+          <div class="stat-text">
+            <div class="stat-num">5</div>
+            <div class="stat-desc">Metro Atlanta school districts compared (APS, DeKalb, Gwinnett, Fulton, Cobb)</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon teal">🎤</div>
+          <div class="stat-text">
+            <div class="stat-num">30–40</div>
+            <div class="stat-desc">Semi-structured interviews across students, parents, teachers, and coordinators</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon rust">👥</div>
+          <div class="stat-text">
+            <div class="stat-num">8–10</div>
+            <div class="stat-desc">Community focus groups, 1–2 per district site (75–90 min. each)</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon gold">📋</div>
+          <div class="stat-text">
+            <div class="stat-num">40–50</div>
+            <div class="stat-desc">Educator questionnaire respondents across all five sites via Qualtrics</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon teal">🔓</div>
+          <div class="stat-text">
+            <div class="stat-num">Open-Access</div>
+            <div class="stat-desc">Creative Commons framework published through CCSSO, SEF, and EDSAFE AI Alliance</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH QUESTIONS -->
+<section id="questions">
+  <div class="section-inner">
+    <div class="section-label" style="color:var(--gold);">Research Questions</div>
+    <h2 class="section-title">What This Study Asks</h2>
+    <div class="rq-grid reveal">
+      <div class="rq-card">
+        <div class="rq-num">RQ 01</div>
+        <p class="rq-text">How are AI-powered educational tools affecting the daily educational experiences of historically underserved students across metro Atlanta's five public school systems?</p>
+      </div>
+      <div class="rq-card">
+        <div class="rq-num">RQ 02</div>
+        <p class="rq-text">How do students, families, and educators understand and make meaning of AI-driven decision-making processes that affect them?</p>
+      </div>
+      <div class="rq-card">
+        <div class="rq-num">RQ 03</div>
+        <p class="rq-text">What institutional conditions — policies, leadership, resources, and community relationships — shape how AI tools are adopted, governed, and evaluated across the five districts?</p>
+      </div>
+      <div class="rq-card">
+        <div class="rq-num">RQ 04</div>
+        <p class="rq-text">What framework components are most effective for enabling non-technical community members to conduct meaningful AI equity audits of their local school systems?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FRAMEWORK -->
+<section id="framework">
+  <div class="section-inner">
+    <div class="section-label">Theoretical Framework</div>
+    <h2 class="section-title">How We Think About This Problem</h2>
+    <div class="framework-cols">
+      <div class="framework-intro reveal">
+        <p>This study sits at the intersection of three robust theoretical traditions, each chosen for its explanatory power and its grounding in community experience rather than abstract analysis.</p>
+        <p>CBPAR ensures that affected communities drive the research rather than serve as its subjects. Critical Race Theory provides the analytical lens for understanding how AI systems reproduce and amplify existing inequities. Algorithmic Accountability Theory offers the technical framework for evaluating AI governance.</p>
+        <p>Together, they make it possible to translate complex algorithmic questions into actionable community tools — the core purpose of this work.</p>
+      </div>
+      <div class="theory-stack reveal reveal-delay-2">
+        <div class="theory-tag">
+          <strong>Anchor Methodology</strong>
+          Community-Based Participatory Action Research (CBPAR) — Community members as co-researchers, not subjects. Findings emerge from lived experience and are validated by the communities they describe. Rooted in traditions of participatory action research and Southern community organizing.
+        </div>
+        <div class="theory-tag">
+          <strong>Analytical Lens</strong>
+          Critical Race Theory in Education (Ladson-Billings &amp; Tate, 1995; Solorzano &amp; Yosso, 2002) — Examines how race and power shape educational structures, policies, and technologies. Provides tools for identifying when AI "neutrality" encodes historical inequality.
+        </div>
+        <div class="theory-tag">
+          <strong>Technical Framework</strong>
+          Algorithmic Accountability Theory (Raji et al., 2020; Benjamin, 2019; Noble, 2018) — Structures the analysis of how AI systems are designed, audited, and governed. Informs the five-domain evaluation framework that communities will be equipped to use.
+        </div>
+        <div class="theory-tag">
+          <strong>Emerging Context</strong>
+          Informed by Brookings Institution (2025) on "banal deception" — the risk that AI's conversational tone causes students to confuse algorithmic outputs with human judgment. And by RAND (2024–25) on the persistent equity gap in AI professional development access across income levels.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DISTRICTS -->
+<section id="districts">
+  <div class="section-inner">
+    <div class="section-label">Study Sites</div>
+    <h2 class="section-title">Five Districts, One Natural Experiment</h2>
+    <p style="font-size:0.93rem;color:var(--ink-soft);max-width:680px;margin-bottom:36px;line-height:1.82;" class="reveal">Metro Atlanta's five major public school systems offer a rare research opportunity: dramatically different AI adoption strategies within a single geographic and policy context, with variation that maps closely onto race, poverty, and resource distribution.</p>
+    <div class="district-table-wrap reveal">
+      <table class="district-table">
+        <thead>
+          <tr>
+            <th>District</th>
+            <th>Enrollment</th>
+            <th>Role in Study</th>
+            <th>AI Adoption</th>
+            <th>Adoption Stage</th>
+            <th>Key Research Context</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="district-name">Gwinnett County Public Schools</div><div style="font-size:0.72rem;color:var(--ink-soft);margin-top:1px;">GCPS</div></td>
+            <td>182,000+</td>
+            <td><span class="tier-badge tier-secondary">Secondary</span></td>
+            <td><div class="adoption-bar-wrap"><div class="adoption-bar"><div class="adoption-fill" style="width:95%"></div></div><span class="adoption-label">Leading Edge</span></div></td>
+            <td>Since 2019</td>
+            <td>Nation's first AI high school (Seckinger, 2022). Dedicated Director of AI &amp; CS. ISTE partnership. Provides the national-leader comparison point.</td>
+          </tr>
+          <tr>
+            <td><div class="district-name">Fulton County Schools</div><div style="font-size:0.72rem;color:var(--ink-soft);margin-top:1px;">FCS</div></td>
+            <td>~87,000</td>
+            <td><span class="tier-badge tier-secondary">Secondary</span></td>
+            <td><div class="adoption-bar-wrap"><div class="adoption-bar"><div class="adoption-fill" style="width:78%"></div></div><span class="adoption-label">Significant</span></div></td>
+            <td>Since 2022</td>
+            <td>$265K/year SchoolAI investment. 350+ educator Vanguard Team. 200+ evaluated use cases. Mixed demographics across affluent and underserved communities.</td>
+          </tr>
+          <tr>
+            <td><div class="district-name">Atlanta Public Schools</div><div style="font-size:0.72rem;color:var(--ink-soft);margin-top:1px;">APS</div></td>
+            <td>~50,000</td>
+            <td><span class="tier-badge tier-primary">Primary — Equity Focus</span></td>
+            <td><div class="adoption-bar-wrap"><div class="adoption-bar"><div class="adoption-fill" style="width:55%"></div></div><span class="adoption-label">Active / Developing</span></div></td>
+            <td>Since 2024</td>
+            <td>AI4GA participant. 2025–2030 Strategic Plan integration. Predominantly Black, economically disadvantaged. Contact: Dr. Natasha Rachell, Director of Instructional Technology.</td>
+          </tr>
+          <tr>
+            <td><div class="district-name">DeKalb County Schools</div><div style="font-size:0.72rem;color:var(--ink-soft);margin-top:1px;">DCSD</div></td>
+            <td>~100,000</td>
+            <td><span class="tier-badge tier-primary">Primary — PI Connection</span></td>
+            <td><div class="adoption-bar-wrap"><div class="adoption-bar"><div class="adoption-fill" style="width:18%"></div></div><span class="adoption-label">Cautious / Forming</span></div></td>
+            <td>Task force forming</td>
+            <td>Blocked ChatGPT on student devices (2023). No enterprise AI tools deployed as of early 2026. PI taught mathematics here 2007–2010. Contact: CIO Kermit Belcher.</td>
+          </tr>
+          <tr>
+            <td><div class="district-name">Cobb County Schools</div><div style="font-size:0.72rem;color:var(--ink-soft);margin-top:1px;">CCSD</div></td>
+            <td>~110,000</td>
+            <td><span class="tier-badge tier-secondary">Secondary — Charter Focus</span></td>
+            <td><div class="adoption-bar-wrap"><div class="adoption-bar"><div class="adoption-fill" style="width:25%"></div></div><span class="adoption-label">Targeted / Charter</span></div></td>
+            <td>Charter opens 2027</td>
+            <td>Power Public Schools AI charter approved for South Cobb (higher poverty, more diverse than county overall). Research focuses on community awareness and equity implications of the charter model.</td>
+          </tr>
+          <tr>
+            <td><div class="district-name">Georgia Dept. of Education</div><div style="font-size:0.72rem;color:var(--ink-soft);margin-top:1px;">GaDOE — Institutional Partner</div></td>
+            <td>—</td>
+            <td><span class="tier-badge tier-institutional">Institutional Partner</span></td>
+            <td><div class="adoption-bar-wrap"><div class="adoption-bar"><div class="adoption-fill" style="width:45%"></div></div><span class="adoption-label">Guidance Issued</span></div></td>
+            <td>Jan 2025</td>
+            <td>Published "traffic light" AI guidance (Jan 2025). Not a research site; serves as institutional partner facilitating district introductions. PI co-presented at CCSSO for GaDOE (2020).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- METHODS -->
+<section id="methods">
+  <div class="section-inner">
+    <div class="section-label">Research Methods</div>
+    <h2 class="section-title">Three Integrated Research Components</h2>
+    <div class="methods-grid">
+      <div class="method-card reveal">
+        <div class="method-num">Component 01</div>
+        <div class="method-title">AI Accountability Stories: Community Narrative Documentation</div>
+        <div class="method-body">
+          <p>The primary data collection method. Qualitative narrative documentation capturing the lived experience of AI in schools from the perspectives of those most affected — not administrators or vendors.</p>
+          <ul>
+            <li>30–40 semi-structured interviews (45–60 min.), 6–8 per district, stratified across students, parents, teachers, and tech coordinators</li>
+            <li>8–10 focus groups (75–90 min.), 1–2 per site, organized by stakeholder type</li>
+            <li>Document collection: AI policies, vendor contracts, professional development materials, equity review records</li>
+            <li>Analysis: MAXQDA iterative thematic coding + member checking with 8 participants</li>
+          </ul>
+        </div>
+      </div>
+      <div class="method-card reveal reveal-delay-1">
+        <div class="method-num">Component 02</div>
+        <div class="method-title">Institutional Landscape Analysis</div>
+        <div class="method-body">
+          <p>Systematic analysis of how institutional conditions shape — and are shaped by — AI adoption decisions, with GaDOE's January 2025 guidance as a cross-site reference document.</p>
+          <ul>
+            <li>10–15 key informant interviews with district leadership across all five sites</li>
+            <li>Structured educator questionnaire (25–30 items) to 40–50 classroom teachers via Qualtrics, adapting validated RAND American Teacher Panel items for comparability</li>
+            <li>Document analysis examining the tension between state guidance (non-binding) and classroom practice</li>
+          </ul>
+        </div>
+      </div>
+      <div class="method-card reveal reveal-delay-2">
+        <div class="method-num">Component 03</div>
+        <div class="method-title">Framework Co-Development and Validation</div>
+        <div class="method-body">
+          <p>The primary deliverable. The AI Equity Auditing Framework is co-developed with community members — not handed down from researchers — making it far more likely to be used and trusted.</p>
+          <ul>
+            <li>Five evaluation domains: student/community voice in procurement, transparency/explainability, data privacy and equity, disparate impact monitoring, and ongoing accountability mechanisms</li>
+            <li>Community review panel (6–8 participants) and practitioner review panel (4–5 district staff) in Months 8–9</li>
+            <li>Published open-access under Creative Commons with 10–12 page practitioner guide in accessible, non-technical language</li>
+            <li>Disseminated through CCSSO AI Resource Hub, SEF networks, and EDSAFE AI Alliance</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="timeline-label">Project Timeline — April 2026 through March 2027</div>
+      <div class="timeline">
+        <div class="tl-month"><span class="tl-month-num">M01</span><span class="tl-month-name">Apr '26</span><div class="tl-dot irb"></div><span class="tl-phase-label">IRB + Site Outreach</span></div>
+        <div class="tl-month"><span class="tl-month-num">M02</span><span class="tl-month-name">May '26</span><div class="tl-dot irb"></div><div class="tl-dot data"></div><span class="tl-phase-label">IRB Approval + Begin Interviews</span></div>
+        <div class="tl-month"><span class="tl-month-num">M03</span><span class="tl-month-name">Jun '26</span><div class="tl-dot data"></div><span class="tl-phase-label">Data Collection</span></div>
+        <div class="tl-month"><span class="tl-month-num">M04</span><span class="tl-month-name">Jul '26</span><div class="tl-dot data"></div><span class="tl-phase-label">Data Collection</span></div>
+        <div class="tl-month"><span class="tl-month-num">M05</span><span class="tl-month-name">Aug '26</span><div class="tl-dot data"></div><span class="tl-phase-label">Data Collection Closes</span></div>
+        <div class="tl-month"><span class="tl-month-num">M06</span><span class="tl-month-name">Sep '26</span><div class="tl-dot analysis"></div><span class="tl-phase-label">Transcription + Coding</span></div>
+        <div class="tl-month"><span class="tl-month-num">M07</span><span class="tl-month-name">Oct '26</span><div class="tl-dot analysis"></div><span class="tl-phase-label">Thematic Analysis</span></div>
+        <div class="tl-month"><span class="tl-month-num">M08</span><span class="tl-month-name">Nov '26</span><div class="tl-dot framework"></div><span class="tl-phase-label">Framework Draft</span></div>
+        <div class="tl-month"><span class="tl-month-num">M09</span><span class="tl-month-name">Dec '26</span><div class="tl-dot framework"></div><span class="tl-phase-label">Community Validation</span></div>
+        <div class="tl-month"><span class="tl-month-num">M10</span><span class="tl-month-name">Jan '27</span><div class="tl-dot disseminate"></div><span class="tl-phase-label">Open-Access Publication</span></div>
+        <div class="tl-month"><span class="tl-month-num">M11</span><span class="tl-month-name">Feb '27</span><div class="tl-dot disseminate"></div><span class="tl-phase-label">Conference + Journal Submission</span></div>
+        <div class="tl-month"><span class="tl-month-num">M12</span><span class="tl-month-name">Mar '27</span><div class="tl-dot disseminate"></div><span class="tl-phase-label">SEF Report + Year 2 Planning</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUDGET -->
+<section id="budget">
+  <div class="section-inner">
+    <div class="section-label" style="color:var(--gold);">Proposed Budget</div>
+    <h2 class="section-title">Financial Plan</h2>
+    <div class="budget-top reveal">
+      <div class="budget-total-card">
+        <div class="budget-total-label">Total Project Budget</div>
+        <div class="budget-total-num">$147,700</div>
+        <div class="budget-total-sub">12-month fellowship year · April 2026 – March 2027</div>
+        <div class="budget-total-note">Includes $78,000 PI salary (drawn from Mozilla Fellowship $100K stipend in primary scenario) and $69,700 in direct project costs. IRB consultant fee ($1,000) administered through SEF's external consultant per Max Altman's guidance. SEF serves as fiscal sponsor; does not provide direct funding.</div>
+      </div>
+      <div class="budget-scenarios">
+        <div style="font-family:var(--mono);font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:2px;">Funding Scenarios</div>
+        <div class="scenario primary">
+          <div class="scenario-label">Scenario A · Primary (Mozilla Awarded)</div>
+          <div class="scenario-title">Mozilla Fellowship ($125K) covers PI salary and the majority of project costs. A ~$22,700 supplemental grant from Spencer Foundation or AERA bridges the remaining balance. Decision expected ~March 8–15.</div>
+        </div>
+        <div class="scenario">
+          <div class="scenario-label">Scenario B · Contingency (Mozilla Not Awarded)</div>
+          <div class="scenario-title">Immediate applications to Spencer Foundation, AERA Research Grants, and W.K. Kellogg Foundation. Timeline may shift slightly; core study design remains intact.</div>
+        </div>
+        <div class="scenario">
+          <div class="scenario-label">SEF's Role in Funding</div>
+          <div class="scenario-title">Fiscal sponsorship for grant applications requiring an organizational applicant, grant proposal review, IRB consultant access, and network introductions to aligned funders.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="budget-breakdown reveal">
+      <div class="budget-row hdr"><div class="budget-cell cat">Category</div><div class="budget-cell item">Line Item</div><div class="budget-cell amount">Total</div></div>
+
+      <div class="budget-row subhdr"><div class="budget-cell cat"></div><div class="budget-cell item">Personnel</div><div class="budget-cell amount"></div></div>
+      <div class="budget-row"><div class="budget-cell cat">PI</div><div class="budget-cell item">PI Salary — Eldrin L. Deas, Ph.D. (0.75 FTE · 12 months · $6,500/mo)</div><div class="budget-cell amount">$78,000</div></div>
+      <div class="budget-row"><div class="budget-cell cat">RA</div><div class="budget-cell item">Research Assistant, contract (Months 2–8 · ~20 hrs/week @ $25–28/hr)</div><div class="budget-cell amount">$15,400</div></div>
+      <div class="budget-row"><div class="budget-cell cat">RC</div><div class="budget-cell item">Research Coordinator, contract (Months 8–11 · ~15 hrs/week @ $28–30/hr)</div><div class="budget-cell amount">$7,200</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Consult.</div><div class="budget-cell item">Open-Source Kit Development Consultant (framework digital toolkit, Months 10–11)</div><div class="budget-cell amount">$3,500</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Editor</div><div class="budget-cell item">Editor / Copyediting Services (framework + practitioner guide + journal manuscript)</div><div class="budget-cell amount">$1,800</div></div>
+      <div class="budget-row total-row"><div class="budget-cell cat"></div><div class="budget-cell item">Personnel Subtotal</div><div class="budget-cell amount">$105,900</div></div>
+
+      <div class="budget-row subhdr"><div class="budget-cell cat"></div><div class="budget-cell item">Participant Costs</div><div class="budget-cell amount"></div></div>
+      <div class="budget-row"><div class="budget-cell cat">Honoraria</div><div class="budget-cell item">Interview Honoraria — 35 participants × $50 gift card (45–60 min. sessions)</div><div class="budget-cell amount">$1,750</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Honoraria</div><div class="budget-cell item">Focus Group Honoraria — 72 participants × $35 gift card (75–90 min. sessions)</div><div class="budget-cell amount">$2,520</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Recruit.</div><div class="budget-cell item">Participant Recruitment Support — 5 sites (flyers, liaisons, administrative coordination)</div><div class="budget-cell amount">$1,000</div></div>
+      <div class="budget-row total-row"><div class="budget-cell cat"></div><div class="budget-cell item">Participant Costs Subtotal</div><div class="budget-cell amount">$5,270</div></div>
+
+      <div class="budget-row subhdr"><div class="budget-cell cat"></div><div class="budget-cell item">Research Compliance</div><div class="budget-cell amount"></div></div>
+      <div class="budget-row"><div class="budget-cell cat">IRB</div><div class="budget-cell item">IRB Consultant Fee — SEF external consultant (confirmed rate per Max Altman)</div><div class="budget-cell amount">$1,000</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Security</div><div class="budget-cell item">Encrypted Cloud Storage for Research Data — 12 months (HIPAA-grade, e.g. Tresorit)</div><div class="budget-cell amount">$180</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Admin</div><div class="budget-cell item">Participant Consent Form Printing / Digital Administration (5 sites)</div><div class="budget-cell amount">$120</div></div>
+      <div class="budget-row total-row"><div class="budget-cell cat"></div><div class="budget-cell item">Compliance Subtotal</div><div class="budget-cell amount">$1,300</div></div>
+
+      <div class="budget-row subhdr"><div class="budget-cell cat"></div><div class="budget-cell item">Travel</div><div class="budget-cell amount"></div></div>
+      <div class="budget-row"><div class="budget-cell cat">Local</div><div class="budget-cell item">Metro Atlanta Field Research — mileage/transit (7 active months × $180/month)</div><div class="budget-cell amount">$1,260</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Conf.</div><div class="budget-cell item">Conference Airfare — 1 round trip (AERA or aligned convening)</div><div class="budget-cell amount">$650</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Conf.</div><div class="budget-cell item">Conference Lodging — 4 nights × $220/night</div><div class="budget-cell amount">$880</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Conf.</div><div class="budget-cell item">Conference Per Diem — 5 days × $79/day (GSA rate)</div><div class="budget-cell amount">$395</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Local</div><div class="budget-cell item">Atlanta Convening Lodging — 2 nights × $185/night (partner meetings)</div><div class="budget-cell amount">$370</div></div>
+      <div class="budget-row total-row"><div class="budget-cell cat"></div><div class="budget-cell item">Travel Subtotal</div><div class="budget-cell amount">$3,555</div></div>
+
+      <div class="budget-row subhdr"><div class="budget-cell cat"></div><div class="budget-cell item">Equipment &amp; Technology</div><div class="budget-cell amount"></div></div>
+      <div class="budget-row"><div class="budget-cell cat">Computer</div><div class="budget-cell item">MacBook Pro 14" M4 Pro, 24GB — Primary research workstation (MAXQDA, writing, A/V)</div><div class="budget-cell amount">$2,000</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Tablet</div><div class="budget-cell item">Apple iPad 11th Gen, 128GB — RA field use (consent forms, scheduling, coordination)</div><div class="budget-cell amount">$349</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Storage</div><div class="budget-cell item">External Hard Drive, 4TB portable encrypted (Samsung T7 Shield or equiv.)</div><div class="budget-cell amount">$120</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Audio</div><div class="budget-cell item">Field Recorders — 2× Zoom H5studio @ $315 ea. (interviews + focus groups)</div><div class="budget-cell amount">$630</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Audio</div><div class="budget-cell item">SSL 12 Audio Interface (professional-grade audio archiving at research workstation)</div><div class="budget-cell amount">$500</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Camera</div><div class="budget-cell item">Camera Body — Sony ZV-E10 II or equiv. (community documentation, framework workshops)</div><div class="budget-cell amount">$900</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Camera</div><div class="budget-cell item">Camera Lenses — 2× E-mount primes (wide + portrait, est. avg. $350/lens)</div><div class="budget-cell amount">$700</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Monitor</div><div class="budget-cell item">Portable Monitor USB-C 15" (dual-screen for field analysis, ASUS ZenScreen or equiv.)</div><div class="budget-cell amount">$230</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Supplies</div><div class="budget-cell item">Rechargeable Batteries + Charger Kit (Panasonic Eneloop Pro or equiv.)</div><div class="budget-cell amount">$65</div></div>
+      <div class="budget-row total-row"><div class="budget-cell cat"></div><div class="budget-cell item">Equipment Subtotal</div><div class="budget-cell amount">$5,494</div></div>
+
+      <div class="budget-row subhdr"><div class="budget-cell cat"></div><div class="budget-cell item">Software &amp; Subscriptions</div><div class="budget-cell amount"></div></div>
+      <div class="budget-row"><div class="budget-cell cat">Analysis</div><div class="budget-cell item">MAXQDA Analytics Pro — 1-year license (primary qualitative analysis, academic pricing)</div><div class="budget-cell amount">$639</div></div>
+      <div class="budget-row"><div class="budget-cell cat">AI Tool</div><div class="budget-cell item">Anthropic Claude Max — 12 months × $100/month</div><div class="budget-cell amount">$1,200</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Survey</div><div class="budget-cell item">Qualtrics — 12 months × $150 (educator questionnaire, 5-district secure administration)</div><div class="budget-cell amount">$1,800</div></div>
+      <div class="budget-row"><div class="budget-cell cat">PM</div><div class="budget-cell item">Project Management Tooling — 12 months × $16 (Notion/Asana team plan)</div><div class="budget-cell amount">$192</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Web</div><div class="budget-cell item">Website Domain, Hosting &amp; Deployment — 12 months (framework documentation site)</div><div class="budget-cell amount">$300</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Transcript</div><div class="budget-cell item">Transcription Services — Rev.com human @ $1.99/min · ~180 hrs audio (~10,800 min.)</div><div class="budget-cell amount">$1,620</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Memberships</div><div class="budget-cell item">Professional Memberships — AERA ($175) + ASALH ($50) + other ($225)</div><div class="budget-cell amount">$450</div></div>
+      <div class="budget-row total-row"><div class="budget-cell cat"></div><div class="budget-cell item">Software Subtotal</div><div class="budget-cell amount">$6,201</div></div>
+
+      <div class="budget-row subhdr"><div class="budget-cell cat"></div><div class="budget-cell item">Professional Development</div><div class="budget-cell amount"></div></div>
+      <div class="budget-row"><div class="budget-cell cat">Certificate</div><div class="budget-cell item">Google UX/UI Design Professional Certificate (framework accessibility and interface design)</div><div class="budget-cell amount">$299</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Workshops</div><div class="budget-cell item">Workshops — 2× (AI governance/policy + qualitative methods, est. avg. $450/workshop)</div><div class="budget-cell amount">$900</div></div>
+      <div class="budget-row total-row"><div class="budget-cell cat"></div><div class="budget-cell item">Prof. Development Subtotal</div><div class="budget-cell amount">$1,199</div></div>
+
+      <div class="budget-row subhdr"><div class="budget-cell cat"></div><div class="budget-cell item">Indirect Costs &amp; Contingency</div><div class="budget-cell amount"></div></div>
+      <div class="budget-row"><div class="budget-cell cat">Admin</div><div class="budget-cell item">SEF Fiscal Sponsorship / Administrative Fee (grant management and financial oversight)</div><div class="budget-cell amount">$1,500</div></div>
+      <div class="budget-row"><div class="budget-cell cat">Reserve</div><div class="budget-cell item">Contingency Reserve — 5% of non-personnel costs for unexpected field or equipment needs</div><div class="budget-cell amount">$3,781</div></div>
+      <div class="budget-row total-row"><div class="budget-cell cat"></div><div class="budget-cell item">Indirect / Contingency Subtotal</div><div class="budget-cell amount">$5,281</div></div>
+
+      <div class="budget-row grand-row">
+        <div class="budget-cell cat"></div>
+        <div class="budget-cell item">Total Project Budget (12-Month Fellowship Year)</div>
+        <div class="budget-cell amount">$147,700</div>
+      </div>
+    </div>
+
+    <!-- VIZ -->
+    <div class="reveal">
+      <div class="viz-title">Budget Allocation by Category</div>
+      <div class="donut-wrap">
+        <div class="donut-svg-wrap">
+          <svg width="210" height="210" viewBox="0 0 210 210">
+            <circle cx="105" cy="105" r="75" fill="none" stroke="#b8860b" stroke-width="28" stroke-dasharray="315.2 156.4" stroke-dashoffset="0" transform="rotate(-90 105 105)"/>
+            <circle cx="105" cy="105" r="75" fill="none" stroke="#2a8080" stroke-width="28" stroke-dasharray="15.9 455.7" stroke-dashoffset="-315.2" transform="rotate(-90 105 105)"/>
+            <circle cx="105" cy="105" r="75" fill="none" stroke="#c75c40" stroke-width="28" stroke-dasharray="16.4 455.2" stroke-dashoffset="-331.1" transform="rotate(-90 105 105)"/>
+            <circle cx="105" cy="105" r="75" fill="none" stroke="#d4a017" stroke-width="28" stroke-dasharray="18.4 453.2" stroke-dashoffset="-347.5" transform="rotate(-90 105 105)"/>
+            <circle cx="105" cy="105" r="75" fill="none" stroke="#1a5a5a" stroke-width="28" stroke-dasharray="10.6 461.0" stroke-dashoffset="-365.9" transform="rotate(-90 105 105)"/>
+            <circle cx="105" cy="105" r="75" fill="none" stroke="#8b3a2a" stroke-width="28" stroke-dasharray="15.8 455.8" stroke-dashoffset="-376.5" transform="rotate(-90 105 105)"/>
+            <circle cx="105" cy="105" r="75" fill="none" stroke="#888" stroke-width="28" stroke-dasharray="3.5 468.1" stroke-dashoffset="-392.3" transform="rotate(-90 105 105)"/>
+            <circle cx="105" cy="105" r="75" fill="none" stroke="#ccc" stroke-width="28" stroke-dasharray="3.9 467.7" stroke-dashoffset="-395.8" transform="rotate(-90 105 105)"/>
+          </svg>
+          <div class="donut-center">
+            <span class="donut-center-num">$147.7K</span>
+            <span class="donut-center-label">Total</span>
+          </div>
+        </div>
+        <div class="donut-legend">
+          <div class="legend-item"><div class="legend-swatch" style="background:#b8860b"></div><span class="legend-name">Personnel</span><span class="legend-pct">71.7%</span><span class="legend-amt">$105,900</span></div>
+          <div class="legend-item"><div class="legend-swatch" style="background:#d4a017"></div><span class="legend-name">Software &amp; Subscriptions</span><span class="legend-pct">4.2%</span><span class="legend-amt">$6,201</span></div>
+          <div class="legend-item"><div class="legend-swatch" style="background:#c75c40"></div><span class="legend-name">Equipment &amp; Technology</span><span class="legend-pct">3.7%</span><span class="legend-amt">$5,494</span></div>
+          <div class="legend-item"><div class="legend-swatch" style="background:#8b3a2a"></div><span class="legend-name">Indirect / Contingency</span><span class="legend-pct">3.6%</span><span class="legend-amt">$5,281</span></div>
+          <div class="legend-item"><div class="legend-swatch" style="background:#2a8080"></div><span class="legend-name">Participant Costs</span><span class="legend-pct">3.6%</span><span class="legend-amt">$5,270</span></div>
+          <div class="legend-item"><div class="legend-swatch" style="background:#1a5a5a"></div><span class="legend-name">Travel</span><span class="legend-pct">2.4%</span><span class="legend-amt">$3,555</span></div>
+          <div class="legend-item"><div class="legend-swatch" style="background:#888"></div><span class="legend-name">Professional Development</span><span class="legend-pct">0.8%</span><span class="legend-amt">$1,199</span></div>
+          <div class="legend-item"><div class="legend-swatch" style="background:#ccc"></div><span class="legend-name">Research Compliance</span><span class="legend-pct">0.9%</span><span class="legend-amt">$1,300</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FUNDING -->
+<section id="funding">
+  <div class="section-inner">
+    <div class="section-label">Funding Roadmap</div>
+    <h2 class="section-title">Funding Status and Outreach Plan</h2>
+    <div class="funding-grid reveal">
+      <div class="funding-card">
+        <span class="funding-status status-pending"><span class="status-dot"></span>Pending — Decision ~March 8–15</span>
+        <div class="funding-source">Mozilla Foundation — Independent Fellow</div>
+        <div class="funding-amount">$125,000 total ($100K stipend + $25K project budget)</div>
+        <div class="funding-desc">Currently in the third round of review. If awarded, covers PI salary and the majority of direct project costs. A ~$22,700 supplemental grant would bridge the remaining balance. Primary funding scenario.</div>
+      </div>
+      <div class="funding-card">
+        <span class="funding-status status-planned"><span class="status-dot"></span>Planned — LOI May 2026</span>
+        <div class="funding-source">Spencer Foundation — Small Grants for Education Research</div>
+        <div class="funding-amount">$25,000–$50,000</div>
+        <div class="funding-desc">Spencer's focus on community-based qualitative research in education is a strong fit. SEF fiscal sponsorship enables application as an organizational applicant. Target supplemental or primary depending on Mozilla outcome.</div>
+      </div>
+      <div class="funding-card">
+        <span class="funding-status status-planned"><span class="status-dot"></span>Planned — Spring 2026 Cycle</span>
+        <div class="funding-source">AERA — American Educational Research Association</div>
+        <div class="funding-amount">Up to $20,000</div>
+        <div class="funding-desc">Direct alignment with educational equity research and AI-in-K12 focus. PI holds active AERA membership and research record. Strong candidate for supplemental or primary funding in Scenario B.</div>
+      </div>
+      <div class="funding-card">
+        <span class="funding-status status-exploratory"><span class="status-dot"></span>Exploratory</span>
+        <div class="funding-source">W.K. Kellogg Foundation — Community Engagement</div>
+        <div class="funding-amount">TBD</div>
+        <div class="funding-desc">Southern focus and community-engaged methodology are strong alignment points. Would pursue if Mozilla not awarded or as Year 2 supplemental for framework scaling and train-the-trainer model development.</div>
+      </div>
+      <div class="funding-card">
+        <span class="funding-status status-exploratory"><span class="status-dot"></span>Year 2 / Exploratory</span>
+        <div class="funding-source">Ford Foundation — Technology and Society</div>
+        <div class="funding-amount">TBD</div>
+        <div class="funding-desc">Equity and algorithmic accountability framing aligns directly with Ford's priorities. Best positioned as a Year 2 application once Metro Atlanta study produces proof-of-concept findings.</div>
+      </div>
+      <div class="funding-card">
+        <span class="funding-status status-exploratory"><span class="status-dot"></span>Year 2 / Via CCSSO</span>
+        <div class="funding-source">CCSSO Partnership Grants / State Agency Funders</div>
+        <div class="funding-amount">TBD</div>
+        <div class="funding-desc">PI co-presented at CCSSO SCASS Winter Convening (2020) and maintains active GaDOE relationship. CCSSO connection provides a pathway to state agency partnerships and aligned funders interested in framework scaling.</div>
+      </div>
+    </div>
+    <div class="roadmap reveal">
+      <div class="roadmap-phase">
+        <div class="roadmap-phase-label">Phase 01 · Immediate</div>
+        <div class="roadmap-phase-title">March – April 2026</div>
+        <ul>
+          <li>Mozilla Fellowship decision expected ~March 8–15. If awarded, Scenario A proceeds immediately.</li>
+          <li>If not awarded, submit LOI to Spencer Foundation in April and initiate AERA application.</li>
+          <li>Engage SEF for fiscal sponsorship documentation needed for organizational grant applications.</li>
+          <li>Request letters of support from GaDOE and CCSSO contacts established through prior collaboration.</li>
+        </ul>
+      </div>
+      <div class="roadmap-phase">
+        <div class="roadmap-phase-label">Phase 02 · Near-Term</div>
+        <div class="roadmap-phase-title">May – July 2026</div>
+        <ul>
+          <li>Submit Spencer Foundation Small Grants application with SEF as organizational applicant.</li>
+          <li>Submit AERA Research Grant application for spring 2026 cycle.</li>
+          <li>Pursue W.K. Kellogg Foundation if additional supplemental funding needed for Scenario B.</li>
+          <li>SEF reviews all grant proposals before submission per program structure.</li>
+        </ul>
+      </div>
+      <div class="roadmap-phase">
+        <div class="roadmap-phase-label">Phase 03 · Year Two</div>
+        <div class="roadmap-phase-title">2027 and Beyond</div>
+        <ul>
+          <li>Ford Foundation application (Technology and Society) using Year 1 findings as proof of concept.</li>
+          <li>Knight Foundation (AI accountability and community democracy framing).</li>
+          <li>CCSSO partnership grants for framework scaling and train-the-trainer dissemination.</li>
+          <li>Rockefeller Foundation for potential international comparative work if framework gains traction.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCHER -->
+<section id="researcher">
+  <div class="section-inner">
+    <div class="section-label">Principal Investigator</div>
+    <h2 class="section-title">About the Researcher</h2>
+    <div class="researcher-grid">
+      <div class="researcher-card reveal">
+        <div class="researcher-name">Eldrin L. Deas, Ph.D.</div>
+        <div class="researcher-title">Principal Investigator</div>
+        <div class="researcher-contact">✉ <a href="mailto:edeas1@gmail.com">edeas1@gmail.com</a></div>
+        <div class="researcher-contact">☎ (678) 357-3305</div>
+        <div class="researcher-contact" style="margin-top:3px;font-size:0.73rem;">Atlanta, Georgia</div>
+        <div class="r-divider"></div>
+        <div class="researcher-badge-list">
+          <div class="researcher-badge">Ph.D. Education, UNC Chapel Hill (2018)</div>
+          <div class="researcher-badge">M.S. Social Foundations of Education, Georgia State University (2010)</div>
+          <div class="researcher-badge">B.S. Mathematics, Morehouse College (2007)</div>
+          <div class="researcher-badge">Former Curation Standards Analysis Lead, Twitter</div>
+          <div class="researcher-badge">Former Engagement Editor, LinkedIn</div>
+          <div class="researcher-badge">Former Title I Mathematics Teacher, DeKalb County</div>
+          <div class="researcher-badge">Former SEF Research Fellow (2012)</div>
+          <div class="researcher-badge">Inaugural Scott Morgan Award, Education Pioneers (2016)</div>
+          <div class="researcher-badge">Kauffman Aspiring School Founders Cohort (2018)</div>
+          <div class="researcher-badge">Vice Chair, FUSE Corps Board of Directors</div>
+          <div class="researcher-badge">Workshop Facilitator, CCSSO SCASS Winter Convening (2020)</div>
+          <div class="researcher-badge">Founder, EveryMango (neurodiversity-affirming productivity)</div>
+        </div>
+      </div>
+      <div class="bio-section">
+        <div class="bio-block reveal">
+          <div class="bio-block-title">The Inside-Outside Perspective</div>
+          <p>Eldrin Deas brings a combination of credentials that is genuinely unusual in AI equity research: he has worked inside major algorithmic platforms — Twitter and LinkedIn — as someone responsible for how content curation and engagement systems actually behave at scale, and he has worked inside Southern public schools and state education agencies as someone who understands what those systems do to students and communities. That dual vantage point is the methodological foundation of this project.</p>
+          <p>At Twitter, as Curation Standards Analysis Lead, he analyzed how the platform's algorithmic systems made decisions about what content to surface, suppress, and flag — experience that directly informs his understanding of how AI systems in educational settings may appear neutral while encoding historical patterns of exclusion. At LinkedIn, he examined how engagement algorithms interact with professional networks in ways that can bridge or reinforce social capital gaps.</p>
+        </div>
+        <div class="bio-block reveal">
+          <div class="bio-block-title">Deep Southern Educational Roots</div>
+          <p>Before entering the world of platform accountability, Eldrin spent three years as a Title I mathematics teacher at Towers High School in DeKalb County — one of the five districts in this study. He went on to work with the Georgia Department of Education, the Pennsylvania Department of Education, the Texas Education Agency, and Kansas City Public Schools as a consultant on school and district improvement.</p>
+          <p>His 2012 Southern Education Foundation Fellowship, his 2020 workshop at the CCSSO SCASS Winter Convening co-presented with the GaDOE team, and his ongoing FUSE Corps board leadership all reflect an intentional commitment to working within — rather than around — the institutional structures of Southern education. This is not research conducted from a distance.</p>
+        </div>
+        <div class="bio-block reveal">
+          <div class="bio-block-title">Methodological Approach and Dissemination Strategy</div>
+          <p>The research draws on qualitative analysis software including MAXQDA and NVivo, combined with Qualtrics and SPSS for the educator questionnaire component. The community narrative methodology — "AI Accountability Stories" — is grounded in the tradition of participatory action research pioneered by Ladson-Billings, Solorzano and Yosso, and the broader CBPAR literature, adapted here for the specific challenge of making algorithmic accountability accessible to non-technical community advocates.</p>
+          <p>The dissemination strategy — through CCSSO's AI Resource Hub, SEF's networks, and the EDSAFE AI Alliance — is designed to ensure that the framework reaches practitioners who can use it, not just researchers who can cite it. A Creative Commons license and plain-language practitioner guide are built into the deliverable design from the outset.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <strong>Unequal by Design</strong> — SEF Research Fellows Program Application, March 2026<br>
+      Eldrin L. Deas, Ph.D. · Atlanta, Georgia
+    </div>
+    <div class="footer-meta">Community-Centered AI Equity Research · Metro Atlanta · 2026–2027</div>
+  </div>
+</footer>
+
+<script>
+// Active nav on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+const sectionObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(a => a.classList.remove('active'));
+      const a = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if (a) a.classList.add('active');
+    }
+  });
+}, { rootMargin: '-40% 0px -50% 0px' });
+sections.forEach(s => sectionObs.observe(s));
+
+// Reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
+  });
+}, { rootMargin: '0px 0px -80px 0px' });
+reveals.forEach(el => revealObs.observe(el));
+</script>
+</body>
+</html>
