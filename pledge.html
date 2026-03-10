@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IOU Donation</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #FFFBF2;
+      color: #3B2A1A;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: #5C4230;
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+      max-width: 340px;
+      margin-bottom: 2rem;
+    }
+
+    .option {
+      border: 2px solid #e0d5c5;
+      border-radius: 14px;
+      padding: 1.2rem 1.5rem;
+      cursor: pointer;
+      background: #fff;
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.4rem;
+      color: #3B2A1A;
+      text-align: left;
+      transition: border-color 0.18s, box-shadow 0.18s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .option:hover {
+      border-color: #FFB627;
+    }
+
+    .option.selected {
+      border-color: #2D7A4F;
+      box-shadow: 0 0 0 3px rgba(45,122,79,0.12);
+    }
+
+    .option .dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+      flex-shrink: 0;
+      transition: all 0.18s;
+    }
+
+    .option.selected .dot {
+      background: #2D7A4F;
+      border-color: #2D7A4F;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      max-width: 340px;
+      padding: 0.9rem;
+      background: #2D7A4F;
+      color: #fff;
+      border: none;
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.18s, opacity 0.18s;
+    }
+
+    button[type="submit"]:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    button[type="submit"]:not(:disabled):hover {
+      background: #3AA068;
+    }
+
+    .note {
+      margin-top: 1rem;
+      font-size: 0.75rem;
+      color: #8a7060;
+      text-align: center;
+      max-width: 300px;
+    }
+
+    /* Confirmation */
+    .confirm {
+      display: none;
+      text-align: center;
+      max-width: 340px;
+    }
+
+    .confirm.show { display: block; }
+    .form-view.hide { display: none; }
+
+    .confirm h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .confirm-amount {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      color: #2D7A4F;
+      margin: 0.8rem 0 1rem;
+    }
+
+    .confirm p {
+      font-size: 0.88rem;
+      color: #5C4230;
+      line-height: 1.6;
+      margin-bottom: 1.4rem;
+    }
+
+    .confirm button {
+      background: none;
+      border: 1.5px solid #2D7A4F;
+      border-radius: 100px;
+      padding: 0.6rem 1.6rem;
+      color: #2D7A4F;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-view" id="formView">
+    <h1>Make a Pledge</h1>
+    <p class="subtitle">Select your IOU donation amount.</p>
+
+    <div class="options">
+      <button class="option" data-amount="$1,000,000" onclick="select(this)">
+        $1,000,000 <span class="dot"></span>
+      </button>
+      <button class="option" data-amount="$5,000,000" onclick="select(this)">
+        $5,000,000 <span class="dot"></span>
+      </button>
+      <button class="option" data-amount="$10,000,000" onclick="select(this)">
+        $10,000,000 <span class="dot"></span>
+      </button>
+    </div>
+
+    <button type="submit" id="submitBtn" disabled onclick="submit()">Pledge IOU</button>
+    <p class="note">This is a pledge, not a payment. No card required.</p>
+  </div>
+
+  <div class="confirm" id="confirm">
+    <h2>Thank you!</h2>
+    <p>Your IOU pledge of</p>
+    <div class="confirm-amount" id="confirmAmount"></div>
+    <p>has been received. We'll be in touch.</p>
+    <button onclick="reset()">Start over</button>
+  </div>
+
+  <script>
+    let chosen = null;
+
+    function select(el) {
+      document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      chosen = el.dataset.amount;
+      document.getElementById('submitBtn').disabled = false;
+    }
+
+    function submit() {
+      if (!chosen) return;
+      document.getElementById('confirmAmount').textContent = chosen;
+      document.getElementById('formView').classList.add('hide');
+      document.getElementById('confirm').classList.add('show');
+    }
+
+    function reset() {
+      chosen = null;
+      document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+      document.getElementById('submitBtn').disabled = true;
+      document.getElementById('formView').classList.remove('hide');
+      document.getElementById('confirm').classList.remove('show');
+    }
+  </script>
+</body>
+</html>
