@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open-Source AI Equity Auditing Framework — Eldrin L. Deas, Ph.D.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1714;
+  --ink-soft: #3d3830;
+  --warm-white: #f8f5f0;
+  --warm-mid: #ede8e0;
+  --warm-line: #d4ccc0;
+  --gold: #b8860b;
+  --gold-light: #d4a017;
+  --gold-pale: #f5edd4;
+  --rust: #8b3a2a;
+  --rust-light: #c75c40;
+  --rust-pale: #f5e8e4;
+  --teal: #1a5a5a;
+  --teal-light: #2a8080;
+  --teal-pale: #e4f0f0;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'DM Sans', sans-serif;
+  --mono: 'DM Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--sans);
+  background: var(--warm-mid);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── PAGE SHELL ── */
+.page {
+  max-width: 860px;
+  margin: 0 auto;
+  background: var(--warm-white);
+  box-shadow: 0 8px 60px rgba(26,23,20,0.18);
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--ink);
+  padding: 48px 52px 42px;
+  position: relative;
+  overflow: hidden;
+}
+
+.header-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 80% 30%, rgba(184,134,11,0.1) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 80% at 10% 90%, rgba(26,90,90,0.12) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.header-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(184,134,11,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184,134,11,0.035) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+.header-inner { position: relative; z-index: 2; }
+
+.header-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 22px;
+}
+
+.header-eyebrow::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.header-title {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.08;
+  color: var(--warm-white);
+  margin-bottom: 6px;
+}
+
+.header-title em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+
+.header-subtitle {
+  font-family: var(--serif);
+  font-size: 1.02rem;
+  font-weight: 400;
+  font-style: italic;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 32px;
+  max-width: 560px;
+  line-height: 1.6;
+}
+
+.header-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.header-tag {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 2px;
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.62);
+  background: rgba(255,255,255,0.05);
+}
+
+.header-tag.gold {
+  border-color: rgba(184,134,11,0.45);
+  color: var(--gold-light);
+  background: rgba(184,134,11,0.1);
+}
+
+/* ── STAT STRIP ── */
+.stat-strip {
+  background: var(--gold);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.stat-item {
+  padding: 18px 22px;
+  text-align: center;
+  border-right: 1px solid rgba(26,23,20,0.15);
+}
+
+.stat-item:last-child { border-right: none; }
+
+.stat-num {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--ink);
+  display: block;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(26,23,20,0.72);
+  line-height: 1.4;
+}
+
+/* ── SECTION LABEL ── */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.section-label::before {
+  content: '';
+  display: block;
+  width: 14px;
+  height: 1px;
+  background: var(--gold);
+}
+
+/* ── BODY ── */
+.body {
+  padding: 44px 52px;
+  display: grid;
+  gap: 36px;
+}
+
+/* ── PROBLEM ── */
+.problem-block p {
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  line-height: 1.82;
+}
+
+.problem-block p:first-of-type {
+  font-size: 1.02rem;
+  color: var(--ink);
+}
+
+.problem-block strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: var(--warm-line);
+}
+
+/* ── CARDS GRID ── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--warm-line);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.card {
+  background: white;
+  padding: 24px 24px 22px;
+  transition: background 0.2s;
+}
+
+.card:hover { background: var(--warm-white); }
+
+.card-marker {
+  display: inline-block;
+  width: 28px;
+  height: 3px;
+  border-radius: 2px;
+  margin-bottom: 12px;
+}
+
+.card-marker.sage  { background: var(--teal); }
+.card-marker.coral { background: var(--rust-light); }
+.card-marker.gold  { background: var(--gold); }
+.card-marker.teal  { background: var(--teal-light); }
+
+.card-title {
+  font-family: var(--serif);
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.card p {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  line-height: 1.72;
+}
+
+/* ── DARK BAND ── */
+.dark-band {
+  background: var(--ink);
+  padding: 36px 52px;
+}
+
+.dark-band .section-label { color: var(--gold-light); }
+.dark-band .section-label::before { background: var(--gold-light); }
+
+.dark-band-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: rgba(255,255,255,0.05);
+  margin-top: 16px;
+}
+
+.dark-item {
+  background: rgba(255,255,255,0.025);
+  padding: 28px 28px 26px;
+}
+
+.dark-item-title {
+  font-family: var(--serif);
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.dark-item p {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.62);
+  line-height: 1.72;
+}
+
+/* ── OUTCOMES ── */
+.outcomes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--warm-line);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.outcome-item {
+  display: flex;
+  gap: 0;
+  background: white;
+  transition: background 0.15s;
+}
+
+.outcome-item:hover { background: var(--warm-white); }
+
+.outcome-num {
+  flex-shrink: 0;
+  width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--gold);
+  border-right: 1px solid var(--warm-line);
+  padding: 16px 0;
+}
+
+.outcome-text {
+  padding: 16px 20px;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+
+.outcome-text strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ── FISCAL BOX ── */
+.fiscal-box {
+  background: var(--gold-pale);
+  border: 1px solid rgba(184,134,11,0.25);
+  border-radius: 4px;
+  padding: 22px 26px;
+}
+
+.fiscal-box p {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  line-height: 1.78;
+}
+
+.fiscal-box strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--ink);
+  padding: 28px 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-top: 1px solid rgba(184,134,11,0.2);
+}
+
+.footer-name {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--warm-white);
+  margin-bottom: 3px;
+}
+
+.footer-contact {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.38);
+}
+
+.footer-contact a {
+  color: var(--gold-light);
+  text-decoration: none;
+}
+
+.footer-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(184,134,11,0.3);
+  border-radius: 2px;
+  padding: 10px 16px;
+  flex-shrink: 0;
+}
+
+.footer-badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+.footer-badge-text {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.5;
+}
+
+.footer-badge-text strong {
+  display: block;
+  color: var(--gold-light);
+  font-weight: 400;
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-bg"></div>
+    <div class="header-grid"></div>
+    <div class="header-inner">
+      <div class="header-eyebrow">Independent Research Initiative &nbsp;·&nbsp; Supported by Southern Education Foundation</div>
+      <h1 class="header-title">Open-Source AI Equity<br>Auditing <em>Framework</em></h1>
+      <p class="header-subtitle">A community-centered toolkit enabling educators and advocates to evaluate AI-powered educational tools for bias — with a focus on historically marginalized students in Southern schools.</p>
+      <div class="header-tags">
+        <span class="header-tag">Eldrin L. Deas, Ph.D.</span>
+        <span class="header-tag">K–12 Education · AI Accountability</span>
+        <span class="header-tag">Open-Source · Accessible Methodology</span>
+        <span class="header-tag gold">★ SEF Research Fellow · Inaugural Cohort 2026</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAT STRIP -->
+  <div class="stat-strip">
+    <div class="stat-item">
+      <span class="stat-num">0</span>
+      <span class="stat-label">Open-source toolkits built for educational AI auditing</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">16</span>
+      <span class="stat-label">Southern states with no equity audit framework</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">∞</span>
+      <span class="stat-label">Educators who can use tools requiring no code</span>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- PROBLEM -->
+    <div class="problem-block">
+      <div class="section-label">The Problem</div>
+      <p>AI-powered tools are entering Southern classrooms at accelerating speed — influencing student assessments, instructional recommendations, and disciplinary decisions. <strong>No accessible, open-source framework exists</strong> to help educators, advocates, or researchers evaluate whether these tools treat all students equitably.</p>
+      <p style="margin-top:14px;">General-purpose auditing tools like IBM's AI Fairness 360 and Microsoft's Fairlearn were built for hiring and criminal justice contexts. Education-focused initiatives remain either vendor-facing or too technical for non-programmers. The result: communities most affected have no practical means to hold these systems accountable.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- WHAT THIS DOES -->
+    <div>
+      <div class="section-label">What This Framework Does</div>
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-marker sage"></div>
+          <div class="card-title">Community-Centered Auditing</div>
+          <p>A structured methodology using "AI Accountability Stories" — qualitative documentation of how AI systems affect students, families, and educators — translated into actionable equity indicators.</p>
+        </div>
+        <div class="card">
+          <div class="card-marker coral"></div>
+          <div class="card-title">No-Code Accessibility</div>
+          <p>Designed explicitly for non-programmers. Educators, parent advocates, and community researchers can use the framework without data science backgrounds or technical infrastructure.</p>
+        </div>
+        <div class="card">
+          <div class="card-marker gold"></div>
+          <div class="card-title">Southern Specificity</div>
+          <p>Grounded in the distinct policy landscape, demographic context, and historical inequities of Southern educational systems — not adapted from frameworks built elsewhere.</p>
+        </div>
+        <div class="card">
+          <div class="card-marker teal"></div>
+          <div class="card-title">Open Infrastructure</div>
+          <p>Fully open-source, freely replicable, and designed for dissemination through existing networks — including state education agencies and the Council of Chief State School Officers (CCSSO) collaborative network.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DARK BAND -->
+  <div class="dark-band">
+    <div class="section-label">Why This Project — Why Now</div>
+    <div class="dark-band-grid">
+      <div class="dark-item">
+        <div class="dark-item-title">A Gap No One Has Filled</div>
+        <p>Existing AI auditing tools were built for hiring, finance, and criminal justice. Education-specific tools remain either vendor-controlled or inaccessible to communities. This framework is the first designed from the ground up for educators and advocates in Southern schools.</p>
+      </div>
+      <div class="dark-item">
+        <div class="dark-item-title">A Researcher Built for This Work</div>
+        <p>Dr. Deas spent years inside the algorithmic systems now entering schools — developing accountability frameworks at Twitter and LinkedIn before those tools existed in classrooms. Combined with two decades in Southern education policy and authentic community roots, this is not outside-in research.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BODY CONTINUED -->
+  <div class="body">
+
+    <!-- OUTCOMES -->
+    <div>
+      <div class="section-label">Intended Outcomes</div>
+      <div class="outcomes-list">
+        <div class="outcome-item">
+          <div class="outcome-num">1</div>
+          <div class="outcome-text"><strong>Published open-source toolkit</strong> — a complete, freely available equity auditing framework with guides, templates, and protocols usable without programming skills.</div>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-num">2</div>
+          <div class="outcome-text"><strong>Community documentation archive</strong> — qualitative accounts of AI impacts on students and families in Southern schools, forming an evidence base for advocacy and policy.</div>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-num">3</div>
+          <div class="outcome-text"><strong>State agency adoption pathways</strong> — dissemination through active consulting relationships with Georgia DOE, Pennsylvania DOE, and Texas Education Agency, plus the CCSSO network.</div>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-num">4</div>
+          <div class="outcome-text"><strong>Policy brief and practitioner guide</strong> — translating research findings into concrete recommendations for district procurement, vendor accountability, and state AI governance.</div>
+        </div>
+        <div class="outcome-item">
+          <div class="outcome-num">5</div>
+          <div class="outcome-text"><strong>Replicable methodology</strong> — a Community-Based Participatory Action Research (CBPAR)-grounded research approach other communities can adapt, with SEF support for scale and sustainability beyond the initial fellowship year.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FISCAL SPONSORSHIP -->
+    <div class="fiscal-box">
+      <div class="section-label" style="color: var(--gold);">Funding &amp; Fiscal Sponsorship</div>
+      <p>The Southern Education Foundation — the nation's oldest education justice organization — serves as fiscal sponsor for this project as part of its inaugural Research Fellows cohort. <strong>This means foundations can fund the work directly through SEF</strong>, satisfying organizational grant requirements while supporting independent research with maximum flexibility. Dr. Deas leads the work; SEF provides institutional infrastructure, risk management, and grantmaking support.</p>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-left">
+      <div class="footer-name">Eldrin L. Deas, Ph.D.</div>
+      <div class="footer-contact">
+        <a href="mailto:edeas1@gmail.com">edeas1@gmail.com</a>
+        &nbsp;·&nbsp; (678) 357-3305 &nbsp;·&nbsp; drdeas.com
+      </div>
+    </div>
+    <div class="footer-badge">
+      <div class="footer-badge-dot"></div>
+      <div class="footer-badge-text">
+        <strong>SEF Research Fellows Program</strong>
+        Inaugural Cohort · 2026
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
