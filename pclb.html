@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PCLB Foundation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0f1f2e;--slate:#1e3248;--forest:#2d4a38;--sage:#7a9e87;--mist:#c8d8cc;
+  --cream:#f5f1eb;--warm-white:#fdfbf8;--gold:#c9a84c;--gold-light:#e8d49a;
+  --text-dark:#0f1f2e;--text-mid:#3a4a5a;--text-light:#7a8a9a;--border:rgba(15,31,46,.1);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--warm-white);color:var(--text-dark);overflow-x:hidden}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:72px;background:rgba(253,251,248,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transition:all .3s ease}
+nav.scrolled{height:60px;background:rgba(253,251,248,.98)}
+.nav-logo{font-family:'Copperplate Gothic Bold','Copperplate','Copperplate Gothic',Copperplate,serif;font-weight:700;font-size:1.5rem;letter-spacing:.06em;color:#8b1a1a;text-decoration:none;line-height:1.1}
+.nav-logo span{display:block;font-size:.62rem;font-family:'Copperplate Gothic Bold','Copperplate','Copperplate Gothic',Copperplate,serif;font-weight:700;letter-spacing:.14em;color:var(--text-light);text-transform:uppercase;margin-top:3px}
+.nav-links{display:flex;align-items:center;gap:4px;list-style:none}
+.nav-links>li{position:relative}
+.nav-links>li>a{display:flex;align-items:center;gap:4px;padding:8px 14px;font-size:.82rem;font-weight:400;letter-spacing:.05em;color:var(--text-mid);text-decoration:none;text-transform:uppercase;border-radius:4px;transition:color .2s,background .2s}
+.nav-links>li>a:hover,.nav-links>li>a.active{color:var(--navy);background:rgba(15,31,46,.05)}
+.nav-links>li>a .chevron{font-size:.6rem;opacity:.5}
+.dropdown{position:absolute;top:calc(100% + 8px);left:0;min-width:220px;background:var(--warm-white);border:1px solid var(--border);border-radius:8px;box-shadow:0 20px 60px rgba(15,31,46,.12);padding:8px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:all .2s ease;list-style:none}
+.nav-links>li:hover .dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+.dropdown li a{display:block;padding:9px 14px;font-size:.8rem;color:var(--text-mid);text-decoration:none;border-radius:5px;transition:background .15s,color .15s}
+.dropdown li a:hover{background:var(--cream);color:var(--navy)}
+.nav-cta{padding:10px 22px!important;background:var(--navy)!important;color:var(--warm-white)!important;border-radius:6px!important;font-weight:500!important;letter-spacing:.06em}
+.nav-cta:hover{background:var(--slate)!important}
+
+/* ── PAGE SHELL ── */
+.page{display:none;padding-top:72px;min-height:100vh}
+.page.active{display:block}
+
+/* ── INNER PAGE HERO ── */
+.inner-hero{background:var(--navy);padding:80px 80px 70px;position:relative;overflow:hidden}
+.inner-hero::before{content:'';position:absolute;right:-100px;top:-100px;width:500px;height:500px;border-radius:50%;border:1px solid rgba(201,168,76,.12)}
+.inner-hero::after{content:'';position:absolute;right:-60px;top:-60px;width:320px;height:320px;border-radius:50%;border:1px solid rgba(201,168,76,.08)}
+.breadcrumb{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(253,251,248,.4);margin-bottom:20px}
+.breadcrumb a{color:var(--gold);text-decoration:none}
+.inner-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,4vw,3.8rem);font-weight:300;color:var(--warm-white);line-height:1.1;max-width:640px}
+.inner-hero h1 em{font-style:italic;color:var(--gold-light)}
+.inner-hero-sub{font-size:1rem;line-height:1.75;color:rgba(253,251,248,.65);max-width:560px;margin-top:20px}
+
+/* ── CONTENT AREA ── */
+.content-wrap{max-width:1100px;margin:0 auto;padding:72px 80px}
+.content-wrap.wide{max-width:1300px}
+.prose h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--navy);margin:48px 0 16px}
+.prose h3{font-size:1rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin:36px 0 12px}
+.prose p{font-size:.97rem;line-height:1.85;color:var(--text-mid);margin-bottom:16px}
+.prose ul{padding-left:20px;margin-bottom:16px}
+.prose ul li{font-size:.95rem;line-height:1.8;color:var(--text-mid);margin-bottom:6px}
+.prose a{color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist);transition:border-color .2s}
+.prose a:hover{border-color:var(--forest)}
+
+/* section label */
+.section-label{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:500;display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.section-label::before{content:'';display:block;width:24px;height:1px;background:var(--gold)}
+
+/* buttons */
+.btn-primary{display:inline-block;padding:13px 30px;background:var(--navy);color:var(--warm-white);font-size:.85rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border-radius:4px;transition:background .2s,transform .2s}
+.btn-primary:hover{background:var(--slate);transform:translateY(-1px)}
+.btn-ghost{display:inline-block;padding:13px 30px;border:1px solid var(--border);color:var(--text-mid);font-size:.85rem;font-weight:400;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border-radius:4px;transition:border-color .2s,color .2s}
+.btn-ghost:hover{border-color:var(--navy);color:var(--navy)}
+
+/* ── TWO-COL LAYOUT ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+.two-col.align-center{align-items:center}
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+
+/* ── CARDS ── */
+.card{background:var(--cream);border-radius:10px;padding:36px;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(15,31,46,.08)}
+.card-icon{font-size:1.4rem;margin-bottom:20px}
+.card h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:500;color:var(--navy);margin-bottom:10px}
+.card p{font-size:.85rem;line-height:1.7;color:var(--text-mid)}
+
+/* ── PERSON CARD ── */
+.person-card{display:flex;flex-direction:column;gap:8px;padding:28px;border:1px solid var(--border);border-radius:8px}
+.person-name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;color:var(--navy)}
+.person-title{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.person-bio{font-size:.84rem;line-height:1.7;color:var(--text-mid);margin-top:4px}
+
+/* ── STAT ROW ── */
+.stat-row{display:flex;gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:48px 0}
+.stat-block{flex:1;padding:36px 32px;border-right:1px solid var(--border);text-align:center}
+.stat-block:last-child{border-right:none}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:var(--navy)}
+.stat-label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-light);margin-top:6px}
+
+/* ── GRANTEE TABLE ── */
+.grantee-year-nav{display:flex;gap:8px;margin-bottom:48px;flex-wrap:wrap}
+.year-btn{padding:8px 20px;border:1px solid var(--border);background:none;font-family:'DM Sans',sans-serif;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-mid);border-radius:100px;cursor:pointer;transition:all .2s}
+.year-btn:hover,.year-btn.active{background:var(--navy);border-color:var(--navy);color:var(--warm-white)}
+.grantee-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.grantee-item{background:var(--warm-white);padding:24px 28px}
+.grantee-item:hover{background:var(--cream)}
+.grantee-name{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--navy)}
+.grantee-area{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-top:4px}
+.grantee-desc{font-size:.82rem;color:var(--text-mid);margin-top:8px;line-height:1.6}
+
+/* ── FAQ ── */
+.faq-tabs{display:flex;gap:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:48px}
+.faq-tab{flex:1;padding:14px;font-size:.82rem;font-weight:400;letter-spacing:.06em;text-transform:uppercase;text-align:center;cursor:pointer;border:none;background:var(--warm-white);color:var(--text-mid);border-right:1px solid var(--border);transition:all .2s}
+.faq-tab:last-child{border-right:none}
+.faq-tab.active{background:var(--navy);color:var(--warm-white)}
+.faq-content{display:none}
+.faq-content.active{display:block}
+.faq-item{border-bottom:1px solid var(--border);padding:24px 0}
+.faq-q{font-size:1rem;font-weight:500;color:var(--navy);cursor:pointer;display:flex;justify-content:space-between;align-items:start;gap:20px}
+.faq-q::after{content:'+';font-size:1.2rem;font-weight:300;color:var(--text-light);flex-shrink:0;transition:transform .2s}
+.faq-item.open .faq-q::after{transform:rotate(45deg)}
+.faq-a{font-size:.9rem;line-height:1.8;color:var(--text-mid);margin-top:14px;display:none}
+.faq-item.open .faq-a{display:block}
+
+/* ── CONTACT FORM ── */
+.contact-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:72px;align-items:start}
+.contact-info-block{padding:36px;background:var(--cream);border-radius:10px}
+.contact-info-block h3{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;color:var(--navy);margin-bottom:20px}
+.contact-detail{display:flex;flex-direction:column;gap:4px;padding:16px 0;border-bottom:1px solid var(--border)}
+.contact-detail:last-child{border-bottom:none}
+.contact-detail-label{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-light)}
+.contact-detail-val{font-size:.95rem;color:var(--text-dark)}
+.contact-detail-val a{color:var(--forest);text-decoration:none}
+.form-group{margin-bottom:24px}
+.form-group label{display:block;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-light);margin-bottom:8px}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:14px 16px;border:1px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.92rem;color:var(--text-dark);background:var(--warm-white);transition:border-color .2s;outline:none}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--navy)}
+.form-group textarea{resize:vertical;min-height:120px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* ── MAP BLOCK ── */
+.map-placeholder{background:var(--cream);border-radius:10px;height:320px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.map-placeholder::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--mist) 0%,var(--cream) 100%)}
+.map-placeholder-text{position:relative;text-align:center}
+.map-placeholder-text p{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--navy);margin-top:8px}
+
+/* ── PROGRAM AREA HERO VARIANTS ── */
+.program-breadcrumb{display:flex;gap:8px;align-items:center;font-size:.78rem;color:rgba(253,251,248,.5);margin-bottom:24px}
+.program-breadcrumb a{color:var(--gold);text-decoration:none}
+.program-breadcrumb span{color:rgba(253,251,248,.3)}
+
+/* ── DARK BAND ── */
+.dark-band{background:var(--navy);padding:72px 80px;margin-top:72px}
+.dark-band .section-label::before{background:var(--gold)}
+.dark-band h2{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;color:var(--warm-white);margin:16px 0 20px}
+.dark-band p{font-size:.97rem;line-height:1.8;color:rgba(253,251,248,.65);max-width:560px}
+
+/* ── FORM 990 ── */
+.doc-list{list-style:none}
+.doc-item{display:flex;align-items:center;justify-content:space-between;padding:20px 0;border-bottom:1px solid var(--border)}
+.doc-item:last-child{border-bottom:none}
+.doc-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--navy)}
+.doc-meta{font-size:.78rem;color:var(--text-light)}
+
+/* ── EVENT SPACE ── */
+.event-gallery{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin:32px 0}
+.event-gallery img,.event-gallery-placeholder{border-radius:8px;background:var(--cream);width:100%}
+.event-gallery-main{height:320px;object-fit:cover}
+.event-gallery-side{display:flex;flex-direction:column;gap:16px}
+.event-gallery-sm{height:152px;background:var(--mist);border-radius:8px}
+.amenity-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:32px 0}
+.amenity{background:var(--warm-white);padding:24px 20px;text-align:center}
+.amenity-icon{font-size:1.4rem;margin-bottom:10px}
+.amenity-label{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-mid)}
+
+/* ── PRIVACY ── */
+.privacy-toc{background:var(--cream);border-radius:10px;padding:28px;margin-bottom:48px}
+.privacy-toc h3{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-light);margin-bottom:14px}
+.privacy-toc ol{padding-left:20px}
+.privacy-toc ol li{font-size:.88rem;color:var(--text-mid);margin-bottom:8px}
+.privacy-toc ol li a{color:var(--forest);text-decoration:none}
+
+/* ── FOOTER ── */
+footer{background:var(--cream);border-top:1px solid var(--border)}
+.footer-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:60px;padding:80px 80px 60px}
+.footer-logo{font-family:'Copperplate Gothic Bold','Copperplate','Copperplate Gothic',Copperplate,serif;font-size:1.2rem;font-weight:700;letter-spacing:.06em;color:#8b1a1a;margin-bottom:16px}
+.footer-tagline{font-size:.88rem;color:var(--text-light);line-height:1.7;margin-bottom:24px}
+.footer-address{font-size:.82rem;color:var(--text-mid);line-height:1.8}
+.footer-address a{color:var(--text-mid);text-decoration:none}
+.footer-col-title{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-light);margin-bottom:20px;font-weight:500}
+.footer-links{list-style:none}
+.footer-links li{margin-bottom:10px}
+.footer-links a{font-size:.85rem;color:var(--text-mid);text-decoration:none;transition:color .2s;cursor:pointer}
+.footer-links a:hover{color:var(--navy)}
+.footer-bottom{padding:24px 80px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.footer-copy{font-size:.78rem;color:var(--text-light)}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  nav{padding:0 24px}
+  .nav-links{display:none}
+  .inner-hero,.content-wrap,.dark-band{padding-left:28px;padding-right:28px}
+  .two-col,.three-col,.contact-grid,.grantee-grid,.footer-top{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .amenity-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-top{padding:48px 28px 32px}
+  .footer-bottom{padding:20px 28px;flex-direction:column;gap:8px;text-align:center}
+  .stat-row{flex-direction:column}
+  .stat-block{border-right:none;border-bottom:1px solid var(--border)}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════ NAV ═══════════════════════════════════ -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo" onclick="showPage('home')">
+    PCLB
+    <span>The Peter and Carmen Lucia Buck Foundation</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('home')">Home</a></li>
+    <li>
+      <a href="#">About <span class="chevron">▾</span></a>
+      <ul class="dropdown">
+        <li><a href="#" onclick="showPage('about')">About PCLB</a></li>
+        <li><a href="#" onclick="showPage('board-staff')">Board &amp; Staff</a></li>
+        <li><a href="#" onclick="showPage('form-990')">Form 990-PF</a></li>
+        <li><a href="#" onclick="showPage('event-space')">Event Spaces</a></li>
+        <li><a href="#" onclick="showPage('contact')">Contact Information</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#">Program Areas <span class="chevron">▾</span></a>
+      <ul class="dropdown">
+        <li><a href="#" onclick="showPage('programs')">Overview</a></li>
+        <li><a href="#" onclick="showPage('education')">Education</a></li>
+        <li><a href="#" onclick="showPage('outdoors')">Outdoors</a></li>
+        <li><a href="#" onclick="showPage('leap')">Land &amp; Easement (LEAP)</a></li>
+        <li><a href="#" onclick="showPage('medicine')">Medicine</a></li>
+        <li><a href="#" onclick="showPage('science')">Science</a></li>
+        <li><a href="#" onclick="showPage('family-projects')">Family Projects</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#">Grantees <span class="chevron">▾</span></a>
+      <ul class="dropdown">
+        <li><a href="#" onclick="showPage('grantees-2025')">2025 Grantees</a></li>
+        <li><a href="#" onclick="showPage('grantees-2024')">2024 Grantees</a></li>
+        <li><a href="#" onclick="showPage('grantees-2023')">2023 Grantees</a></li>
+        <li><a href="#" onclick="showPage('grantees-2022')">2022 Grantees</a></li>
+        <li><a href="#" onclick="showPage('grantees-2021')">2021 Grantees</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#">Apply <span class="chevron">▾</span></a>
+      <ul class="dropdown">
+        <li><a href="#" onclick="showPage('faq')">Frequently Asked Questions</a></li>
+        <li><a href="#" onclick="showPage('faq-application')">Application FAQs</a></li>
+        <li><a href="#" onclick="showPage('faq-reporting')">Reporting FAQs</a></li>
+        <li><a href="#" onclick="showPage('faq-technical')">Technical FAQs</a></li>
+        <li><a href="#" onclick="showPage('pri')">Program-Related Investments</a></li>
+      </ul>
+    </li>
+    <li><a href="#" class="nav-cta" onclick="showPage('contact')">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════════════════════════ HOME ═══════════════════════════════════ -->
+<div id="page-home" class="page active">
+  <section style="min-height:100vh;display:grid;grid-template-columns:1fr 1fr;overflow:hidden">
+    <div style="display:flex;flex-direction:column;justify-content:center;padding:80px 64px 80px 80px;position:relative">
+      <div style="position:absolute;top:0;right:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--border) 30%,var(--border) 70%,transparent)"></div>
+      <div class="section-label" style="margin-bottom:32px">Peter &amp; Carmen Lucia Buck Foundation</div>
+      <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,5vw,5rem);font-weight:300;line-height:1.08;color:var(--navy);margin-bottom:32px">Giving motivated<br>people the<br><em style="font-style:italic;color:var(--forest)">tools they need</em><br>to help themselves.</h1>
+      <div style="display:flex;gap:16px">
+        <a href="#" class="btn-primary" onclick="showPage('programs')">Explore Programs</a>
+        <a href="#" class="btn-ghost" onclick="showPage('grantees-2025')">View Grantees</a>
+      </div>
+    </div>
+    <div style="position:relative;overflow:hidden;background:var(--cream)">
+      <img src="https://pclbfoundation.org/wp-content/uploads/2020/08/home-washington.jpg" alt="" id="slide0" style="position:absolute;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity 1.2s ease">
+      <img src="https://pclbfoundation.org/wp-content/uploads/2020/08/home-hudson-highlands.jpg" alt="" id="slide1" style="position:absolute;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s ease">
+      <img src="https://pclbfoundation.org/wp-content/uploads/2020/08/home-prospect.jpg" alt="" id="slide2" style="position:absolute;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s ease">
+      <img src="https://pclbfoundation.org/wp-content/uploads/2020/08/home-scenic-hudson.jpg" alt="" id="slide3" style="position:absolute;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s ease">
+      <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(15,31,46,.18) 0%,rgba(45,74,56,.12) 100%);z-index:1"></div>
+      <div style="position:absolute;bottom:28px;right:28px;z-index:2;display:flex;gap:8px" id="slideDots">
+        <div class="sdot active" onclick="goSlide(0)"></div>
+        <div class="sdot" onclick="goSlide(1)"></div>
+        <div class="sdot" onclick="goSlide(2)"></div>
+        <div class="sdot" onclick="goSlide(3)"></div>
+      </div>
+    </div>
+  </section>
+  <div style="height:1px;background:var(--border);margin:0 80px"></div>
+  <section style="padding:80px;display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:start" class="reveal">
+    <div class="section-label">Our Mission</div>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,2.5vw,2.6rem);font-weight:300;line-height:1.35;color:var(--navy)">Giving motivated people the tools they need to help themselves.</p>
+  </section>
+  <div style="height:1px;background:var(--border);margin:0 80px"></div>
+  <section style="padding:80px;display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:start" class="reveal">
+    <div class="section-label">Our Program Areas</div>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,2vw,2rem);font-weight:300;line-height:1.45;color:var(--navy)">Creating opportunities for success in areas of significant importance, especially <em style="font-style:italic;color:var(--forest)">K-12 public education</em>.</p>
+  </section>
+  <div style="height:1px;background:var(--border);margin:0 80px"></div>
+  <section style="padding:0 80px 100px" class="reveal">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:52px">
+      <div><div class="section-label" style="margin-bottom:16px">What We Support</div><h2 style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:var(--navy)">Our Program Areas</h2></div>
+      <a href="#" class="btn-ghost" onclick="showPage('programs')" style="flex-shrink:0">View All</a>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+      <a href="#" class="prog-card" onclick="showPage('education')"><div class="prog-icon">📚</div><div class="prog-name">Education</div><div class="prog-desc">Supporting K–12 public schools and institutions that expand opportunity for all students.</div><div class="prog-link">Learn more →</div></a>
+      <a href="#" class="prog-card" onclick="showPage('outdoors')"><div class="prog-icon">🌿</div><div class="prog-name">Outdoors</div><div class="prog-desc">Preserving natural landscapes through land acquisition and conservation partnerships.</div><div class="prog-link">Learn more →</div></a>
+      <a href="#" class="prog-card" onclick="showPage('medicine')"><div class="prog-icon">🏥</div><div class="prog-name">Medicine</div><div class="prog-desc">Advancing healthcare access and medical research for underserved communities.</div><div class="prog-link">Learn more →</div></a>
+      <a href="#" class="prog-card" onclick="showPage('science')"><div class="prog-icon">🔬</div><div class="prog-name">Science</div><div class="prog-desc">Fueling discovery and scientific inquiry through grants to researchers and institutions.</div><div class="prog-link">Learn more →</div></a>
+      <a href="#" class="prog-card" onclick="showPage('family-projects')"><div class="prog-icon">🫱🏼‍🫲🏾</div><div class="prog-name">Family Projects</div><div class="prog-desc">Targeted initiatives reflecting the Buck family's personal priorities and commitments.</div><div class="prog-link">Learn more →</div></a>
+    </div>
+  </section>
+  <section style="background:var(--navy);padding:100px 80px" class="reveal">
+    <div>
+      <div class="section-label" style="color:var(--gold)"><span style="display:block;width:24px;height:1px;background:var(--gold)"></span>Our Grantees</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:var(--warm-white);margin-top:24px;line-height:1.1;margin-bottom:24px">Fostering long-term, high-impact partnerships in New York and Connecticut.</h2>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:40px">
+        <a href="#" class="year-pill active" onclick="showPage('grantees-2025')">2025</a>
+        <a href="#" class="year-pill" onclick="showPage('grantees-2024')">2024</a>
+        <a href="#" class="year-pill" onclick="showPage('grantees-2023')">2023</a>
+        <a href="#" class="year-pill" onclick="showPage('grantees-2022')">2022</a>
+        <a href="#" class="year-pill" onclick="showPage('grantees-2021')">2021</a>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-top">
+      <div><div class="footer-logo">PCLB Foundation</div><p class="footer-tagline">Giving motivated people the tools they need to help themselves.</p><div class="footer-address">633 Third Avenue, 16th Floor<br>New York, NY 10017<br><br><a href="mailto:inquiry@pclbfoundation.org">inquiry@pclbfoundation.org</a><br><a href="tel:2123606173">(212) 360-6173</a></div></div>
+      <div><div class="footer-col-title">About</div><ul class="footer-links"><li><a onclick="showPage('about')">About PCLB</a></li><li><a onclick="showPage('board-staff')">Board &amp; Staff</a></li><li><a onclick="showPage('form-990')">Form 990-PF</a></li><li><a onclick="showPage('event-space')">Event Spaces</a></li></ul></div>
+      <div><div class="footer-col-title">Programs</div><ul class="footer-links"><li><a onclick="showPage('education')">Education</a></li><li><a onclick="showPage('outdoors')">Outdoors / LEAP</a></li><li><a onclick="showPage('medicine')">Medicine</a></li><li><a onclick="showPage('science')">Science</a></li><li><a onclick="showPage('family-projects')">Family Projects</a></li></ul></div>
+      <div><div class="footer-col-title">Grantees &amp; Apply</div><ul class="footer-links"><li><a onclick="showPage('grantees-2025')">2025 Grantees</a></li><li><a onclick="showPage('grantees-2024')">2024 Grantees</a></li><li><a onclick="showPage('faq')">FAQ</a></li><li><a onclick="showPage('pri')">PRI</a></li><li><a onclick="showPage('privacy')">Privacy Policy</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span class="footer-copy">© 2026 PCLB Foundation. All rights reserved.</span><span class="footer-copy"><a onclick="showPage('privacy')" style="color:inherit;cursor:pointer;text-decoration:none">Privacy Policy</a></span></div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════ ABOUT ═══════════════════════════════════ -->
+<div id="page-about" class="page">
+  <div class="inner-hero">
+    <div class="breadcrumb"><a onclick="showPage('home')">Home</a> / About</div>
+    <h1>About <em>PCLB</em></h1>
+    <p class="inner-hero-sub" style="font-style:italic;font-family:'Cormorant Garamond',serif;font-size:1.2rem">Giving motivated people the tools they need to help themselves.</p>
+  </div>
+  <div class="content-wrap">
+    <div class="two-col align-center reveal">
+      <div class="prose">
+        <div class="section-label">Our Mission</div>
+        <p>The Peter and Carmen Lucia Buck Foundation (PCLB) is a private family foundation that seeks to help people solve problems in their communities. We identify and support dynamic leaders and effective organizations who work unselfishly to improve and empower those around them. We provide problem-solvers with connections, information, experience, and money that they need to provide their communities with critical skills and resources – ultimately, to do something remarkable.</p>
+      </div>
+      <div style="background:var(--cream);border-radius:10px;overflow:hidden;aspect-ratio:4/3">
+        <img src="https://pclbfoundation.org/wp-content/uploads/2022/02/charter-banner-page.jpg" alt="Foundation" style="width:100%;height:100%;object-fit:cover">
+      </div>
+    </div>
+    <div style="margin-top:72px" class="reveal">
+      <div class="section-label" style="margin-bottom:32px">Core Values</div>
+      <p style="font-size:.95rem;line-height:1.8;color:var(--text-mid);margin-bottom:40px">PCLB's work is guided by five core values:</p>
+      <div style="display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+        <div style="background:var(--warm-white);padding:32px 36px;display:grid;grid-template-columns:160px 1fr;gap:32px;align-items:start">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;color:var(--navy)">Excellence</div>
+          <p style="font-size:.92rem;line-height:1.8;color:var(--text-mid)">We are rigorous in everything we do. We believe every task warrants our best work and will not begin a project unless we can accomplish it with the highest standards. We understand that rigor and quality take time, and are patient, persistent and diligent in working towards our outcomes. We strive for continuous improvement.</p>
+        </div>
+        <div style="background:var(--warm-white);padding:32px 36px;display:grid;grid-template-columns:160px 1fr;gap:32px;align-items:start">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;color:var(--navy)">Fairness</div>
+          <p style="font-size:.92rem;line-height:1.8;color:var(--text-mid)">We are open to and respectful of a diversity of people, viewpoints, and ideas. We treat all with dignity, regardless of whether we agree with their ideas or how well they align with our mission. We listen to broad perspectives, include all voices, and put effort into ensuring we are listening equitably. We are cognizant of the inherent power paradigm in our work.</p>
+        </div>
+        <div style="background:var(--warm-white);padding:32px 36px;display:grid;grid-template-columns:160px 1fr;gap:32px;align-items:start">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;color:var(--navy)">Humility</div>
+          <p style="font-size:.92rem;line-height:1.8;color:var(--text-mid)">We are here to help people. While we have well-formed opinions and act based on what we think is right, we know that we will sometimes be wrong. We are receptive to feedback and criticism, and evolve as we learn from the communities we serve. We eschew public acclaim and do not seek the spotlight unless it is in the specific interest of our program; we let our grantees and their results speak for themselves.</p>
+        </div>
+        <div style="background:var(--warm-white);padding:32px 36px;display:grid;grid-template-columns:160px 1fr;gap:32px;align-items:start">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;color:var(--navy)">Self-Reliance</div>
+          <p style="font-size:.92rem;line-height:1.8;color:var(--text-mid)">We are independent in motivation and action. We seek perspectives and information from others and use that input to make our own decisions. We build the expertise and capabilities necessary to do the work – and lead that work, when appropriate. Ultimately, we are comfortable forging our own path.</p>
+        </div>
+        <div style="background:var(--navy);padding:32px 36px;display:grid;grid-template-columns:160px 1fr;gap:32px;align-items:start">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;color:var(--gold-light)">Trustworthiness</div>
+          <p style="font-size:.92rem;line-height:1.8;color:rgba(253,251,248,.7)">We are good partners. We keep our promises and maintain a consistency of purpose over time, ensuring that we are a reliable resource for those with whom we work. We are honest about our actions and beliefs, and conduct our business in a transparent manner. We act in good faith, and we expect others to do the same. We seek and share the truth, even when that truth is difficult – doing the right thing, even when nobody is watching.</p>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:48px;display:flex;gap:14px" class="reveal">
+      <a href="#" class="btn-primary" onclick="showPage('board-staff')">Meet the Board &amp; Staff</a>
+      <a href="#" class="btn-ghost" onclick="showPage('programs')">Explore Programs</a>
+    </div>
+  </div>
+  <footer>FOOTER_PLACEHOLDER</footer>
+</div>
+
+<!-- ═══════════════════════════════════ BOARD & STAFF ═══════════════════════════════════ -->
+<div id="page-board-staff" class="page">
+  <div class="inner-hero">
+    <div class="breadcrumb"><a onclick="showPage('home')">Home</a> / <a onclick="showPage('about')">About</a> / Board &amp; Staff</div>
+    <h1>Who <em>We Are</em></h1>
+    <p class="inner-hero-sub">The board members and staff who guide the Foundation's mission and manage its day-to-day operations.</p>
+  </div>
+  <div class="content-wrap">
+    <div class="two-col reveal" style="align-items:start;gap:80px">
+      <div>
+        <div class="section-label" style="margin-bottom:24px">Board of Directors</div>
+        <div style="display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden">
+          <div style="background:var(--warm-white);padding:20px 24px"><div class="person-name">D. Ben Benoit</div></div>
+          <div style="background:var(--warm-white);padding:20px 24px"><div class="person-name">Christopher Buck</div></div>
+          <div style="background:var(--warm-white);padding:20px 24px"><div class="person-name">Michael Buck</div></div>
+          <div style="background:var(--warm-white);padding:20px 24px"><div class="person-name">Samuel Buck</div></div>
+          <div style="background:var(--warm-white);padding:20px 24px"><div class="person-name">William Buck</div></div>
+          <div style="background:var(--warm-white);padding:20px 24px"><div class="person-name">Vera Lourenco</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label" style="margin-bottom:24px">Staff</div>
+        <div style="display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden">
+          <div style="background:var(--warm-white);padding:16px 24px;display:flex;justify-content:space-between;align-items:baseline;gap:16px"><span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--navy)">Angela Andrade</span><span style="font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap">Grants Associate</span></div>
+          <div style="background:var(--warm-white);padding:16px 24px;display:flex;justify-content:space-between;align-items:baseline;gap:16px"><span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--navy)">D. Ben Benoit</span><span style="font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap">Chief Financial Officer</span></div>
+          <div style="background:var(--warm-white);padding:16px 24px;display:flex;justify-content:space-between;align-items:baseline;gap:16px"><span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--navy)">Carrie Bernier</span><span style="font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap">Program Director</span></div>
+          <div style="background:var(--warm-white);padding:16px 24px;display:flex;justify-content:space-between;align-items:baseline;gap:16px"><span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--navy)">Bob Canace</span><span style="font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap">Senior Program Officer</span></div>
+          <div style="background:var(--warm-white);padding:16px 24px;display:flex;justify-content:space-between;align-items:baseline;gap:16px"><span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--navy)">Maura Keenan</span><span style="font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap">Program Officer</span></div>
+          <div style="background:var(--warm-white);padding:16px 24px;display:flex;justify-content:space-between;align-items:baseline;gap:16px"><span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--navy)">Lillian Liang</span><span style="font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap">Program &amp; Administrative Officer</span></div>
+          <div style="background:var(--warm-white);padding:16px 24px;display:flex;justify-content:space-between;align-items:baseline;gap:16px"><span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--navy)">Jenn Moskel</span><span style="font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap">Program Associate</span></div>
+          <div style="background:var(--warm-white);padding:16px 24px;display:flex;justify-content:space-between;align-items:baseline;gap:16px"><span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--navy)">Casey Nguyen</span><span style="font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap">Program Associate</span></div>
+          <div style="background:var(--warm-white);padding:16px 24px;display:flex;justify-content:space-between;align-items:baseline;gap:16px"><span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--navy)">Dan Park</span><span style="font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap">Program Officer</span></div>
+          <div style="background:var(--warm-white);padding:16px 24px;display:flex;justify-content:space-between;align-items:baseline;gap:16px"><span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--navy)">Kathryn Pierce</span><span style="font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap">Program Officer</span></div>
+          <div style="background:var(--warm-white);padding:16px 24px;display:flex;justify-content:space-between;align-items:baseline;gap:16px"><span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--navy)">Quinn Sayles</span><span style="font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap">Finance &amp; HR Manager</span></div>
+          <div style="background:var(--navy);padding:16px 24px;display:flex;justify-content:space-between;align-items:baseline;gap:16px"><span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--warm-white)">Carrie Schindele</span><span style="font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-light);white-space:nowrap">Executive Director</span></div>
+          <div style="background:var(--warm-white);padding:16px 24px;display:flex;justify-content:space-between;align-items:baseline;gap:16px"><span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--navy)">Padma Seemangal</span><span style="font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap">Program Officer</span></div>
+          <div style="background:var(--warm-white);padding:16px 24px;display:flex;justify-content:space-between;align-items:baseline;gap:16px"><span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--navy)">Eileen Tavarez</span><span style="font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap">Grants &amp; Administrative Assistant</span></div>
+          <div style="background:var(--warm-white);padding:16px 24px;display:flex;justify-content:space-between;align-items:baseline;gap:16px"><span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--navy)">Harita Vyas</span><span style="font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap">Program Associate</span></div>
+          <div style="background:var(--warm-white);padding:16px 24px;display:flex;justify-content:space-between;align-items:baseline;gap:16px"><span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--navy)">Lisa Weekes</span><span style="font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap">Program Officer</span></div>
+          <div style="background:var(--warm-white);padding:16px 24px;display:flex;flex-direction:column;gap:4px"><div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px"><span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--navy)">Daniel Weiss, PhD</span><span style="font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap">Project Director</span></div><div style="font-size:.78rem;font-style:italic;color:var(--text-light)">Fundação Carmem Lucia</div></div>
+          <div style="background:var(--warm-white);padding:16px 24px;display:flex;justify-content:space-between;align-items:baseline;gap:16px"><span style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--navy)">Julie Wong</span><span style="font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap">Grants &amp; Administrative Manager</span></div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:48px;padding:36px;background:var(--cream);border-radius:10px" class="reveal">
+      <div class="section-label">Contact the Team</div>
+      <p style="font-size:.95rem;line-height:1.8;color:var(--text-mid);margin-top:12px;max-width:560px">For inquiries about our programs or grant opportunities, please reach out to our team directly.</p>
+      <a href="#" class="btn-primary" style="margin-top:20px;display:inline-block" onclick="showPage('contact')">Get in Touch</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ FORM 990 ═══════════════════════════════════ -->
+<div id="page-form-990" class="page">
+  <div class="inner-hero">
+    <div class="breadcrumb"><a onclick="showPage('home')">Home</a> / <a onclick="showPage('about')">About</a> / Form 990-PF</div>
+    <h1>Form <em>990-PF</em></h1>
+    <p class="inner-hero-sub">The Foundation makes available its most recent Forms 990-PF in PDF format.</p>
+  </div>
+  <div class="content-wrap">
+    <div class="two-col reveal" style="align-items:start">
+      <div>
+        <div class="section-label" style="margin-bottom:24px">Annual Filings</div>
+        <ul class="doc-list">
+          <li class="doc-item">
+            <div><div class="doc-name">2024 Form 990-PF</div><div class="doc-meta">PDF</div></div>
+            <a href="https://pclbfoundation.org/wp-content/uploads/2026/01/PCLB-990PF-Fiscal-2025-Website.pdf" target="_blank" class="btn-ghost" style="padding:8px 18px;font-size:.75rem">Download</a>
+          </li>
+          <li class="doc-item">
+            <div><div class="doc-name">2023 Form 990-PF</div><div class="doc-meta">PDF</div></div>
+            <a href="https://pclbfoundation.org/wp-content/uploads/2025/03/PCLB-990PF-Fiscal-2024-Website.pdf" target="_blank" class="btn-ghost" style="padding:8px 18px;font-size:.75rem">Download</a>
+          </li>
+          <li class="doc-item">
+            <div><div class="doc-name">2022 Form 990-PF</div><div class="doc-meta">PDF</div></div>
+            <a href="https://pclbfoundation.org/wp-content/uploads/2023/12/2022-990PF-PCLB.pdf" target="_blank" class="btn-ghost" style="padding:8px 18px;font-size:.75rem">Download</a>
+          </li>
+          <li class="doc-item">
+            <div><div class="doc-name">2021 Form 990-PF</div><div class="doc-meta">PDF</div></div>
+            <a href="https://pclbfoundation.org/wp-content/uploads/2022/11/2022-990PF-PCLB-Final-for-Website.pdf" target="_blank" class="btn-ghost" style="padding:8px 18px;font-size:.75rem">Download</a>
+          </li>
+          <li class="doc-item">
+            <div><div class="doc-name">2020 Form 990-PF</div><div class="doc-meta">PDF</div></div>
+            <a href="https://pclbfoundation.org/wp-content/uploads/2021/12/061547852_202106_990PF.pdf" target="_blank" class="btn-ghost" style="padding:8px 18px;font-size:.75rem">Download</a>
+          </li>
+          <li class="doc-item">
+            <div><div class="doc-name">2019 Form 990-PF</div><div class="doc-meta">PDF</div></div>
+            <a href="https://pclbfoundation.org/wp-content/uploads/2020/12/061547852_202006_990PF.pdf" target="_blank" class="btn-ghost" style="padding:8px 18px;font-size:.75rem">Download</a>
+          </li>
+        </ul>
+        <div style="margin-top:20px;padding:20px 24px;background:var(--cream);border-radius:8px">
+          <p style="font-size:.88rem;line-height:1.7;color:var(--text-mid)">For Forms 990-PF dating back to 2000, email us at <a href="mailto:inquiry@pclbfoundation.org" style="color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist)">inquiry@pclbfoundation.org</a>.</p>
+        </div>
+      </div>
+      <div>
+        <div class="section-label" style="margin-bottom:24px">IRS Determination Letter</div>
+        <ul class="doc-list">
+          <li class="doc-item">
+            <div><div class="doc-name">IRS Determination Letter</div><div class="doc-meta">PDF</div></div>
+            <a href="https://pclbfoundation.org/wp-content/uploads/2016/08/PCLB-IRS-Determination-Letter-2016.03.29.pdf" target="_blank" class="btn-ghost" style="padding:8px 18px;font-size:.75rem">Download</a>
+          </li>
+        </ul>
+        <div style="margin-top:32px;padding:28px;background:var(--cream);border-radius:10px">
+          <div class="section-label">About Form 990-PF</div>
+          <p style="font-size:.88rem;line-height:1.75;color:var(--text-mid);margin-top:12px">Form 990-PF is the annual information return filed by private foundations with the Internal Revenue Service. It provides a comprehensive view of the Foundation's assets, income, expenses, and grants paid during each fiscal year, and is available for public inspection.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ EVENT SPACE ═══════════════════════════════════ -->
+<div id="page-event-space" class="page">
+  <div class="inner-hero">
+    <div class="breadcrumb"><a onclick="showPage('home')">Home</a> / <a onclick="showPage('about')">About</a> / Event Spaces</div>
+    <h1>PCLB <em>Event Spaces</em></h1>
+    <p class="inner-hero-sub">The PCLB Foundation is pleased to make available meeting spaces to our grantees and others in our network looking to host a meeting or event.</p>
+  </div>
+  <div class="content-wrap">
+    <!-- Photo gallery -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:60px" class="reveal">
+      <img src="https://pclbfoundation.org/wp-content/uploads/2018/09/Board-Room_Picture-1.jpg" alt="The Board Room" style="width:100%;height:200px;object-fit:cover;border-radius:8px">
+      <img src="https://pclbfoundation.org/wp-content/uploads/2018/09/Event-Space_-1.jpg" alt="The Event Space" style="width:100%;height:200px;object-fit:cover;border-radius:8px">
+      <img src="https://pclbfoundation.org/wp-content/uploads/2018/09/Event-Space_Cafe-1.jpg" alt="The Café" style="width:100%;height:200px;object-fit:cover;border-radius:8px">
+    </div>
+
+    <div class="two-col reveal" style="align-items:start">
+      <div class="prose">
+        <div class="section-label">Details</div>
+        <p>The PCLB Foundation is pleased to make available meeting spaces to our grantees and others in our network looking to host a meeting/event. Information about the different rooms, capacity, and audio-visual equipment is below.</p>
+        <p>Use of these rooms is free of charge. Rooms are available on weekdays 8:30 AM – 5:00 PM (including set-up and clean-up time by the meeting organizer). Requests for use outside of normal business hours will be considered on a case-by-case basis.</p>
+        <p>The PCLB Foundation is located at 633 Third Avenue, 16th Floor, New York, NY 10017. All deliveries, catering, and other services should be directed to this address.</p>
+
+        <h3>How to Request</h3>
+        <p>If you are interested in reserving a room, reach out to your PCLB contact to discuss your event needs.</p>
+        <p>For general inquiries and to arrange a walk-through, contact us at <a href="mailto:inquiry@pclbfoundation.org">inquiry@pclbfoundation.org</a> or (212) 360-6173.</p>
+        <p>You may also contact Eileen Tavarez directly at (646) 869-0784.</p>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="section-label" style="margin-bottom:4px">Important Documents</div>
+
+        <div style="border:1px solid var(--border);border-radius:10px;padding:24px">
+          <div style="font-weight:500;color:var(--navy);margin-bottom:6px;font-size:.95rem">Spaces and Logistics</div>
+          <p style="font-size:.84rem;line-height:1.65;color:var(--text-mid);margin-bottom:14px">This document details the PCLB Foundation's available spaces, their rules and limitations, and the application process and day-of logistics.</p>
+          <a href="https://pclbfoundation.org/wp-content/uploads/2018/08/PCLB_Event_Spaces_Logistics.pdf" target="_blank" class="btn-ghost" style="padding:8px 18px;font-size:.78rem;display:inline-block">Download PDF</a>
+        </div>
+
+        <div style="border:1px solid var(--border);border-radius:10px;padding:24px">
+          <div style="font-weight:500;color:var(--navy);margin-bottom:6px;font-size:.95rem">Event Space Floor Plan</div>
+          <p style="font-size:.84rem;line-height:1.65;color:var(--text-mid);margin-bottom:14px">This document provides a diagram of the Event Space and Café with sample layouts for events. Please note that these samples include furniture that may not be available for use. Additional tables, chairs, etc. may be rented separately.</p>
+          <a href="https://pclbfoundation.org/wp-content/uploads/2018/09/PCLB_Event_Space_Floor_Plan.pdf" target="_blank" class="btn-ghost" style="padding:8px 18px;font-size:.78rem;display:inline-block">Download PDF</a>
+        </div>
+
+        <div style="border:1px solid var(--border);border-radius:10px;padding:24px">
+          <div style="font-weight:500;color:var(--navy);margin-bottom:6px;font-size:.95rem">Guest Use of Equipment Guide</div>
+          <p style="font-size:.84rem;line-height:1.65;color:var(--text-mid);margin-bottom:14px">This document outlines the PCLB Foundation's technical and A/V equipment.</p>
+          <a href="https://pclbfoundation.org/wp-content/uploads/2018/09/PCLB_Event_Space_Guest_Use_of_Equipment.pdf" target="_blank" class="btn-ghost" style="padding:8px 18px;font-size:.78rem;display:inline-block">Download PDF</a>
+        </div>
+
+        <div style="border:1px solid var(--border);border-radius:10px;padding:24px">
+          <div style="font-weight:500;color:var(--navy);margin-bottom:6px;font-size:.95rem">Special Agreement</div>
+          <p style="font-size:.84rem;line-height:1.65;color:var(--text-mid);margin-bottom:14px">This document contains both the final agreement template and an overview of our rules and regulations for grantee review. Final submission of this form will be electronically sent to you over DocuSign.</p>
+          <a href="https://pclbfoundation.org/wp-content/uploads/2026/02/Special-Events-Agreement-BLANK.pdf" target="_blank" class="btn-ghost" style="padding:8px 18px;font-size:.78rem;display:inline-block">Download PDF</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ CONTACT ═══════════════════════════════════ -->
+<div id="page-contact" class="page">
+  <div class="inner-hero">
+    <div class="breadcrumb"><a onclick="showPage('home')">Home</a> / Contact</div>
+    <h1>Contact <em>Information</em></h1>
+    <p class="inner-hero-sub">General inquiries and correspondence.</p>
+  </div>
+  <div class="content-wrap">
+    <div class="reveal" style="max-width:560px">
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:400;color:var(--navy);margin-bottom:28px">General Inquiries and Correspondence</h2>
+      <p style="font-size:.95rem;line-height:1.8;color:var(--text-mid);margin-bottom:32px">Please direct general inquiries and correspondence to:</p>
+      <div class="contact-info-block">
+        <div class="contact-detail"><div class="contact-detail-label">Address</div><div class="contact-detail-val">The PCLB Foundation<br>633 Third Avenue, 16th Floor<br>New York, NY 10017</div></div>
+        <div class="contact-detail"><div class="contact-detail-label">Email</div><div class="contact-detail-val"><a href="mailto:inquiry@pclbfoundation.org" style="color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist)">inquiry@pclbfoundation.org</a></div></div>
+        <div class="contact-detail"><div class="contact-detail-label">Phone</div><div class="contact-detail-val"><a href="tel:2123606173" style="color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist)">(212) 360-6173</a></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ PROGRAMS OVERVIEW ═══════════════════════════════════ -->
+<div id="page-programs" class="page">
+  <div class="inner-hero">
+    <div class="breadcrumb"><a onclick="showPage('home')">Home</a> / Program Areas</div>
+    <h1>Program <em>Areas</em></h1>
+    <p class="inner-hero-sub">PCLB makes grants in five program areas.</p>
+  </div>
+  <div class="content-wrap wide">
+    <div class="two-col reveal" style="align-items:start;margin-bottom:60px">
+      <div class="prose">
+        <div class="section-label">Our Approach</div>
+        <p>Our choice of work in these program areas is guided by a desire for strategic and systemic change, by our founders' intent, by our Board members' interests, and by our staff's expertise.</p>
+        <p>Within these program areas, we seek to support the highest-quality, most effective organizations that align with our broad mission of giving motivated people the tools they need to help themselves and that align with our more specific program area goals. Broadly, we provide the following types of financial support:</p>
+        <p><strong>General Operating:</strong> PCLB prefers to make general operating grants, to give our grantees the greatest ability to do the work they know is most important to meet our shared goals. Generally, we have general operating relationships with organizations that last for an extended period, recognizing that many of the issues on which we work take time to address.</p>
+        <p><strong>Restricted Support:</strong> PCLB also makes restricted grants, often to focus on areas of particular geographic interest or to support a specific department or area of work within an organization that has a broad scope.</p>
+        <p><strong>Big Bets:</strong> Philanthropy is uniquely positioned to take risks and try big things. In this spirit, PCLB makes a limited number of grants to fund especially large, time-limited projects that have the potential to change narratives around and trajectories of grantees' work.</p>
+        <p><strong>Program-Related Investments:</strong> PCLB makes PRIs in the form of low-interest loans, offered to current grantees to complete land conservation projects and to meet the facility needs of charter schools.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="padding:24px 28px;background:var(--cream);border-radius:10px">
+          <div style="font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-light);margin-bottom:6px">Questions?</div>
+          <p style="font-size:.88rem;color:var(--text-mid);line-height:1.65">Please direct questions and requests to:<br><a href="mailto:inquiry@pclbfoundation.org" style="color:var(--forest);text-decoration:none">inquiry@pclbfoundation.org</a></p>
+        </div>
+        <a href="#" onclick="showPage('grantees-2025')" style="padding:24px 28px;background:var(--navy);border-radius:10px;text-decoration:none;display:block">
+          <div style="font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(253,251,248,.5);margin-bottom:6px">Recent Grantees</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--warm-white)">View our 2025 grants →</div>
+        </a>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px" class="reveal">
+      <a href="#" class="prog-card-lg" onclick="showPage('education')"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><span style="font-size:2rem">📚</span><span style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)">Education</span></div><h3 style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--navy);margin-bottom:12px">K–12 Public Education</h3><p style="font-size:.88rem;line-height:1.7;color:var(--text-mid)">Preparing all people to live rewarding, choice-filled lives by championing an excellent K-12 education.</p><div style="font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-top:24px">Learn more →</div></a>
+      <a href="#" class="prog-card-lg" onclick="showPage('outdoors')"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><span style="font-size:2rem">🌿</span><span style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)">Outdoors</span></div><h3 style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--navy);margin-bottom:12px">Health &amp; Vitality of the Outdoors</h3><p style="font-size:.88rem;line-height:1.7;color:var(--text-mid)">Supporting land conservation and camping programs to protect natural spaces and connect people to nature.</p><div style="font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-top:24px">Learn more →</div></a>
+      <a href="#" class="prog-card-lg" onclick="showPage('medicine')"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><span style="font-size:2rem">🏥</span><span style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)">Medicine</span></div><h3 style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--navy);margin-bottom:12px">Fill Gaps in Health Care</h3><p style="font-size:.88rem;line-height:1.7;color:var(--text-mid)">Supporting rural health care and global access to medical care to improve quality of life.</p><div style="font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-top:24px">Learn more →</div></a>
+      <a href="#" class="prog-card-lg" onclick="showPage('science')"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><span style="font-size:2rem">🔬</span><span style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)">Science</span></div><h3 style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--navy);margin-bottom:12px">Catalyze Scientific Research</h3><p style="font-size:.88rem;line-height:1.7;color:var(--text-mid)">Investing in early-stage research and the next generation of scientists across a breadth of fields.</p><div style="font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-top:24px">Learn more →</div></a>
+      <a href="#" class="prog-card-lg" onclick="showPage('family-projects')"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><span style="font-size:2rem">🫱🏼‍🫲🏾</span><span style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)">Family Projects</span></div><h3 style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--navy);margin-bottom:12px">Honor Family Connections</h3><p style="font-size:.88rem;line-height:1.7;color:var(--text-mid)">Supporting organizations born out of personal interests and connections, including work in Danbury, CT and beyond.</p><div style="font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-top:24px">Learn more →</div></a>
+      <a href="#" class="prog-card-lg" onclick="showPage('pri')" style="background:var(--navy)"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><span style="font-size:2rem">💼</span><span style="font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-light)">Apply</span></div><h3 style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:var(--warm-white);margin-bottom:12px">Program-Related Investments</h3><p style="font-size:.88rem;line-height:1.7;color:rgba(253,251,248,.6)">Low-interest loans to help current grantees complete land conservation projects and meet facility needs.</p><div style="font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-light);margin-top:24px">Learn more →</div></a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ EDUCATION ═══════════════════════════════════ -->
+<div id="page-education" class="page">
+  <div class="inner-hero">
+    <div class="breadcrumb"><a onclick="showPage('home')">Home</a> / <a onclick="showPage('programs')">Programs</a> / Education</div>
+    <h1><em>Education</em></h1>
+    <p class="inner-hero-sub">Goal: Prepare all people to live rewarding, choice-filled lives by championing an excellent K-12 education.</p>
+  </div>
+  <div class="content-wrap">
+    <div class="prose reveal" style="max-width:860px">
+      <p>All students deserve an education that helps them build the knowledge, skills, and mindsets required to pursue their personal interests and ambitions. Schools should be teaching academic essentials while simultaneously cultivating intellectual curiosity and inspiring life-long learning. Schools must also help families instill essential social and emotional skills in students as a component of a rigorous academic environment. Ultimately, all students should graduate believing in their ability to succeed as capable, contributing members of society.</p>
+      <p>To achieve our goal of preparing al PCLB currently supports organizations working in Connecticut and New York City to achieve:</p>
+      <ul>
+        <li><strong>Charter Excellence —</strong> Sustain and improve the overall quality of the charter school sector, such that an increasing portion of charter schools achieve academic outcomes that outperform their host district, the state, and ultimately non-low-income students.</li>
+        <li><strong>Charter Growth —</strong> Grow the charter sector and increase the percentage of students who attend charter schools – especially in communities lacking charter school options – by opening new, high-quality charter schools or expanding existing excellent charter schools.</li>
+      </ul>
+
+      <h3>People Quality</h3>
+      <p>Research tells us that teachers are the number one in-school factor that drives student success. Yet not all schools and communities have the effective teachers they need because of declining interest in the teaching profession, mismatched supply and demand, poor training, and insufficient retention. For these reasons, our grant-making focuses on recruiting, training, and retaining a workforce that can best teach students.</p>
+      <p>More specifically, PCLB currently supports organizations working in Connecticut and New York City to address and improve:</p>
+      <ul>
+        <li><strong>Teacher Preparation —</strong> Cultivate highly effective teachers by increasing the number of teacher candidates who are trained through educator preparation programs that use a teacher residency model.</li>
+        <li><strong>Teacher Shortages —</strong> Ensure that students in every classroom have the math, science, and special education teachers they need, by entirely eliminating teacher vacancies in these areas.</li>
+        <li><strong>Teacher Diversity —</strong> Diversify the teaching workforce such that schools have a teaching workforce that is reflective of the demographics of their K-12 students.</li>
+      </ul>
+
+      <h3>Advocacy</h3>
+      <p>What happens in schools is governed in critical ways by policy at the city, state, and federal levels. Well-designed and well-implemented policies can have important, positive impacts on students' educational experiences and outcomes. We support and partner with organizations that help create and advocate for a policy environment in which great schools and students can thrive.</p>
+      <p>More specifically, PCLB currently supports organizations working in Connecticut and New York in the following critical policy areas:</p>
+      <ul>
+        <li><strong>School Finance —</strong> Ensure public education funding is allocated in a way that is fair across all students and public school types and is most likely to maximize student achievement.</li>
+        <li><strong>Charter Schools —</strong> Ensure a policy environment that enables excellent charter schools to thrive.</li>
+        <li><strong>People Quality —</strong> Ensure a policy environment that creates the teacher workforce that students need and deserve.</li>
+      </ul>
+    </div>
+    <div style="margin-top:48px;padding:24px 28px;background:var(--cream);border-radius:10px;max-width:860px" class="reveal">
+      <p style="font-size:.88rem;line-height:1.75;color:var(--text-mid)">Please direct questions and requests in this area to: <a href="mailto:inquiry@pclbfoundation.org" style="color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist)">inquiry@pclbfoundation.org</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ OUTDOORS ═══════════════════════════════════ -->
+<div id="page-outdoors" class="page">
+  <div class="inner-hero">
+    <div class="breadcrumb"><a onclick="showPage('home')">Home</a> / <a onclick="showPage('programs')">Programs</a> / Outdoors</div>
+    <h1><em>Outdoors</em></h1>
+    <p class="inner-hero-sub">Goal: Ensure the health and vitality of the outdoors.</p>
+  </div>
+  <div class="content-wrap">
+    <div class="two-col align-center reveal">
+      <div class="prose">
+        <p>Natural and smartly developed spaces in both rural and urban settings are critical for people and the environment. These spaces encompass a variety of landscapes and ecosystems that give home to a diversity of wildlife and provide numerous benefits to people. These benefits include improved well-being through access to nature, clean air, fresh water, farmed food, and a more life-sustaining planet. Priority lands need to be protected, managed, and made accessible today, so that such benefits will be available for generations to come.</p>
+        <p>To ensure the health and vitality of the outdoors, we support and partner with organizations engaged in Land Conservation work and Camping programs.</p>
+        <h3>Land Conservation</h3>
+        <p>Despite the clear benefits of natural habitats and open space, many places are under significant pressure and threats, including those from development and a changing climate. A direct route to addressing these threats is to preserve and protect land for the long-term.</p>
+        <p>PCLB currently supports organizations working in Connecticut, New York's Hudson River and Lake Champlain Valleys, and select areas in Maine to achieve:</p>
+        <ul>
+          <li><strong>Preservation —</strong> Preserve and steward additional acres of land, especially lands that are critical habitats, that are climate resilient, and that protect and create connections to migratory corridors.</li>
+          <li><strong>Connections —</strong> Ensure public access to protected land for all, by undertaking projects that provide improved access to protected open space.</li>
+          <li><strong>Strength and Sustainability —</strong> Strengthen land trusts by promoting and facilitating mergers that result in professional, sustainable, and active regional land trusts.</li>
+        </ul>
+        <h3>Camping</h3>
+        <p>Exposure to the outdoors helps youth to appreciate its importance — now and throughout their lives. Camp experiences foster a myriad of skills and values including independence, self-reliance, fitness, adaptability, and teamwork. Because of this, we support organizations that provide youth who otherwise could not afford camp with healthy, safe, traditional outdoors experiences.</p>
+        <p>PCLB supports a well-established cohort of camping organizations in New York and Connecticut. We do not anticipate adding significantly to this group of grantees.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="background:var(--cream);border-radius:10px;overflow:hidden;aspect-ratio:4/3"><img src="https://pclbfoundation.org/wp-content/uploads/2020/08/home-hudson-highlands.jpg" alt="Hudson Highlands" style="width:100%;height:100%;object-fit:cover"></div>
+        <div style="padding:28px;background:var(--forest);border-radius:10px">
+          <div class="section-label" style="color:rgba(253,251,248,.6)"><span style="background:rgba(253,251,248,.4);display:block;width:24px;height:1px"></span>LEAP Program</div>
+          <p style="font-size:.88rem;line-height:1.7;color:rgba(253,251,248,.8);margin-top:12px;margin-bottom:16px">PCLB offers grants to help land trusts complete active land conservation projects in the Hudson and Champlain Valleys of New York and select areas in Maine.</p>
+          <a href="#" onclick="showPage('leap')" style="font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-light);text-decoration:none">Learn about LEAP →</a>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:48px;display:flex;gap:14px" class="reveal">
+      <a href="#" class="btn-primary" onclick="showPage('leap')">Explore LEAP</a>
+      <a href="#" class="btn-ghost" onclick="showPage('grantees-2025')">View Grantees</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ LEAP ═══════════════════════════════════ -->
+<div id="page-leap" class="page">
+  <div class="inner-hero">
+    <div class="breadcrumb"><a onclick="showPage('home')">Home</a> / <a onclick="showPage('programs')">Programs</a> / <a onclick="showPage('outdoors')">Outdoors</a> / LEAP</div>
+    <h1>Land &amp; Easement<br><em>Acquisition Program</em></h1>
+    <p class="inner-hero-sub">LEAP provides grants for land conservation organizations to complete projects in the Hudson River and Lake Champlain Watersheds in New York and in select areas in Maine.</p>
+  </div>
+  <div class="content-wrap">
+    <div class="two-col align-center reveal">
+      <div class="prose">
+        <p>The Peter and Carmen Lucia Buck Foundation's (PCLB) Outdoors Program seeks to increase the pace of land conservation, protect critical habitat, contribute to climate resilience, and connect people to nature. To advance these goals, PCLB established the Land and Easement Acquisition Program (LEAP) that provides grants for land conservation organizations to complete projects in the Hudson River and Lake Champlain Watersheds in New York and in select areas in Maine. LEAP grants are intended to close funding gaps for active projects that are otherwise ready to close. Funds can be used to acquire land and conservation easements. Priority will be given to projects that:</p>
+        <ul>
+          <li>Interconnect open space.</li>
+          <li>Promote biodiversity.</li>
+          <li>Address climate resilience.</li>
+          <li>Protect high-quality water resources.</li>
+          <li>Provide meaningful public access opportunities.</li>
+        </ul>
+        <p>Complete program guidelines can be found below. Click for GIS files that identify the eligible geographic areas in New York and Maine.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="background:var(--cream);border-radius:10px;overflow:hidden;aspect-ratio:4/3"><img src="https://pclbfoundation.org/wp-content/uploads/2020/08/home-scenic-hudson.jpg" alt="Scenic Hudson" style="width:100%;height:100%;object-fit:cover"></div>
+        <div style="padding:28px;border:1px solid var(--border);border-radius:10px;display:flex;flex-direction:column;gap:14px">
+          <div class="section-label">Program Resources</div>
+          <a href="https://pclbfoundation.org/wp-content/uploads/2026/01/FY2027_LEAP-NY-ME-Program-Guidelines.pdf" target="_blank" class="btn-primary" style="display:inline-block;font-size:.78rem;padding:10px 20px;text-align:center">Download Program Guidelines (PDF)</a>
+          <a href="https://pclbfoundation.org/wp-content/uploads/2025/12/PCLB-LEAP-Geography-NY.zip" target="_blank" class="btn-ghost" style="display:inline-block;font-size:.78rem;padding:10px 20px;text-align:center">GIS Files — New York</a>
+          <a href="https://pclbfoundation.org/wp-content/uploads/2025/12/PCLB-LEAP-Geography-Maine.zip" target="_blank" class="btn-ghost" style="display:inline-block;font-size:.78rem;padding:10px 20px;text-align:center">GIS Files — Maine</a>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:48px;padding:32px;background:var(--cream);border-radius:10px" class="reveal">
+      <div class="section-label">Questions?</div>
+      <p style="font-size:.92rem;line-height:1.8;color:var(--text-mid);margin-top:10px">Please direct questions and requests about LEAP to <a href="mailto:inquiry@pclbfoundation.org" style="color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist)">inquiry@pclbfoundation.org</a>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ MEDICINE ═══════════════════════════════════ -->
+<div id="page-medicine" class="page">
+  <div class="inner-hero">
+    <div class="breadcrumb"><a onclick="showPage('home')">Home</a> / <a onclick="showPage('programs')">Programs</a> / Medicine</div>
+    <h1><em>Medicine</em></h1>
+    <p class="inner-hero-sub">Goal: Fill gaps in health care infrastructure.</p>
+  </div>
+  <div class="content-wrap">
+    <div class="two-col align-center reveal">
+      <div class="prose">
+        <p>People live longer, healthier lives when they have access to quality medical care. Yet, for reasons from system shortcomings to crises, emergencies, and civil conflict, essential health care is not consistently or equitably available to all. Specific interventions and projects can help to fill these critical gaps, thereby improving access to basic medical services and more advanced health care in the US and around the world, and ultimately improving the quality of people's lives.</p>
+        <p>To fill gaps in health care infrastructure, we support and partner with organizations working on Rural Health Care and Global Access to Medical Care.</p>
+        <h3>Rural Health Care</h3>
+        <p>PCLB is currently engaged in a discovery process to understand the greatest areas of challenge and opportunity in providing health care in rural settings. This has led to early grant-making around health care workforce in Maine, supporting training programs and new models of care that seek to ensure we have the medical professionals we most need, in the places we most need them. We expect this grant-making to evolve further — so stay tuned for more information.</p>
+        <h3>Global Access to Medical Care</h3>
+        <p>Make targeted grant investments to provide access to critical medical care globally, especially in places historically least likely to have strong health care infrastructure. PCLB currently supports a limited number of grantees in this work.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="background:var(--cream);border-radius:10px;padding:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;aspect-ratio:4/3">
+          <div style="font-size:3.5rem;margin-bottom:20px">🏥</div>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:var(--navy);line-height:1.4">"People live longer, healthier lives when they have access to quality medical care."</p>
+        </div>
+        <div style="padding:24px 28px;background:var(--cream);border-radius:10px">
+          <div class="section-label">Questions?</div>
+          <p style="font-size:.85rem;color:var(--text-mid);margin-top:10px;line-height:1.7">Please direct questions and requests to <a href="mailto:inquiry@pclbfoundation.org" style="color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist)">inquiry@pclbfoundation.org</a></p>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:48px;display:flex;gap:14px" class="reveal">
+      <a href="#" class="btn-primary" onclick="showPage('grantees-2025')">View Grantees</a>
+      <a href="#" class="btn-ghost" onclick="showPage('faq')">How to Apply</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ SCIENCE ═══════════════════════════════════ -->
+<div id="page-science" class="page">
+  <div class="inner-hero">
+    <div class="breadcrumb"><a onclick="showPage('home')">Home</a> / <a onclick="showPage('programs')">Programs</a> / Science</div>
+    <h1><em>Science</em></h1>
+    <p class="inner-hero-sub">Goal: Catalyze scientific research and discovery.</p>
+  </div>
+  <div class="content-wrap">
+    <div class="two-col align-center reveal">
+      <div class="prose">
+        <p>Science drives progress across all fields: bettering lives, priming our economic engine, and bringing enlightenment to the world. Investing in professionals engaged in the scientific process is the most reliable way to ensure that answers to important, descriptive questions are revealed. These answers drive smarter, data-informed decisions and ultimately advance civilization, sometimes incrementally, sometimes providing extraordinary leaps forward.</p>
+        <p>To catalyze scientific research and discovery, we support and partner with organizations engaged in Early-Stage Research and Research in Other PCLB Programs.</p>
+        <h3>Early-Stage Research</h3>
+        <p>When scientists are early in their careers or are early in exploring new questions, funding can be especially hard to secure. Yet, this sort of early-stage research is critical to developing our next generation of scientists and to making new scientific discoveries.</p>
+        <p>PCLB currently supports:</p>
+        <ul>
+          <li><strong>Research Incubators —</strong> Provide fellowship programs that enable scientists to engage in basic research and make scientific discoveries across a breadth of fields and topics.</li>
+          <li><strong>Research Institutions —</strong> Operate flagship fellowship and research programs at the Smithsonian Institute and Johns Hopkins University, two institutions that our founder, Dr. Peter Buck, personally supported.</li>
+        </ul>
+        <h3>Research in Other PCLB Programs</h3>
+        <p>Believing in the power of research and the value of data-informed decisions, PCLB funds research projects that inform both our own grant-making and the work of the direct service organizations that we fund. We support a limited number of projects each year to help answer important questions connected to our other program areas.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="background:var(--navy);border-radius:10px;padding:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;aspect-ratio:4/3">
+          <div style="font-size:3.5rem;margin-bottom:20px">🔬</div>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:var(--warm-white);line-height:1.4">"Science drives progress across all fields: bettering lives, priming our economic engine, and bringing enlightenment to the world."</p>
+        </div>
+        <div style="padding:24px 28px;background:var(--cream);border-radius:10px">
+          <div class="section-label">Questions?</div>
+          <p style="font-size:.85rem;color:var(--text-mid);margin-top:10px;line-height:1.7">Please direct questions and requests to <a href="mailto:inquiry@pclbfoundation.org" style="color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist)">inquiry@pclbfoundation.org</a></p>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:48px;display:flex;gap:14px" class="reveal">
+      <a href="#" class="btn-primary" onclick="showPage('grantees-2025')">View Grantees</a>
+      <a href="#" class="btn-ghost" onclick="showPage('faq')">How to Apply</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ FAMILY PROJECTS ═══════════════════════════════════ -->
+<div id="page-family-projects" class="page">
+  <div class="inner-hero">
+    <div class="breadcrumb"><a onclick="showPage('home')">Home</a> / <a onclick="showPage('programs')">Programs</a> / Family Projects</div>
+    <h1>Family <em>Projects</em></h1>
+    <p class="inner-hero-sub">Goal: Honor family connections.</p>
+  </div>
+  <div class="content-wrap">
+    <div class="two-col align-center reveal">
+      <div class="prose">
+        <p>As a family philanthropy, the PCLB Foundation supports a number of organizations born out of our personal interests and connections. Under the umbrella of Family Projects, we will continue honoring those family connections.</p>
+        <h3>Danbury</h3>
+        <p>In Danbury — a place that members of the Buck family have called home — we have ongoing and evolving initiatives to ensure that this is a thriving community for all its residents. PCLB supports Danbury organizations to:</p>
+        <ul>
+          <li>Increase food security among all Danbury residents.</li>
+          <li>Reduce social isolation among older adults.</li>
+          <li>Increase participation of English Language Learner (ELL) students in strong out-of-school time programming with the ultimate goal of improving their high school graduation rates.</li>
+        </ul>
+        <h3>Fundação Carmem Lucia (FCL)</h3>
+        <p>FCL was created in 2009 to realize Carmen Lucia Buck's dream of building a model health clinic in her hometown of Vila Velha, ES, Brazil. Over the last fifteen years, FCL has grown to provide medical, dental, psychological, educational, and social assistance services to thousands of people in Vila Velha.</p>
+        <h3>Associação Beneficente de Recuperação da Alegria e Saúde (ABRAS)</h3>
+        <p>ABRAS is a Brazil-based philanthropy that supports education, healthcare, and social services in local communities.</p>
+        <h3>Casa Piñero</h3>
+        <p>Casa Piñero is a museum and historical home of Puerto Rico's first native governor, Jesus T. Piñero, who helped foster the island's relationship with mainland U.S.A.</p>
+        <h3>Discretionary</h3>
+        <p>PCLB funds a select group of organizations that are of personal interest to our Board.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="padding:48px;background:var(--cream);border-radius:10px;text-align:center">
+          <div style="font-size:3rem;margin-bottom:24px">🫱🏼‍🫲🏾</div>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;color:var(--navy);line-height:1.4">"As a family philanthropy, the PCLB Foundation supports a number of organizations born out of our personal interests and connections."</p>
+        </div>
+        <div style="padding:24px 28px;background:var(--cream);border-radius:10px">
+          <div class="section-label">Questions?</div>
+          <p style="font-size:.85rem;color:var(--text-mid);margin-top:10px;line-height:1.7">Please direct questions and requests to <a href="mailto:inquiry@pclbfoundation.org" style="color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist)">inquiry@pclbfoundation.org</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ GRANTEES TEMPLATE ═══════════════════════════════════ -->
+<!-- ═══════════════════════════════════ GRANTEES SHARED STYLES ═══════════════════════════════════ -->
+<style>
+.year-nav-row{display:flex;gap:8px;margin-bottom:52px;flex-wrap:wrap}
+.year-nav-btn{padding:8px 22px;border:1px solid var(--border);background:none;font-family:'DM Sans',sans-serif;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-mid);border-radius:100px;cursor:pointer;transition:all .2s}
+.year-nav-btn:hover,.year-nav-btn.active{background:var(--navy);border-color:var(--navy);color:var(--warm-white)}
+.grants-layout{display:grid;grid-template-columns:1fr 320px;gap:60px;align-items:start}
+.portfolio-table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.portfolio-table thead tr{background:var(--navy)}
+.portfolio-table thead th{padding:14px 20px;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(253,251,248,.7);text-align:left;font-weight:400}
+.portfolio-table thead th:last-child{text-align:right}
+.portfolio-table tbody tr{border-bottom:1px solid var(--border);transition:background .15s}
+.portfolio-table tbody tr:last-child{border-bottom:none}
+.portfolio-table tbody tr:hover{background:var(--cream)}
+.portfolio-table td{padding:16px 20px;font-size:.9rem;color:var(--text-mid);vertical-align:middle}
+.portfolio-table td:last-child{text-align:right;font-weight:500;color:var(--navy);font-family:'DM Sans',sans-serif;white-space:nowrap}
+.portfolio-table td a{color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist);transition:border-color .2s}
+.portfolio-table td a:hover{border-color:var(--forest)}
+.portfolio-table tfoot tr{background:var(--navy)}
+.portfolio-table tfoot td{padding:16px 20px;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;color:var(--warm-white);font-weight:500}
+.portfolio-table tfoot td:last-child{text-align:right;color:var(--gold-light)}
+.grants-sidebar{position:sticky;top:100px;display:flex;flex-direction:column;gap:20px}
+.sidebar-card{background:var(--cream);border-radius:10px;padding:28px}
+.sidebar-card h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;color:var(--navy);margin-bottom:16px}
+.sidebar-card p{font-size:.84rem;line-height:1.7;color:var(--text-mid);margin-bottom:16px}
+.sidebar-total{background:var(--navy);border-radius:10px;padding:28px;text-align:center}
+.sidebar-total-label{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(253,251,248,.5)}
+.sidebar-total-amount{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;color:var(--gold);margin-top:8px;line-height:1}
+.sidebar-total-year{font-size:.75rem;color:rgba(253,251,248,.4);margin-top:6px}
+@media(max-width:900px){.grants-layout{grid-template-columns:1fr}.grants-sidebar{position:static}}
+</style>
+
+<!-- ═══════════════════════════════════ GRANTEES 2025 ═══════════════════════════════════ -->
+<div id="page-grantees-2025" class="page">
+  <div class="inner-hero">
+    <div class="breadcrumb"><a onclick="showPage('home')">Home</a> / Grantees / 2025</div>
+    <h1>Grants Awarded <em>in 2025</em></h1>
+    <p class="inner-hero-sub">In 2025, the PCLB Foundation provided $106,182,060 in grants and scholarships across all program areas.</p>
+  </div>
+  <div class="content-wrap wide">
+    <div class="year-nav-row reveal">
+      <button class="year-nav-btn active" onclick="showPage('grantees-2025')">2025</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2024')">2024</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2023')">2023</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2022')">2022</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2021')">2021</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2020')">2020</button>
+    </div>
+    <div class="grants-layout reveal">
+      <div>
+        <div class="section-label" style="margin-bottom:20px">Grants by Portfolio</div>
+        <table class="portfolio-table">
+          <thead><tr><th>Portfolio</th><th>Amount</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-1-education/year/2025/" target="_blank">Education</a></td><td>$75,603,842</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-12-outdoors/year/2025/" target="_blank">Outdoors</a></td><td>$15,500,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-4-medical/year/2025/" target="_blank">Medicine</a></td><td>$6,250,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-11-science/year/2025/" target="_blank">Science</a></td><td>$5,900,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-2-danbury/year/2025/" target="_blank">Family Projects – Danbury</a></td><td>$1,300,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-8-projects/year/2025/" target="_blank">Family Projects – Other</a></td><td>$1,208,218</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-7-discretionary/year/2025/" target="_blank">Family Projects – Discretionary</a></td><td>$420,000</td></tr>
+
+          </tbody>
+          <tfoot><tr><td>Year Total</td><td>$106,182,060</td></tr></tfoot>
+        </table>
+      </div>
+      <div class="grants-sidebar">
+        <div class="sidebar-total">
+          <div class="sidebar-total-label">Total Awarded</div>
+          <div class="sidebar-total-amount">$106.2M</div>
+          <div class="sidebar-total-year">Fiscal Year 2025</div>
+        </div>
+        <div class="sidebar-card">
+          <h3>Full Grants List</h3>
+          <p>Download the complete 2025 grants list, including all individual grantee names and award amounts.</p>
+          <a href="https://pclbfoundation.org/wp-content/uploads/2025/08/FY2025-Grants-List-for-Website.pdf" target="_blank" class="btn-primary" style="display:inline-block;font-size:.78rem;padding:10px 20px">Download PDF</a>
+        </div>
+        <div class="sidebar-card">
+          <h3>About Our Grantmaking</h3>
+          <p>PCLB does not accept unsolicited proposals. All grants are made by invitation. Click any portfolio to view the full list of supported organizations.</p>
+          <a href="#" onclick="showPage('faq')" style="font-size:.82rem;color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist)">Learn more about applying →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ GRANTEES 2024 ═══════════════════════════════════ -->
+<div id="page-grantees-2024" class="page">
+  <div class="inner-hero">
+    <div class="breadcrumb"><a onclick="showPage('home')">Home</a> / Grantees / 2024</div>
+    <h1>Grants Awarded <em>in 2024</em></h1>
+    <p class="inner-hero-sub">In 2024, the PCLB Foundation provided $48,543,881 in grants and scholarships across all program areas.</p>
+  </div>
+  <div class="content-wrap wide">
+    <div class="year-nav-row reveal">
+      <button class="year-nav-btn" onclick="showPage('grantees-2025')">2025</button>
+      <button class="year-nav-btn active" onclick="showPage('grantees-2024')">2024</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2023')">2023</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2022')">2022</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2021')">2021</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2020')">2020</button>
+    </div>
+    <div class="grants-layout reveal">
+      <div>
+        <div class="section-label" style="margin-bottom:20px">Grants by Portfolio</div>
+        <table class="portfolio-table">
+          <thead><tr><th>Portfolio</th><th>Amount</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-1-education/year/2024/" target="_blank">Education</a></td><td>$36,367,299</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-12-outdoors/year/2024/" target="_blank">Outdoors</a></td><td>$6,000,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-11-science/year/2024/" target="_blank">Science</a></td><td>$2,050,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-4-medical/year/2024/" target="_blank">Medicine</a></td><td>$1,500,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-2-danbury/year/2024/" target="_blank">Danbury Area</a></td><td>$1,100,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-8-projects/year/2024/" target="_blank">Family Projects</a></td><td>$851,582</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-6-journalism/year/2024/" target="_blank">Journalism</a></td><td>$375,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-7-discretionary/year/2024/" target="_blank">Discretionary Grants</a></td><td>$300,000</td></tr>
+          </tbody>
+          <tfoot><tr><td>Year Total</td><td>$48,543,881</td></tr></tfoot>
+        </table>
+      </div>
+      <div class="grants-sidebar">
+        <div class="sidebar-total">
+          <div class="sidebar-total-label">Total Awarded</div>
+          <div class="sidebar-total-amount">$48.5M</div>
+          <div class="sidebar-total-year">Fiscal Year 2024</div>
+        </div>
+        <div class="sidebar-card">
+          <h3>Full Grants List</h3>
+          <p>Download the complete 2024 grants list, including all individual grantee names and award amounts.</p>
+          <a href="https://pclbfoundation.org/wp-content/uploads/2024/09/FY2024-Grants.pdf" target="_blank" class="btn-primary" style="display:inline-block;font-size:.78rem;padding:10px 20px">Download PDF</a>
+        </div>
+        <div class="sidebar-card">
+          <h3>About Our Grantmaking</h3>
+          <p>PCLB does not accept unsolicited proposals. Click any portfolio to view the full list of supported organizations.</p>
+          <a href="#" onclick="showPage('faq')" style="font-size:.82rem;color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist)">Learn more →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ GRANTEES 2023 ═══════════════════════════════════ -->
+<div id="page-grantees-2023" class="page">
+  <div class="inner-hero">
+    <div class="breadcrumb"><a onclick="showPage('home')">Home</a> / Grantees / 2023</div>
+    <h1>Grants Awarded <em>in 2023</em></h1>
+    <p class="inner-hero-sub">In 2023, the PCLB Foundation provided $38,506,394 in grants and scholarships across all program areas.</p>
+  </div>
+  <div class="content-wrap wide">
+    <div class="year-nav-row reveal">
+      <button class="year-nav-btn" onclick="showPage('grantees-2025')">2025</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2024')">2024</button>
+      <button class="year-nav-btn active" onclick="showPage('grantees-2023')">2023</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2022')">2022</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2021')">2021</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2020')">2020</button>
+    </div>
+    <div class="grants-layout reveal">
+      <div>
+        <div class="section-label" style="margin-bottom:20px">Grants by Portfolio</div>
+        <table class="portfolio-table">
+          <thead><tr><th>Portfolio</th><th>Amount</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-1-education/year/2023/" target="_blank">Education</a></td><td>$28,855,094</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-12-outdoors/year/2023/" target="_blank">Outdoors</a></td><td>$4,725,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-4-medical/year/2023/" target="_blank">Medicine</a></td><td>$1,150,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-8-projects/year/2023/" target="_blank">Family Projects</a></td><td>$951,300</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-2-danbury/year/2023/" target="_blank">Danbury Area</a></td><td>$900,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-11-science/year/2023/" target="_blank">Science</a></td><td>$875,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-6-journalism/year/2023/" target="_blank">Journalism</a></td><td>$750,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-7-discretionary/year/2023/" target="_blank">Discretionary Grants</a></td><td>$300,000</td></tr>
+          </tbody>
+          <tfoot><tr><td>Year Total</td><td>$38,506,394</td></tr></tfoot>
+        </table>
+      </div>
+      <div class="grants-sidebar">
+        <div class="sidebar-total">
+          <div class="sidebar-total-label">Total Awarded</div>
+          <div class="sidebar-total-amount">$38.5M</div>
+          <div class="sidebar-total-year">Fiscal Year 2023</div>
+        </div>
+        <div class="sidebar-card">
+          <h3>Full Grants List</h3>
+          <p>Download the complete 2023 grants list, including all individual grantee names and award amounts.</p>
+          <a href="https://pclbfoundation.org/wp-content/uploads/2023/10/FY2023-Grants.pdf" target="_blank" class="btn-primary" style="display:inline-block;font-size:.78rem;padding:10px 20px">Download PDF</a>
+        </div>
+        <div class="sidebar-card">
+          <h3>About Our Grantmaking</h3>
+          <p>PCLB does not accept unsolicited proposals. Click any portfolio to view the full list of supported organizations.</p>
+          <a href="#" onclick="showPage('faq')" style="font-size:.82rem;color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist)">Learn more →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ GRANTEES 2022 ═══════════════════════════════════ -->
+<div id="page-grantees-2022" class="page">
+  <div class="inner-hero">
+    <div class="breadcrumb"><a onclick="showPage('home')">Home</a> / Grantees / 2022</div>
+    <h1>Grants Awarded <em>in 2022</em></h1>
+    <p class="inner-hero-sub">In 2022, the PCLB Foundation provided $32,739,296 in grants and scholarships across all program areas.</p>
+  </div>
+  <div class="content-wrap wide">
+    <div class="year-nav-row reveal">
+      <button class="year-nav-btn" onclick="showPage('grantees-2025')">2025</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2024')">2024</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2023')">2023</button>
+      <button class="year-nav-btn active" onclick="showPage('grantees-2022')">2022</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2021')">2021</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2020')">2020</button>
+    </div>
+    <div class="grants-layout reveal">
+      <div>
+        <div class="section-label" style="margin-bottom:20px">Grants by Portfolio</div>
+        <table class="portfolio-table">
+          <thead><tr><th>Portfolio</th><th>Amount</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-1-education/year/2022/" target="_blank">Education</a></td><td>$24,996,456</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-3-1-conservation/year/2022/" target="_blank">Outdoors / Land Conservation</a></td><td>$3,000,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-4-medical/year/2022/" target="_blank">Medical</a></td><td>$1,350,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-2-danbury/year/2022/" target="_blank">Danbury Area</a></td><td>$900,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-8-projects/year/2022/" target="_blank">Selected Projects</a></td><td>$892,840</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-6-journalism/year/2022/" target="_blank">Journalism</a></td><td>$750,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-5-1-camperships/year/2022/" target="_blank">Outdoors / Camperships</a></td><td>$600,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-7-discretionary/year/2022/" target="_blank">Discretionary Grants</a></td><td>$250,000</td></tr>
+          </tbody>
+          <tfoot><tr><td>Year Total</td><td>$32,739,296</td></tr></tfoot>
+        </table>
+      </div>
+      <div class="grants-sidebar">
+        <div class="sidebar-total">
+          <div class="sidebar-total-label">Total Awarded</div>
+          <div class="sidebar-total-amount">$32.7M</div>
+          <div class="sidebar-total-year">Fiscal Year 2022</div>
+        </div>
+        <div class="sidebar-card">
+          <h3>Full Grants List</h3>
+          <p>Download the complete 2022 grants list, including all individual grantee names and award amounts.</p>
+          <a href="https://pclbfoundation.org/wp-content/uploads/2022/11/FY2022-Downloadable-Grant-list.pdf" target="_blank" class="btn-primary" style="display:inline-block;font-size:.78rem;padding:10px 20px">Download PDF</a>
+        </div>
+        <div class="sidebar-card">
+          <h3>About Our Grantmaking</h3>
+          <p>PCLB does not accept unsolicited proposals. Click any portfolio to view the full list of supported organizations.</p>
+          <a href="#" onclick="showPage('faq')" style="font-size:.82rem;color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist)">Learn more →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ GRANTEES 2021 ═══════════════════════════════════ -->
+<div id="page-grantees-2021" class="page">
+  <div class="inner-hero">
+    <div class="breadcrumb"><a onclick="showPage('home')">Home</a> / Grantees / 2021</div>
+    <h1>Grants Awarded <em>in 2021</em></h1>
+    <p class="inner-hero-sub">In 2021, the PCLB Foundation provided $27,429,081 in grants and scholarships across all program areas.</p>
+  </div>
+  <div class="content-wrap wide">
+    <div class="year-nav-row reveal">
+      <button class="year-nav-btn" onclick="showPage('grantees-2025')">2025</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2024')">2024</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2023')">2023</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2022')">2022</button>
+      <button class="year-nav-btn active" onclick="showPage('grantees-2021')">2021</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2020')">2020</button>
+    </div>
+    <div class="grants-layout reveal">
+      <div>
+        <div class="section-label" style="margin-bottom:20px">Grants by Portfolio</div>
+        <table class="portfolio-table">
+          <thead><tr><th>Portfolio</th><th>Amount</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-1-education/year/2021/" target="_blank">Education</a></td><td>$21,500,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-3-conservation/year/2021/" target="_blank">Land Conservation</a></td><td>$1,950,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-4-medical/year/2021/" target="_blank">Medical</a></td><td>$1,150,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-2-danbury/year/2021/" target="_blank">Danbury Area</a></td><td>$850,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-8-projects/year/2021/" target="_blank">Selected Projects</a></td><td>$605,999</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-6-journalism/year/2021/" target="_blank">Journalism</a></td><td>$600,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-5-camperships/year/2021/" target="_blank">Camperships</a></td><td>$450,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-7-discretionary/year/2021/" target="_blank">Discretionary Grants</a></td><td>$250,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-10-scholarships/year/2021/" target="_blank">Scholarships</a></td><td>$73,082</td></tr>
+          </tbody>
+          <tfoot><tr><td>Year Total</td><td>$27,429,081</td></tr></tfoot>
+        </table>
+      </div>
+      <div class="grants-sidebar">
+        <div class="sidebar-total">
+          <div class="sidebar-total-label">Total Awarded</div>
+          <div class="sidebar-total-amount">$27.4M</div>
+          <div class="sidebar-total-year">Fiscal Year 2021</div>
+        </div>
+        <div class="sidebar-card">
+          <h3>Full Grants List</h3>
+          <p>Download the complete 2021 grants list, including all individual grantee names and award amounts.</p>
+          <a href="https://pclbfoundation.org/wp-content/uploads/2021/07/FY2021-Grants.pdf" target="_blank" class="btn-primary" style="display:inline-block;font-size:.78rem;padding:10px 20px">Download PDF</a>
+        </div>
+        <div class="sidebar-card">
+          <h3>About Our Grantmaking</h3>
+          <p>PCLB does not accept unsolicited proposals. Click any portfolio to view the full list of supported organizations.</p>
+          <a href="#" onclick="showPage('faq')" style="font-size:.82rem;color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist)">Learn more →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ GRANTEES 2020 ═══════════════════════════════════ -->
+<div id="page-grantees-2020" class="page">
+  <div class="inner-hero">
+    <div class="breadcrumb"><a onclick="showPage('home')">Home</a> / Grantees / 2020</div>
+    <h1>Grants Awarded <em>in 2020</em></h1>
+    <p class="inner-hero-sub">In 2020, the PCLB Foundation provided $25,616,956 in support of 106 organizations across all program areas.</p>
+  </div>
+  <div class="content-wrap wide">
+    <div class="year-nav-row reveal">
+      <button class="year-nav-btn" onclick="showPage('grantees-2025')">2025</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2024')">2024</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2023')">2023</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2022')">2022</button>
+      <button class="year-nav-btn" onclick="showPage('grantees-2021')">2021</button>
+      <button class="year-nav-btn active" onclick="showPage('grantees-2020')">2020</button>
+    </div>
+    <div class="grants-layout reveal">
+      <div>
+        <div class="section-label" style="margin-bottom:20px">Grants by Portfolio</div>
+        <table class="portfolio-table">
+          <thead><tr><th>Portfolio</th><th>Amount</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-1-education/year/2020/" target="_blank">Education</a></td><td>$20,074,441</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-3-conservation/year/2020/" target="_blank">Land Conservation</a></td><td>$1,560,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-4-medical/year/2020/" target="_blank">Medical</a></td><td>$1,175,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-8-projects/year/2020/" target="_blank">Selected Projects</a></td><td>$807,515</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-2-danbury/year/2020/" target="_blank">Danbury Area</a></td><td>$800,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-6-journalism/year/2020/" target="_blank">Journalism</a></td><td>$550,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-5-camperships/year/2020/" target="_blank">Camperships</a></td><td>$400,000</td></tr>
+            <tr><td><a href="https://pclbfoundation.org/grants/category/cat-7-discretionary/year/2020/" target="_blank">Discretionary Grants</a></td><td>$250,000</td></tr>
+          </tbody>
+          <tfoot><tr><td>Year Total</td><td>$25,616,956</td></tr></tfoot>
+        </table>
+      </div>
+      <div class="grants-sidebar">
+        <div class="sidebar-total">
+          <div class="sidebar-total-label">Total Awarded</div>
+          <div class="sidebar-total-amount">$25.6M</div>
+          <div class="sidebar-total-year">Fiscal Year 2020</div>
+        </div>
+        <div class="sidebar-card">
+          <h3>Full Grants List</h3>
+          <p>Download the complete 2020 grants list, including all individual grantee names and award amounts.</p>
+          <a href="https://pclbfoundation.org/wp-content/uploads/2021/04/FY2020-Grants.pdf" target="_blank" class="btn-primary" style="display:inline-block;font-size:.78rem;padding:10px 20px">Download PDF</a>
+        </div>
+        <div class="sidebar-card">
+          <h3>About Our Grantmaking</h3>
+          <p>PCLB does not accept unsolicited proposals. Click any portfolio to view the full list of supported organizations.</p>
+          <a href="#" onclick="showPage('faq')" style="font-size:.82rem;color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist)">Learn more →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ FAQ ═══════════════════════════════════ -->
+<div id="page-faq" class="page">
+  <div class="inner-hero">
+    <div class="breadcrumb"><a onclick="showPage('home')">Home</a> / Apply / FAQ</div>
+    <h1>Frequently Asked <em>Questions</em></h1>
+    <p class="inner-hero-sub">Find answers about our grant-making priorities, application process, reporting requirements, and grants portal.</p>
+  </div>
+  <div class="content-wrap">
+    <div class="reveal" style="max-width:700px">
+      <p style="font-size:.98rem;line-height:1.85;color:var(--text-mid);margin-bottom:40px">Welcome to PCLB's Frequently Asked Questions! If you have inquiries related to our grant-making priorities, application, reporting, or grants portal, visit one of the FAQ pages below for help. If you don't find an answer, please direct your question to <a href="mailto:inquiry@pclbfoundation.org" style="color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist)">inquiry@pclbfoundation.org</a>.</p>
+      <ul class="doc-list">
+        <li class="doc-item" style="cursor:pointer" onclick="showPage('faq-application')">
+          <div><div class="doc-name">Application FAQs</div><div class="doc-meta">Grant-making priorities, how to apply, timelines</div></div>
+          <span class="btn-ghost" style="padding:8px 18px;font-size:.75rem">View →</span>
+        </li>
+        <li class="doc-item" style="cursor:pointer" onclick="showPage('faq-reporting')">
+          <div><div class="doc-name">Reporting FAQs</div><div class="doc-meta">Grant reporting requirements and deadlines</div></div>
+          <span class="btn-ghost" style="padding:8px 18px;font-size:.75rem">View →</span>
+        </li>
+        <li class="doc-item" style="cursor:pointer" onclick="showPage('faq-technical')">
+          <div><div class="doc-name">Technical FAQs</div><div class="doc-meta">Grants portal access and technical support</div></div>
+          <span class="btn-ghost" style="padding:8px 18px;font-size:.75rem">View →</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FAQ APPLICATION ═══ -->
+<div id="page-faq-application" class="page">
+  <div class="inner-hero"><div class="breadcrumb"><a onclick="showPage('home')">Home</a> / <a onclick="showPage('faq')">FAQ</a> / Application</div><h1>Application <em>FAQs</em></h1><p class="inner-hero-sub">Common questions about what PCLB funds, how to apply, and the grant application timeline.</p></div>
+  <div class="content-wrap">
+    <div style="display:flex;gap:8px;margin-bottom:40px;flex-wrap:wrap" class="reveal">
+      <a href="#" class="btn-ghost" style="padding:8px 18px;font-size:.78rem" onclick="showPage('faq')">← All FAQs</a>
+      <a href="#" class="btn-ghost" style="padding:8px 18px;font-size:.78rem" onclick="showPage('faq-reporting')">Reporting FAQs</a>
+      <a href="#" class="btn-ghost" style="padding:8px 18px;font-size:.78rem" onclick="showPage('faq-technical')">Technical FAQs</a>
+    </div>
+    <div class="reveal">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What does PCLB fund?</div>
+        <div class="faq-a">
+          <p>We support organizations whose work aligns with our program goals and our 10-year strategic plan. Please visit our individual Program Area pages to learn more about our funding priorities. Note that:</p>
+          <ul style="margin-top:10px;padding-left:20px;display:flex;flex-direction:column;gap:6px">
+            <li>PCLB's funding is targeted primarily to Connecticut and New York, except otherwise noted.</li>
+            <li>PCLB awards grants for both general operating support and restricted support, with a strong preference to support the general operations of the highest performing organizations involved with the issues of greatest interest to PCLB.</li>
+            <li>Awards are made primarily to non-profit charitable organizations that are tax exempt under Section 501(c)(3) of the Internal Revenue Code or to public governmental agencies. On a case-by-case basis, we will also consider making awards to non-501(c)(3) organizations.</li>
+            <li>PCLB does not make grants for ticketed events or to individuals.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How can I apply for funding?</div>
+        <div class="faq-a">
+          <p>Our Program Team is in the field constantly, and they proactively seek partners who align with our funding interests. But we still might miss great organizations!</p>
+          <p style="margin-top:10px">We encourage organizations whose work aligns with our program goals to send us an email at <a href="mailto:inquiry@pclbfoundation.org" style="color:var(--forest)">inquiry@pclbfoundation.org</a> or call to introduce themselves. After an initial introduction has been made, this is what one can expect:</p>
+          <ul style="margin-top:10px;padding-left:20px;display:flex;flex-direction:column;gap:6px">
+            <li>We strive to respond to every organization in a timely manner. Expect to hear back from someone on our Program Team within 2–3 weeks.</li>
+            <li>After an initial exchange, if there is a potential fit, a PCLB Program Officer may request a more substantial meeting to start getting to know your organization.</li>
+            <li>You and our Program Officer will determine whether there is a match for a partnership and funding opportunity. If yes, you will be invited to apply for a grant.</li>
+            <li>Grant applications go out via an online application system a few months before our Board of Directors meet to review and approve grant awards.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">For current grantees — how will I know if I can apply for funding again?</div>
+        <div class="faq-a">PCLB is committed to building genuine and trust-filled partnerships with their grantees. Once awarded a grant, we will remain in contact to learn more about the progress of your work, successes achieved, challenges encountered, and what is next on the horizon. You and your PCLB Program Officer will discuss whether your organization's work continues to align with PCLB's priorities and if ongoing funding is warranted. If yes, you will be invited to apply for renewed funding. The actual invite will go out through our automated online system 3–4 weeks before the deadline.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What is the application timeline?</div>
+        <div class="faq-a">
+          <p>PCLB has three grant cycles each year:</p>
+          <div style="overflow-x:auto;margin-top:16px">
+            <table style="width:100%;border-collapse:collapse;font-size:.85rem">
+              <thead><tr style="background:var(--navy)"><th style="padding:10px 14px;color:rgba(253,251,248,.7);font-weight:400;letter-spacing:.08em;text-align:left"></th><th style="padding:10px 14px;color:rgba(253,251,248,.7);font-weight:400;letter-spacing:.08em;text-align:left">Fall</th><th style="padding:10px 14px;color:rgba(253,251,248,.7);font-weight:400;letter-spacing:.08em;text-align:left">Winter</th><th style="padding:10px 14px;color:rgba(253,251,248,.7);font-weight:400;letter-spacing:.08em;text-align:left">Spring</th></tr></thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 14px;color:var(--text-mid)">Invitation to Apply</td><td style="padding:10px 14px;color:var(--text-mid)">Beginning of August</td><td style="padding:10px 14px;color:var(--text-mid)">Mid-November</td><td style="padding:10px 14px;color:var(--text-mid)">Mid-February</td></tr>
+                <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 14px;color:var(--text-mid)">Deadline to Submit</td><td style="padding:10px 14px;color:var(--text-mid)">Last Friday of August</td><td style="padding:10px 14px;color:var(--text-mid)">Second Friday of December</td><td style="padding:10px 14px;color:var(--text-mid)">First Friday of March</td></tr>
+                <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 14px;color:var(--text-mid)">Review Period</td><td style="padding:10px 14px;color:var(--text-mid)">September – October</td><td style="padding:10px 14px;color:var(--text-mid)">January – February</td><td style="padding:10px 14px;color:var(--text-mid)">March – April</td></tr>
+                <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 14px;color:var(--text-mid)">Decisions Announced</td><td style="padding:10px 14px;color:var(--text-mid)">By end of November</td><td style="padding:10px 14px;color:var(--text-mid)">By end of February</td><td style="padding:10px 14px;color:var(--text-mid)">By end of May</td></tr>
+                <tr><td style="padding:10px 14px;color:var(--text-mid)">Funds Dispersed</td><td style="padding:10px 14px;color:var(--text-mid)">December</td><td style="padding:10px 14px;color:var(--text-mid)">March</td><td style="padding:10px 14px;color:var(--text-mid)">June</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Can I get a preview of the application?</div>
+        <div class="faq-a">Yes. <a href="https://pclbfoundation.org/wp-content/uploads/2025/08/PCLB-Application_FOR-REFERENCE_updated-20250806.pdf" target="_blank" style="color:var(--forest)">Here</a> is a copy of the standard application for reference only. Do not email us any application forms.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Where do I submit my application?</div>
+        <div class="faq-a">If you are invited to apply for PCLB funding, you will receive an email with an application link and additional instructions. The application link should only be clicked once, as any additional clicks will generate duplicate forms. Only applications received through our online grants portal will be processed and reviewed. Once you have made an account, bookmark <a href="https://bbgm-apply.yourcausegrants.com/apply/auth/signin/" target="_blank" style="color:var(--forest)">https://bbgm-apply.yourcausegrants.com/apply/auth/signin/</a> for future access.</div>
+      </div>
+    </div>
+    <div style="margin-top:48px;padding:32px;background:var(--cream);border-radius:10px" class="reveal">
+      <div class="section-label">Still have questions?</div>
+      <p style="font-size:.92rem;line-height:1.8;color:var(--text-mid);margin-top:10px;margin-bottom:20px">Contact us at <a href="mailto:inquiry@pclbfoundation.org" style="color:var(--forest)">inquiry@pclbfoundation.org</a>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FAQ REPORTING ═══ -->
+<div id="page-faq-reporting" class="page">
+  <div class="inner-hero"><div class="breadcrumb"><a onclick="showPage('home')">Home</a> / <a onclick="showPage('faq')">FAQ</a> / Reporting</div><h1>Reporting <em>FAQs</em></h1><p class="inner-hero-sub">Information about grant reporting requirements, timelines, and processes for current PCLB grantees.</p></div>
+  <div class="content-wrap">
+    <div style="display:flex;gap:8px;margin-bottom:40px;flex-wrap:wrap" class="reveal">
+      <a href="#" class="btn-ghost" style="padding:8px 18px;font-size:.78rem" onclick="showPage('faq')">← All FAQs</a>
+      <a href="#" class="btn-ghost" style="padding:8px 18px;font-size:.78rem" onclick="showPage('faq-application')">Application FAQs</a>
+      <a href="#" class="btn-ghost" style="padding:8px 18px;font-size:.78rem" onclick="showPage('faq-technical')">Technical FAQs</a>
+    </div>
+    <div class="reveal">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">When is my report due?</div>
+        <div class="faq-a">
+          <p>Once an award is made, PCLB will typically ask grantees to submit a narrative report. Generally, for a 12-month grant, this narrative report will be due about 9 months into the grant term. For multi-year grants, a narrative report will be submitted annually.</p>
+          <p style="margin-top:10px">In addition to a narrative report, you may also be required to submit performance measurements, due 9–12 months into the grant term.</p>
+          <div style="overflow-x:auto;margin-top:16px">
+            <table style="width:100%;border-collapse:collapse;font-size:.85rem">
+              <thead><tr style="background:var(--navy)"><th style="padding:10px 14px;color:rgba(253,251,248,.7);font-weight:400;letter-spacing:.08em;text-align:left"></th><th style="padding:10px 14px;color:rgba(253,251,248,.7);font-weight:400;text-align:left">Fall Grants</th><th style="padding:10px 14px;color:rgba(253,251,248,.7);font-weight:400;text-align:left">Winter Grants</th><th style="padding:10px 14px;color:rgba(253,251,248,.7);font-weight:400;text-align:left">Spring Grants</th></tr></thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 14px;color:var(--text-mid)">1st Reminder &amp; Report Goes Live</td><td style="padding:10px 14px;color:var(--text-mid)">Beginning of July</td><td style="padding:10px 14px;color:var(--text-mid)">End of October</td><td style="padding:10px 14px;color:var(--text-mid)">Beginning of January</td></tr>
+                <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 14px;color:var(--text-mid)">2nd Reminder</td><td style="padding:10px 14px;color:var(--text-mid)">Beginning of August</td><td style="padding:10px 14px;color:var(--text-mid)">Mid-November</td><td style="padding:10px 14px;color:var(--text-mid)">Beginning of February</td></tr>
+                <tr style="border-bottom:1px solid var(--border)"><td style="padding:10px 14px;color:var(--text-mid)">Deadline to Submit</td><td style="padding:10px 14px;color:var(--text-mid)">Last Friday of August</td><td style="padding:10px 14px;color:var(--text-mid)">Second Friday of November</td><td style="padding:10px 14px;color:var(--text-mid)">First Friday of March</td></tr>
+                <tr><td style="padding:10px 14px;color:var(--text-mid)">Review Period</td><td style="padding:10px 14px;color:var(--text-mid)">September – October</td><td style="padding:10px 14px;color:var(--text-mid)">January – February</td><td style="padding:10px 14px;color:var(--text-mid)">March – April</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Why am I submitting a report before my grant period is over?</div>
+        <div class="faq-a">We are aware that when we ask grantees to submit a narrative report, often the grant period has not yet concluded. We intend for our narrative report to capture progress that has been made to date on the funded work — and to help us understand that progress before decisions are made regarding renewed funding. These narrative reports complement the ongoing communications and meetings that PCLB has with grantee organizations. Report links go live and email notifications go out about 2 months before deadlines. We welcome grantees to submit their reports any time from the moment report links go live, through to the deadline.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Can I get a preview of the report?</div>
+        <div class="faq-a">Yes. <a href="https://pclbfoundation.org/wp-content/uploads/2024/07/PCLB-Report_FOR-REFERENCE.docx" target="_blank" style="color:var(--forest)">Here</a> is a copy of the standard narrative report for reference. Note that the read-only field on the form is pre-populated and individualized to the grantee based on what they previously wrote on the awarded application about measures of success and desired outcomes.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What are performance measurements?</div>
+        <div class="faq-a">Performance measurements are data points (concerning outputs and/or outcomes) that are common to a set of work/organizations that PCLB supports and are trackable across time. Our Program Officers work in conjunction with grantees to develop the performance measurements to ensure that the data points are sensible, collectable, and not overly burdensome. If performance measurements are expected as part of your grant award, it will be detailed in the grant agreement and a template will be included.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Where do I submit my report and/or performance measurements?</div>
+        <div class="faq-a">Unless otherwise instructed, reports and performance measurements are submitted through our grants portal. Report links go live and email notifications go out about 2 months before deadlines. Grants portal: <a href="https://bbgm-apply.yourcausegrants.com/apply/auth/signin/" target="_blank" style="color:var(--forest)">https://bbgm-apply.yourcausegrants.com/apply/auth/signin/</a></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">I am a charter school grantee asked to report academic performance measurements. Where do I submit?</div>
+        <div class="faq-a">This data is entered and submitted at <a href="https://pclbreporting.org/" target="_blank" style="color:var(--forest)">https://pclbreporting.org/</a>. Bookmark this link for future access. Ahead of reporting, PCLB will notify you via email with login credentials and instructions on which forms you are required to complete.</div>
+      </div>
+    </div>
+    <div style="margin-top:48px;padding:32px;background:var(--cream);border-radius:10px" class="reveal">
+      <div class="section-label">Still have questions?</div>
+      <p style="font-size:.92rem;line-height:1.8;color:var(--text-mid);margin-top:10px">Contact us at <a href="mailto:inquiry@pclbfoundation.org" style="color:var(--forest)">inquiry@pclbfoundation.org</a>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FAQ TECHNICAL ═══ -->
+<div id="page-faq-technical" class="page">
+  <div class="inner-hero"><div class="breadcrumb"><a onclick="showPage('home')">Home</a> / <a onclick="showPage('faq')">FAQ</a> / Technical</div><h1>Technical <em>FAQs</em></h1><p class="inner-hero-sub">Help with communications, the PCLB grants portal, and technical questions.</p></div>
+  <div class="content-wrap">
+    <div style="display:flex;gap:8px;margin-bottom:40px;flex-wrap:wrap" class="reveal">
+      <a href="#" class="btn-ghost" style="padding:8px 18px;font-size:.78rem" onclick="showPage('faq')">← All FAQs</a>
+      <a href="#" class="btn-ghost" style="padding:8px 18px;font-size:.78rem" onclick="showPage('faq-application')">Application FAQs</a>
+      <a href="#" class="btn-ghost" style="padding:8px 18px;font-size:.78rem" onclick="showPage('faq-reporting')">Reporting FAQs</a>
+    </div>
+    <div class="reveal">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How do I make sure I receive communications from PCLB?</div>
+        <div class="faq-a">To ensure all communications from PCLB are received, please whitelist the following domains: @pclbfoundation.org and @grantapplication.com. Additionally, if there is a change of staff at your organization — particularly any changes to the development contact, finance contact, or executive director — help us keep our systems updated by letting us know the contact information for the new staff person. You can email your designated PCLB Program staff member or the Grants Team at <a href="mailto:grants@pclbfoundation.org" style="color:var(--forest)">grants@pclbfoundation.org</a>.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How do I access PCLB's grants portal?</div>
+        <div class="faq-a">
+          <p>The PCLB Foundation has moved to a new grants portal. This new site allows users to manage grant applications and reports from all funders that use Blackbaud Grantmaking through a single, consolidated account.</p>
+          <p style="margin-top:10px">Grants portal link: <a href="https://bbgm-apply.yourcausegrants.com/apply/auth/signin/" target="_blank" style="color:var(--forest)">https://bbgm-apply.yourcausegrants.com/apply/auth/signin/</a></p>
+          <ul style="margin-top:10px;padding-left:20px;display:flex;flex-direction:column;gap:6px">
+            <li>Note that your login for the previous portal will not be carried over into the new portal.</li>
+            <li>If you already created an account for another funder, you do not need to create another one.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:48px;padding:32px;background:var(--cream);border-radius:10px" class="reveal">
+      <div class="section-label">Still have questions?</div>
+      <p style="font-size:.92rem;line-height:1.8;color:var(--text-mid);margin-top:10px">Contact the Grants Team at <a href="mailto:grants@pclbfoundation.org" style="color:var(--forest)">grants@pclbfoundation.org</a>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ PRI ═══════════════════════════════════ -->
+<div id="page-pri" class="page">
+  <div class="inner-hero">
+    <div class="breadcrumb"><a onclick="showPage('home')">Home</a> / Apply / Program-Related Investments</div>
+    <h1>Program-Related <em>Investments</em></h1>
+    <p class="inner-hero-sub">Low-interest loans to help current PCLB grantees meet capital needs that advance their mission in a timely manner.</p>
+  </div>
+  <div class="content-wrap">
+    <div class="two-col align-center reveal">
+      <div class="prose">
+        <div class="section-label">About PRIs</div>
+        <p>PCLB makes Program-Related Investments (PRIs) in the form of low-interest loans to help nonprofit organizations meet capital needs that advance their mission in a timely manner. PRIs are offered to current PCLB grantees to complete land conservation projects and to meet the facility needs of charter schools. Loans are evaluated on a case-by-case basis, within guidelines established by the Foundation.</p>
+        <div style="margin-top:32px;display:flex;gap:14px;flex-wrap:wrap">
+          <a href="#" class="btn-primary" onclick="showPage('contact')">Contact Us</a>
+          <a href="#" class="btn-ghost" onclick="showPage('programs')">Learn About Our Programs</a>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div style="padding:36px;background:var(--cream);border-radius:10px">
+          <div class="section-label">Key Terms</div>
+          <div style="margin-top:20px;display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid var(--border)"><span style="font-size:.85rem;color:var(--text-mid)">Form</span><span style="font-size:.85rem;font-weight:500;color:var(--navy)">Low-Interest Loans</span></div>
+            <div style="display:flex;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid var(--border)"><span style="font-size:.85rem;color:var(--text-mid)">Eligible Uses</span><span style="font-size:.85rem;font-weight:500;color:var(--navy)">Land Conservation &amp; Charter Schools</span></div>
+            <div style="display:flex;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid var(--border)"><span style="font-size:.85rem;color:var(--text-mid)">Eligibility</span><span style="font-size:.85rem;font-weight:500;color:var(--navy)">Current PCLB Grantees</span></div>
+            <div style="display:flex;justify-content:space-between"><span style="font-size:.85rem;color:var(--text-mid)">Terms</span><span style="font-size:.85rem;font-weight:500;color:var(--navy)">Case-by-Case Basis</span></div>
+          </div>
+        </div>
+        <div style="padding:28px;border:1px solid var(--border);border-radius:10px">
+          <div class="section-label">Learn About Our Program Areas</div>
+          <ul style="list-style:none;margin-top:16px;display:flex;flex-direction:column;gap:10px">
+            <li><a href="#" onclick="showPage('education')" style="font-size:.88rem;color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist)">Education →</a></li>
+            <li><a href="#" onclick="showPage('outdoors')" style="font-size:.88rem;color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist)">Outdoors →</a></li>
+            <li><a href="#" onclick="showPage('medicine')" style="font-size:.88rem;color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist)">Medicine →</a></li>
+            <li><a href="#" onclick="showPage('science')" style="font-size:.88rem;color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist)">Science →</a></li>
+            <li><a href="#" onclick="showPage('family-projects')" style="font-size:.88rem;color:var(--forest);text-decoration:none;border-bottom:1px solid var(--mist)">Family Projects →</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ PRIVACY POLICY ═══════════════════════════════════ -->
+<div id="page-privacy" class="page">
+  <div class="inner-hero">
+    <div class="breadcrumb"><a onclick="showPage('home')">Home</a> / Privacy Policy</div>
+    <h1>Privacy <em>Policy</em></h1>
+    <p class="inner-hero-sub">This Privacy Policy was last updated June 7, 2019.</p>
+  </div>
+  <div class="content-wrap">
+    <div class="two-col reveal" style="align-items:start;gap:80px">
+      <div class="privacy-toc">
+        <h3>Contents</h3>
+        <ol>
+          <li><a href="#" onclick="privacyScroll('pp-intro');return false;">Introduction</a></li>
+          <li><a href="#" onclick="privacyScroll('pp-collect');return false;">How we collect personal data</a></li>
+          <li><a href="#" onclick="privacyScroll('pp-nonpersonal');return false;">Non-personal data</a></li>
+          <li><a href="#" onclick="privacyScroll('pp-cookies');return false;">Managing cookies and similar technologies</a></li>
+          <li><a href="#" onclick="privacyScroll('pp-combine');return false;">How we combine your data</a></li>
+          <li><a href="#" onclick="privacyScroll('pp-use');return false;">How we use your data</a></li>
+          <li><a href="#" onclick="privacyScroll('pp-share');return false;">How we share your personal data</a></li>
+          <li><a href="#" onclick="privacyScroll('pp-access');return false;">Access to and control of your personal data</a></li>
+          <li><a href="#" onclick="privacyScroll('pp-security');return false;">Security and storage</a></li>
+          <li><a href="#" onclick="privacyScroll('pp-misc');return false;">Miscellaneous</a></li>
+        </ol>
+      </div>
+      <div class="prose">
+        <p style="font-size:.82rem;color:var(--text-light);margin-bottom:32px">By visiting our Website (as hereinafter defined), you are accepting the practices described in this Privacy Policy ("Privacy Policy"). If you do not agree to the terms of this Privacy Policy, please do not use the Website.</p>
+
+        <h2 id="pp-intro">1. Introduction</h2>
+        <p>The Peter and Carmen Lucia Buck Foundation, Inc. ("PCLB", "we" or "us") is committed to the lawful, fair and transparent collection and use of your data. This Privacy Policy explains how we collect and process your data, as well as how we share, store and protect it.</p>
+        <p>This Privacy Policy is only applicable to the data gathered online at https://pclbfoundation.org/ and any other websites under the control of PCLB (the "Website"), however the Website is accessed and/or used, whether via personal computers, mobile devices, or otherwise, and other interactive features, applications (including mobile applications), or downloads that are operated by PCLB and that are made available by us. This Privacy Policy also applies to any communication where we provide a link to this Privacy Policy, such as when we email surveys. This Privacy Policy does not apply to data that you may submit to us offline or to websites maintained by other companies or organizations to which we may link.</p>
+        <p>Each time you use our Website, the current version of the Privacy Policy will apply. Accordingly, whenever you use our Website, you should check the date of this Privacy Policy (which appears at the top) and review any changes since the last version. This Privacy Policy is applicable to all Website visitors and all other users of our Website.</p>
+        <p>We reserve the right to modify or amend the terms of this Privacy Policy from time to time without notice. Your continued use of our Website following the posting of changes to this Privacy Policy will mean you accept those changes.</p>
+
+        <h2 id="pp-collect">2. How we collect personal data</h2>
+        <p>We consider that PCLB has a legitimate interest in collecting and processing your personal data. PCLB is committed to investing in charitable endeavors that further PCLB's mission. This provides our lawful basis to use your personal data, within the limitations set forth herein.</p>
+        <p>"Personal data" as used herein is any information that enables us to identify you, directly or indirectly, by reference to an identifier such as your name, identification number, location information, online identifier or one or more factors specific to your physical, physiological, genetic, mental, economic, cultural or social identity.</p>
+        <p>If you are in the European Union, we will collect and use your personal data only if we have one or more legal bases for doing so under the EU General Data Protection Regulation (GDPR). The legal bases depend on your interaction with us and the Website. This means we will collect and use your personal data only where: you have given your consent for one or more specific purposes; it is necessary to perform a contract we are about to enter into or have entered into with you; it is necessary for our legitimate interests (or those of a third party) and your interests and fundamental rights do not override those interests; it is necessary to protect the vital interests of you or another natural person; or it is necessary to comply with a legal obligation.</p>
+        <p>As a general matter, you can browse the Website without submitting your personal data to us. However, there are a number of circumstances in which you may need to provide us with your personal data. The following lists the most common ways in which we may collect your personal data:</p>
+        <ul>
+          <li>When you register for and access an account on our Website;</li>
+          <li>When you register to reserve an Event Space;</li>
+          <li>When you participate in surveys, panels, or research;</li>
+          <li>When you register for our programs, activities, initiatives, and events;</li>
+          <li>When you request information or assistance;</li>
+          <li>In conjunction with processing your grant or scholarship applications;</li>
+          <li>In conjunction with any verification of your account information;</li>
+          <li>In conjunction with investigations into any activity that may violate the law or the Website's terms and conditions;</li>
+          <li>When you communicate with us through the Website; and</li>
+          <li>In conjunction with any other place on the Website where you knowingly volunteer personal data.</li>
+        </ul>
+        <p>When you interact with any PCLB representative through email or through any of our third party platforms, we may also collect personal data that you make available to us in that email or through our third party platforms, including your account ID or email address.</p>
+        <p>PCLB may collect personal data via the Website from users who voluntarily provide such data. Personal data will not be collected by any method that does not involve an affirmative action on the part of the user to submit such data to PCLB, for example, entering your email address, reserving PCLB event space or applying for a grant or scholarship.</p>
+        <p>Users acknowledge and agree that PCLB may use personal data in any manner reasonably related to its charitable purposes. Such charitable purposes may include disclosure of personal data to PCLB's employees and third party contractors working on behalf of PCLB in support of PCLB's administrative functions.</p>
+        <p>Please remember that any personal data you share in public areas, such as message boards or feedback sections, becomes public, and therefore this Privacy Policy does not apply to any such data you choose to make public. Please be careful about what you disclose, and do not post any personal data that you expect to keep private.</p>
+        <p><strong>Children and privacy</strong><br>Our Website is not intended for children under the age of 13. If you are not 13 years of age or older, do not use our Website. We do not knowingly collect personal data from children under the age of 13. If we learn that personal data of persons less than 13 years of age has been collected through our Website, we will take the appropriate steps to delete this data without notice as soon as possible.</p>
+        <p><strong>Special categories of personal data</strong><br>We will not intentionally collect any "special categories of personal data" under the GDPR without your explicit consent for one or more specified purposes or as otherwise permitted or required by applicable law. Special categories of personal data include personal data: (a) revealing racial or ethnic origin, political opinions, religious or philosophical beliefs, or trade union membership; or (b) concerning health or data concerning a natural person's sex life or sexual orientation.</p>
+
+        <h2 id="pp-nonpersonal">3. Non-personal data</h2>
+        <p>When you interact with the Website, our servers may keep an activity log that does not identify you individually ("non-personal data"). Generally, we may collect and store the following categories of non-personal data:</p>
+        <ul>
+          <li>Demographic data such as age, gender, and five-digit zip code;</li>
+          <li>Device information about your computer, mobile device, or other device that you use to access the Website. This data may include Internet Protocol (IP) address, geolocation data, unique device identifiers, browser type, browser language, and other transactional data;</li>
+          <li>Usage data about your use of the Website. This data includes a reading history of the pages you view. We use this data to provide you with a more customized experience on the Website;</li>
+          <li>Additional "traffic data" such as time of access, date of access, software crash reports, session identification number, access times, and referring website addresses; and</li>
+          <li>Your search terms and search results.</li>
+        </ul>
+        <p>We also collect and store certain other non-personal data regarding our users' use of the Website so that third parties may provide us with reports and analysis regarding usage and browsing patterns of the Website.</p>
+        <p>For example, Google Analytics is a web analysis service provided by Google LLC ("Google"). Google utilizes certain non-personal data collected to track and examine the use of the Website, to prepare reports on its activities and share them with other Google services. Google may use the non-personal data collected to contextualize and personalize the ads of its own advertising network.</p>
+        <p>We collect this non-personal data in order to help diagnose problems with our server and to administer the site. We also may use it to gather broad demographic data.</p>
+
+        <h2 id="pp-cookies">4. Managing cookies and similar technologies</h2>
+        <p>We may automatically collect data using the following mechanisms:</p>
+        <ul>
+          <li><p><strong>Cookies –</strong> Like many websites, we use "cookies," which are small text files that are stored on your computer or equipment when you visit certain online pages that record your preferences. We use cookies to track use of our Website. We may also use cookies to monitor traffic, improve the Website, and make it easier and/or customized for your use. Our third-party analytics providers use cookies to record data about your activities on the site and to "remember" you when you return to the site.</p>
+          <p>Some cookies remain on your computer until you delete them. Others, like session ID cookies, expire when you close your browser.</p>
+          <p>When you first access the Website, you will receive a message advising you that cookies are in use. By continuing to browse the Website, you agree to our use of cookies as described in this Privacy Policy.</p>
+          <p>The Website is generally functional without the retention of cookies. You have the ability to accept or decline cookies. Most web browsers automatically accept cookies, but, if you prefer, you can usually modify your browser setting to decline cookies. You may also delete them after they have been placed on your hard drive. If you do not accept or delete our cookies, some areas of the Website that you access may take more time to work, or may not function properly. See the section "Do Not Track Settings" below for more information on how the Website may respond to your browser settings. We do not control the use of cookies by third parties. For more information on cookies and how to disable them, you can consult the information on <a href="http://www.aboutcookies.org" target="_blank">www.aboutcookies.org</a>.</p></li>
+          <li><p><strong>Pixels</strong> (aka web beacons/web bugs/java script) – Like some websites, we may use pixels. Pixels are tiny graphics with a unique identifier that are used to track the online movements of web users. Unlike cookies, which are stored on a computer's hard drive, pixels are small graphics that are about the size of the period at the end of the sentence that are embedded invisibly on web pages or in HTML-based emails that are programmed to collect non-personally identifiable data about your use of a given website or newsletter, e.g., whether you opened the e-mail. Like cookies, web beacons allow PCLB and its technology providers to summarize overall usage patterns for analysis and provide personalized services to you. It is possible that PCLB may collect personal data from you through pixels, such as names or e-mail addresses, however such information will not be shared without your express permission. Our third-party analytics providers use data obtained from pixels to help us improve our Website. We do not control the use of pixels by third parties.</p></li>
+          <li><p><strong>"Do Not Track" Settings</strong> – Because we track website usage data through the use of cookies, pixels and other tracking mechanisms, your selection of the "Do Not Track" option provided by your browser may not have any effect on our collection of cookie or other tracking technology data. The only way to completely "opt out" of the collection of data through cookies or other tracking technology is to actively manage the settings on your browser to delete and disable cookies and other tracking/recording tools. However, getting a "Do Not Track" signal to work as you might want is difficult. Using browsers as an example, not all tracking technologies can be controlled by browsers; unique aspects of your browser might be recognizable even if you disable a tracking technology; not all settings will necessarily last or be effective; even if a setting is effective for one purpose, data still may be collected for another; and even if one website observes a "Do Not Track" signal, that website may not be able to control other websites.</p></li>
+        </ul>
+
+        <h2 id="pp-combine">5. How we combine your data</h2>
+        <p>We may combine personal data gathered from the Website and personal data that we have received, gathered, acquired, or stored from other sources, both personal data collected offline by PCLB and personal data received from third parties—including personal data that currently exists in our files—into a single customer record. We also use and/or combine personal data that we collect offline or receive from third-party sources to edit, enhance, and/or check the accuracy of your customer record.</p>
+
+        <h2 id="pp-use">6. How we use your data</h2>
+        <p>Among other reasons, we use the data we collect from you in furtherance of our charitable purposes and to help us personalize and continually improve your experience on the Website.</p>
+        <p>In addition, we may use your personal data and non-personal data in the following ways:</p>
+        <ul>
+          <li>For editorial purposes;</li>
+          <li>Responding to your inquiries;</li>
+          <li>Communicating with you about your account or transactions with us and sending you information about features on our Website or about PCLB;</li>
+          <li>Personalizing content and experiences on our Website, including providing you with recommendations based on your preferences;</li>
+          <li>Sending you mailings, and information about our policies, programs, initiatives, activities, and events by e-mail or another medium;</li>
+          <li>Processing your grant, scholarship or employment application;</li>
+          <li>Event or program registration;</li>
+          <li>Optimizing or improving our Website, programs, services, and operations;</li>
+          <li>Research and development;</li>
+          <li>Verifying your account and account activities;</li>
+          <li>Detecting, investigating, and preventing activities that may violate our policies or be illegal;</li>
+          <li>Performing statistical, demographic, and marketing analyses of users of the Website and their usage patterns; and</li>
+          <li>Managing our organization.</li>
+        </ul>
+
+        <h2 id="pp-share">7. How we share your personal data</h2>
+        <p>PCLB adheres to the highest standards of ethical practices in all our operations and is dedicated to protecting the privacy of all visitors to our Website. <strong>Except as disclosed below, we will never sell, share or permit access to your personal data to anyone outside of PCLB, and, in all cases we only share your personal data where it is in the legitimate interest of furthering PCLB's charitable purposes.</strong></p>
+        <p>We occasionally use independent contractors and third-party agents, affiliates, and partners to perform functions such as marketing, analytics, etc., on our behalf. These entities have access to the personal data needed to perform their functions and are contractually obligated to maintain the confidentiality of PCLB's confidential information. They are restricted from disclosing or using such information in any way other than to provide the requested services to PCLB. PCLB uses reasonable measures to ensure that your personal data is only transferred to such independent contractors and third-party agents, affiliates or partners who also maintain adequate privacy policies. If you believe personal data you provided to us is being misused by a third party, please contact us.</p>
+        <p>We may also occasionally share your personal data with our grantees and co-sponsors of our programs, activities, initiatives, and events from time to time. We endeavor to share your personal data only with grantees and co-sponsors who will respect your personal data. Although our treatment of your personal data is governed by this Privacy Policy, our grantee or co-sponsor's treatment of your personal data will be governed by the grantee or co-sponsor's privacy policy. You may withdraw your consent to our sharing of your personal data with grantees and co-sponsors at any time by following the opt-out process described below.</p>
+        <p>We may also use or disclose your personal data if required to do so by law or in the good-faith belief that such action is necessary to: (a) conform to applicable law or comply with legal process served on us or the Website; (b) protect and defend our rights or property, the Website, or our users; or (c) act under emergency circumstances to protect the personal safety of us, our affiliates, our agents, or the users of the Website or the public.</p>
+
+        <h2 id="pp-access">8. Access to and control of your personal data</h2>
+        <p>We will use reasonable efforts to securely process all personal data and, upon written request, provide:</p>
+        <ul>
+          <li>Access to your personal data;</li>
+          <li>Correction and removal of your personal data. If any of the personal data that we have about you is incorrect, or you wish to have your personal data removed from our records, please send an e-mail to <a href="mailto:inquiry@pclbfoundation.org">inquiry@pclbfoundation.org</a> or mail a request to PCLB at Attention: Privacy Policy Request, 633 Third Avenue, 16th, New York, NY 10017 to correct such data. We will use our best efforts to correct and remove such data;</li>
+          <li>Opting out of messages/notifications or withdrawal of consent. Additionally, if you prefer not to receive messages from us, please let us know by sending a message to us at <a href="mailto:inquiry@pclbfoundation.org">inquiry@pclbfoundation.org</a>; and</li>
+          <li>Restricted use of your personal data. A restriction on processing your personal data and/or transferring your personal data to another party.</li>
+        </ul>
+        <p>If you have any questions or requests regarding this Privacy Policy, if you would like to change your preferences, if you no longer wish to receive e-mail updates from PCLB, or if you believe PCLB has erroneous or incomplete data about you, please send an e-mail to <a href="mailto:inquiry@pclbfoundation.org">inquiry@pclbfoundation.org</a>.</p>
+
+        <h2 id="pp-security">9. Security and storage</h2>
+        <p>PCLB strives to protect the transmission and storage of any personal data submitted through our Website, through email to PCLB's representatives or through one of our third party platforms. All personal data you provide to us is stored on our secure servers. Although we use appropriate security measures to help protect your personal data against loss, misuse or unauthorized access or disclosure, we cannot guarantee the security of personal data transmitted to us over the internet and submissions are at your sole risk.</p>
+        <p>We will store your personal data, in a form which permits us to identify you, for as long as is necessary for the purpose for which the personal data is processed. We may retain and use your personal data as necessary to further our charitable purposes, comply with our legal obligations, resolve disputes, perform our contracts, and enforce our agreements and rights, or if it is not technically reasonably feasible to remove it. Consistent with these requirements, we will use our best efforts to delete your personal data within a reasonable time of your request. If this is not possible, we will securely store your personal data and isolate it from any further use until deletion is possible.</p>
+
+        <h2 id="pp-misc">10. Miscellaneous</h2>
+        <p>The Website may contain links to sites operated by third parties and PCLB representatives may provide you with links to sites operated by third parties. Please be advised that the practices described in this Privacy Policy do not apply to data gathered through these other websites. Your interactions with these sites are governed by the third parties' applicable privacy notices, statements or policies. We encourage you to read them.</p>
+        <p>The Website is published in the United States and is subject to laws of the United States. If you are located in a country outside the United States and voluntarily submit personal data to us, you thereby consent to the general use of such data as provided in this Privacy Policy and to the transfer of that data to, and/or storage of that data in, the United States. All personal data collected from visitors to the Website is processed in PCLB's operating offices and in any other places where the parties involved in the processing (including third party service providers) are located. PCLB shall not be liable under any circumstances for damages resulting from use of data collected from visitors to the Website.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ SHARED FOOTER (appended by JS) ═══════════════════════════════════ -->
+<template id="shared-footer">
+  <footer>
+    <div class="footer-top">
+      <div><div class="footer-logo">PCLB Foundation</div><p class="footer-tagline">Giving motivated people the tools they need to help themselves.</p><div class="footer-address">633 Third Avenue, 16th Floor<br>New York, NY 10017<br><br><a href="mailto:inquiry@pclbfoundation.org">inquiry@pclbfoundation.org</a><br><a href="tel:2123606173">(212) 360-6173</a></div></div>
+      <div><div class="footer-col-title">About</div><ul class="footer-links"><li><a onclick="showPage('about')">About PCLB</a></li><li><a onclick="showPage('board-staff')">Board &amp; Staff</a></li><li><a onclick="showPage('form-990')">Form 990-PF</a></li><li><a onclick="showPage('event-space')">Event Spaces</a></li></ul></div>
+      <div><div class="footer-col-title">Programs</div><ul class="footer-links"><li><a onclick="showPage('education')">Education</a></li><li><a onclick="showPage('outdoors')">Outdoors / LEAP</a></li><li><a onclick="showPage('medicine')">Medicine</a></li><li><a onclick="showPage('science')">Science</a></li><li><a onclick="showPage('family-projects')">Family Projects</a></li></ul></div>
+      <div><div class="footer-col-title">Grantees &amp; Apply</div><ul class="footer-links"><li><a onclick="showPage('grantees-2025')">2025 Grantees</a></li><li><a onclick="showPage('faq')">FAQ</a></li><li><a onclick="showPage('pri')">PRI</a></li><li><a onclick="showPage('contact')">Contact</a></li><li><a onclick="showPage('privacy')">Privacy Policy</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span class="footer-copy">© 2026 PCLB Foundation. All rights reserved.</span><span class="footer-copy"><a onclick="showPage('privacy')" style="color:inherit;cursor:pointer;text-decoration:none">Privacy Policy</a></span></div>
+  </footer>
+</template>
+
+<style>
+/* Program cards */
+.prog-card{display:flex;flex-direction:column;background:var(--warm-white);padding:40px 32px;text-decoration:none;transition:background .25s}
+.prog-card:hover{background:var(--navy)}
+.prog-card:hover .prog-icon,.prog-card:hover .prog-name,.prog-card:hover .prog-desc{color:var(--warm-white)}
+.prog-card:hover .prog-link{color:var(--gold-light)}
+.prog-icon{font-size:1.6rem;margin-bottom:24px;color:var(--forest);transition:color .25s}
+.prog-name{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:500;color:var(--navy);margin-bottom:12px;transition:color .25s}
+.prog-desc{font-size:.82rem;line-height:1.65;color:var(--text-light);flex:1;transition:color .25s}
+.prog-link{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-light);margin-top:28px;transition:color .25s}
+/* Large program cards */
+.prog-card-lg{display:block;background:var(--cream);border-radius:12px;padding:36px;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.prog-card-lg:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(15,31,46,.1)}
+/* Year pills */
+.year-pill{padding:8px 20px;border:1px solid rgba(253,251,248,.2);color:rgba(253,251,248,.7);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;border-radius:100px;text-decoration:none;transition:all .2s}
+.year-pill:hover,.year-pill.active{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+/* Slide dots */
+.sdot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;transition:background .3s,transform .3s}
+.sdot.active{background:#fff;transform:scale(1.4)}
+</style>
+
+<script>
+// ── Page routing ──
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const el = document.getElementById('page-' + id);
+  if (el) {
+    el.classList.add('active');
+    window.scrollTo(0, 0);
+    observeReveals();
+  }
+}
+
+// ── Append shared footer to inner pages ──
+document.addEventListener('DOMContentLoaded', () => {
+  const tmpl = document.getElementById('shared-footer');
+  document.querySelectorAll('.page').forEach(page => {
+    if (page.id === 'page-home') return;
+    if (!page.querySelector('footer')) {
+      page.appendChild(tmpl.content.cloneNode(true));
+    }
+  });
+
+  // Nav scroll
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+  // Slideshow
+  let cur = 0;
+  const slides = [0,1,2,3].map(i => document.getElementById('slide'+i));
+  const dots = document.querySelectorAll('.sdot');
+  function goSlide(i) {
+    slides[cur].style.opacity = '0'; dots[cur].classList.remove('active');
+    cur = i;
+    slides[cur].style.opacity = '1'; dots[cur].classList.add('active');
+  }
+  window.goSlide = goSlide;
+  setInterval(() => goSlide((cur+1) % slides.length), 4500);
+
+  observeReveals();
+});
+
+// ── Scroll reveals ──
+function observeReveals() {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }});
+  }, {threshold: 0});
+  document.querySelectorAll('.page.active .reveal:not(.visible)').forEach(el => io.observe(el));
+  // Immediately reveal elements that are taller than the viewport (won't hit threshold otherwise)
+  setTimeout(() => {
+    document.querySelectorAll('.page.active .reveal:not(.visible)').forEach(el => {
+      if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('visible');
+    });
+  }, 50);
+}
+
+// ── Privacy Policy TOC scroll ──
+function privacyScroll(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const navH = document.getElementById('mainNav').offsetHeight;
+  const top = el.getBoundingClientRect().top + window.scrollY - navH - 24;
+  window.scrollTo({top, behavior: 'smooth'});
+}
+
+// ── FAQ accordion ──
+function toggleFaq(q) {
+  const item = q.parentElement;
+  item.classList.toggle('open');
+}
+
+// ── FAQ tabs ──
+function switchFaqTab(btn, panelId) {
+  document.querySelectorAll('.faq-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.faq-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+</script>
+</body>
+</html>
